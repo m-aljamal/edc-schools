@@ -3,8 +3,8 @@ import axios from "axios";
 const adminDashbord = ({ users, schools }) => {
   const createNewUser = async () => {
     await axios.post("/api/users/new", {
-      name: "New user added2",
-      email: "test2@test.com",
+      name: "Mustafa",
+      email: "mustafa@m.com",
       password: "123456",
       isAdmin: false,
     });
@@ -13,8 +13,8 @@ const adminDashbord = ({ users, schools }) => {
   const onCreateSchool = async () => {
     try {
       const { data } = await axios.post("/api/school/new", {
-        name: "مدرس الاتارب",
-        director: "nhJfzj31F9KjaR_38WtMB",
+        name: "مدرس واجدو",
+        director: "j8NiwUZ0taCyvfwkyuh-J",
       });
       console.log(data);
     } catch (error) {
@@ -48,6 +48,9 @@ const adminDashbord = ({ users, schools }) => {
             ))}
           <hr />
         </div>
+        <div>
+          <h3>Get All students: </h3>
+        </div>
       </div>
     </div>
   );
@@ -68,7 +71,7 @@ export async function getServerSideProps(ctx) {
  * todo Admin tools
  *
  *
- *  
+ *
  * 3- see the total schools employ
  * 4- see the total school students
  * 5- see daily Absence for students and Employees and save the resons

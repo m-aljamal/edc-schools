@@ -21,6 +21,6 @@ export const addStudent = async (
   return newStudent;
 };
 
-export const getStudents = async (db: Db) => {
-  return db.collection("students").find({}).toArray();
+export const getStudentsBySchool = async (db: Db, schoolId: string) => {
+  return db.collection("students").find({ schoolId }).toArray();
 };

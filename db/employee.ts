@@ -21,6 +21,6 @@ export const addEmployee = async (
   return newEmployee;
 };
 
-export const getEmployees = async (db: Db) => {
-  return db.collection("employee").find({}).toArray();
+export const getEmployeesBySchool = async (db: Db, schoolId: string) => {
+  return db.collection("employee").find({ schoolId }).toArray();
 };

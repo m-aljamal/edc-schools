@@ -1,0 +1,28 @@
+.lgoin {
+  width: 40%;
+  margin: 0 auto;
+  background: rgb(255 255 255 / 0.6);
+  padding: 50px 0;
+  border-radius: 10px;
+  transform: translateY(120px);
+}
+
+.loginContainer {
+  height: 100vh;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url("https://res.cloudinary.com/dqoung1wz/image/upload/v1612455488/WhatsApp_Image_2021-02-04_at_6.03.48_PM_1_cvjcgf.jpg");
+}
+
+.form {
+  padding: 0 80px;
+}
+@media (max-width: 720px) {
+  .lgoin {
+    width: 80%;
+  }
+  .form {
+    padding: 0 20px;
+  }
+}
