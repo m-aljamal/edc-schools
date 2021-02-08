@@ -2,7 +2,9 @@ import { Form, Formik, FormikConfig, FormikValues } from "formik";
 import { FormItem, Input, InputNumber, Radio, DatePicker } from "formik-antd";
 import { object, string, number, boolean, array, mixed } from "yup";
 import React, { useState } from "react";
-import { Steps, Button } from "antd";
+import { Steps, Button, message } from "antd";
+import ImageUpload from "./ImageUpload";
+import axios from "axios";
 const { Step } = Steps;
 
 const layout = {
@@ -10,13 +12,14 @@ const layout = {
   wrapperCol: { span: 16 },
 };
 
-const MultiStepForm = () => {
+const MultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
+  const [imageState, setImage] = useState("");
   const initialValues = {
     name: "",
     fatherName: "",
     motherName: "",
     sex: "",
-    dateOfBirth: new Date().toDateString(),
+    dateOfBirth: new Date().toISOString(),
     plaseOfBirth: "",
     numberOfBrother: 0,
     familySituation: "",
@@ -24,7 +27,7 @@ const MultiStepForm = () => {
     sickType: "",
     classNumber: 1,
     division: 1,
-    dateOfStart: new Date().toDateString(),
+    dateOfStart: new Date().toISOString(),
     city: "",
     region: "",
     street: "",
@@ -34,7 +37,6 @@ const MultiStepForm = () => {
     number2: "",
     contactName2: "",
     contactType2: "",
-    // image: "",
   };
 
   const personalInfoValidation = object({
@@ -61,11 +63,27 @@ const MultiStepForm = () => {
     contactName1: string().required("الرجاء ادخال الاسم"),
     contactType1: string().required("الرجاء ادخال صلة القرابة"),
   });
+
   return (
     <FormStepper
       initialValues={initialValues}
-      onSubmit={async (values) => {
-        console.log("values", values);
+      onSubmit={async (values, helpers) => {
+        console.log("values", { ...values, image: imageState });
+        try {
+          const res = await axios.post("/api/student/new", {
+            ...values,
+            image: imageState,
+          });
+          if (res.status === 200) {
+            helpers.resetForm();
+            setdestroyOnClose(true);
+            message.success("تم تسجيل الطالب بنجاح");
+            setIsModalVisible(false);
+          }
+        } catch (error) {
+          message.error(error.response.data.error);
+          console.log(error.response.data.error);
+        }
       }}
     >
       <FormikStep
@@ -153,7 +171,7 @@ const MultiStepForm = () => {
 
       <FormikStep label="الصف">
         <FormItem {...layout} name="classNumber" label="الصف">
-          <InputNumber name="classNumber" />
+          <InputNumber name="classNumber" autoFocus  />
         </FormItem>
 
         <FormItem {...layout} name="division" label="الشعبة">
@@ -167,7 +185,7 @@ const MultiStepForm = () => {
       <FormikStep label="العنوان" validationSchema={addressInfoValidation}>
         <div style={{ display: "flex", marginBottom: "20px" }}>
           <FormItem name="city">
-            <Input addonBefore="المدينة" name="city" />
+            <Input addonBefore="المدينة" name="city" autoFocus />
           </FormItem>
           <FormItem name="region">
             <Input addonBefore="المنطقة" name="region" />
@@ -195,6 +213,11 @@ const MultiStepForm = () => {
           <Input addonBefore="صلة القرابة" name="contactType2" />
         </div>
       </FormikStep>
+      <FormikStep label="صورة الطالب">
+        <FormItem name="image">
+          <ImageUpload setImage={setImage} />
+        </FormItem>
+      </FormikStep>
     </FormStepper>
   );
 };
@@ -216,7 +239,7 @@ const FormStepper = ({ children, ...props }: FormikConfig<FormikValues>) => {
   ) as React.ReactElement<FormikStepProps>[];
   const [step, setStep] = useState(0);
   const currentChild = childrenArray[step];
-  const [completed, setCompleted] = useState(false);
+
   function isLastStep() {
     return step === childrenArray.length - 1;
   }
@@ -228,7 +251,6 @@ const FormStepper = ({ children, ...props }: FormikConfig<FormikValues>) => {
         if (step === childrenArray.length - 1) {
           // on the last step
           await props.onSubmit(values, helpers);
-          setCompleted(true);
         } else {
           setStep((s) => s + 1);
           helpers.setTouched({});
@@ -251,28 +273,20 @@ const FormStepper = ({ children, ...props }: FormikConfig<FormikValues>) => {
               justifyContent: "space-between",
             }}
           >
-            {step > 0 ? (
-              <div>
-                <Button
-                  disabled={isSubmitting}
-                  color="primary"
-                  onClick={() => setStep((s) => s - 1)}
-                >
-                  للخلف
-                </Button>
-              </div>
-            ) : null}
             <div>
               <Button
-                // startIcon={
-                //   isSubmitting ? <CircularProgress size="1rem" /> : null
-                // }
-                disabled={isSubmitting}
+                disabled={step === 0 || isSubmitting}
                 color="primary"
-                htmlType="submit"
+                onClick={() => setStep((s) => s - 1)}
               >
+                للخلف
+              </Button>
+            </div>
+
+            <div>
+              <Button disabled={isSubmitting} color="primary" htmlType="submit">
                 {isSubmitting
-                  ? "Submitting"
+                  ? "جاري التسجيل"
                   : isLastStep()
                   ? "تسجيل"
                   : "التالي"}
@@ -284,5 +298,3 @@ const FormStepper = ({ children, ...props }: FormikConfig<FormikValues>) => {
     </Formik>
   );
 };
-
-//   image: {},

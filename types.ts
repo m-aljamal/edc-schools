@@ -21,3 +21,4 @@ export interface RequestStudnet extends NextApiRequest {
     director: string;
   };
 }
+ 

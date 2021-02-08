@@ -36,3 +36,7 @@ a {
 .ant-modal-title {
   text-align: center;
 }
+.ant-spin .ant-spin-spinning {
+  display: flex;
+  justify-content: center;
+}

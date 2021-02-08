@@ -6,6 +6,7 @@ import MultiStepForm from "./MultiStepForm";
 const StudentList: React.FC<{ students: any[] }> = ({ students }) => {
   const [total, setTotal] = useState(students.length);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [destroyOnClose, setdestroyOnClose] = useState(false);
 
   const studentsColumns = [
     {
@@ -33,8 +34,14 @@ const StudentList: React.FC<{ students: any[] }> = ({ students }) => {
       <CustomModel
         isModalVisible={isModalVisible}
         setIsModalVisible={setIsModalVisible}
-        modelDate={<MultiStepForm />}
+        modelDate={
+          <MultiStepForm
+            setIsModalVisible={setIsModalVisible}
+            setdestroyOnClose={setdestroyOnClose}
+          />
+        }
         title="تسجيل طالب جديد"
+        destroyOnClose={destroyOnClose}
       />
       <p>اجمالي الطلاب {total}</p>
       <CustomTable

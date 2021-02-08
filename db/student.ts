@@ -6,9 +6,28 @@ export const addStudent = async (
   student: {
     name: string;
     fatherName: string;
+    motherName: string;
+    sex: string;
+    dateOfBirth: Date;
+    plaseOfBirth: string;
+    numberOfBrother: number;
+    familySituation: string;
+    healthSituation: string;
+    sickType: string;
+    dateOfStart: Date;
+    city: string;
+    region: string;
+    street: string;
+    number1: string;
+    contactName1: string;
+    contactType1: string;
+    number2: string;
+    contactName2: string;
+    contactType2: string;
     schoolId: string;
     classNumber: number;
     division: number;
+    image: { id: string; url: string };
   }
 ) => {
   const newStudent = await db

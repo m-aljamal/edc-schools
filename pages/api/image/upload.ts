@@ -1,0 +1,34 @@
+import cloudinary from "cloudinary";
+import Resizer from "react-image-file-resizer";
+
+import { nanoid } from "nanoid";
+import nc from "next-connect";
+import onError from "../../../middleware/error";
+import { NextApiResponse, NextApiRequest } from "next";
+import auth from "../../../middleware/auth";
+
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const handler = nc({
+  onError,
+});
+// handler.use(dbMissleware);
+// handler.use(auth);
+handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
+  console.log("req.body.image", req.body.image);
+  try {
+    let result = await cloudinary.v2.uploader.upload(req.body.image, {
+      public_id: nanoid(),
+      resource_type: "auto",
+    });
+
+    res.json({ public_id: result.public_id, url: result.secure_url });
+  } catch (error) {
+    console.log(error);
+  }
+});
+export default handler;

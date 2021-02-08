@@ -12,6 +12,7 @@ import axios from "axios";
 import { Layout, Menu } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import StudentsList from "../../components/StudentList";
+import UserLandingPage from "../../components/UserLandingPage";
 const { Content, Footer, Sider } = Layout;
 
 const UserDashboard = ({
@@ -142,7 +143,9 @@ const UserDashboard = ({
             className="site-layout-background"
             style={{ padding: 24, textAlign: "center" }}
           >
-            {currentUser && !studentList && !employeeList && currentUser.name}
+            {currentUser && !studentList && !employeeList && (
+              <UserLandingPage currentUser={currentUser} />
+            )}
             {studentList && <StudentsList students={studentList} />}
 
             {employeeList && employeeList.map((e) => e.name)}

@@ -1,10 +1,11 @@
-import { Modal, Button } from "antd";
+import { Modal } from "antd";
 
 const CustomModel = ({
   isModalVisible,
   setIsModalVisible,
   modelDate,
   title,
+  destroyOnClose
 }) => {
   const handleOk = () => {
     setIsModalVisible(false);
@@ -20,7 +21,8 @@ const CustomModel = ({
       visible={isModalVisible}
       onOk={handleOk}
       onCancel={handleCancel}
-      width={700}
+      width={900}
+      destroyOnClose={destroyOnClose}
     >
       {modelDate}
     </Modal>
