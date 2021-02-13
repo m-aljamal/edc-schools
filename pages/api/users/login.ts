@@ -28,9 +28,6 @@ handler.post(async (req: Request, res: NextApiResponse) => {
   res.setHeader(
     "Set-Cookie",
     cookie.serialize("auth_token", token, {
-      // httpOnly: true,
-      // secure: process.env.NODE_ENV !== "development",
-      // sameSite: "strict",
       maxAge: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       path: "/",
     })
