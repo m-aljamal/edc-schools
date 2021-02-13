@@ -17,13 +17,10 @@ a {
 }
 
 :root {
-  --light: #b0a8b9;
-  --red: #c34a36;
-  --move: #845ec2;
-  --dark: #4b4453;
-  --orange: #ff8066;
-  --navColor: #3b3939;
-  --borderColor: #d9d9d9;
+  --blue: #476c86;
+  --darkGray: #606060;
+  --lightGray: #d7d7d7;
+  --tr: all 0.3s linear;
 }
 
 .center {
@@ -39,4 +36,12 @@ a {
 .ant-spin .ant-spin-spinning {
   display: flex;
   justify-content: center;
+}
+
+.slick-track {
+  height: calc(100vh - 131.53px);
+}
+
+li {
+  list-style-type: none;
 }
