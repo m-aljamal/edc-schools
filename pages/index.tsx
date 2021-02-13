@@ -47,6 +47,7 @@ export async function getStaticProps({ preview = false }) {
   const allHeroImages = await getAllImages(preview);
   return {
     props: { allHeroImages, preview },
+    revalidate: 5,
   };
 }
 
