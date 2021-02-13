@@ -5,7 +5,7 @@ import { santyImageLoader } from "../utils/sanityImageLoader";
 const Home = ({ allHeroImages, preview }) => {
   console.log({ allHeroImages, preview });
 
-  const settings = {
+  const settings: {} = {
     dots: false,
     lazyLoad: true,
     infinite: true,
@@ -31,7 +31,7 @@ const Home = ({ allHeroImages, preview }) => {
               quality={100}
               objectFit="cover"
             />
-            <div style={{ position: 'absolute', backgroundColor:'red'}}>
+            <div style={{ position: "absolute", backgroundColor: "red" }}>
               <h1> {img.title} </h1>
               <p className="desc">{img.body}</p>
             </div>
