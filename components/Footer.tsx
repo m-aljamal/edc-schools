@@ -70,7 +70,7 @@ const Footer = () => {
 
 export default Footer;
 const Wraper = styled.section`
-  background-image: url("/images/footer.jpg");
+  background-image: url("https://res.cloudinary.com/dqoung1wz/image/upload/v1613317577/websiteImage/footer_29_kvrzdo.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   padding-top: 10px;
