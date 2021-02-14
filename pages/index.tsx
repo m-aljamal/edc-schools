@@ -39,22 +39,7 @@ const Home = ({
   };
   return (
     <Wrapper>
-      <div className="heroContainer">
-        <Image
-          alt="Picture of the author"
-          loader={santyImageLoader}
-          src={allHeroImages[0].image.split("images")[1]}
-          width={1900}
-          height={700}
-          quality={100}
-        />
-        <div className="text textJustify">
-          <h1> {allHeroImages[0].title} </h1>
-          <p className="desc">{allHeroImages[0].body}</p>
-        </div>
-      </div>
-
-      {/* <Carousel {...settings}>
+      <Carousel {...settings}>
         {allHeroImages.map((img) => (
           <div key={img.slug} className="heroContainer">
             <Image
@@ -72,7 +57,7 @@ const Home = ({
             </div>
           </div>
         ))}
-      </Carousel> */}
+      </Carousel>
       <AboutSection aboutText={aboutText} vision={vision} />
       <AchievementSection achievement={achievement} banner={banner} />
       <NewsSection news={news} />
