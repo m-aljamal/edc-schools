@@ -8,11 +8,10 @@ const SocialLinks = ({ socialLinks }) => {
         <li key={index}>
           <Link href={link.url}>
             <Image
-              src={`/icons/socialIcons/${link.icon}-icon.svg`}
-              alt="social link"
-              className="socialimg"
-              width={30}
-              height={95}
+              alt="facebook"
+              src="websiteImage/resized-image-Promo_1_xjhkzb.jpg"
+              width={35}
+              height={65}
             />
           </Link>
         </li>
@@ -26,19 +25,19 @@ SocialLinks.defaultProps = {
   socialLinks: [
     {
       url: "/",
-      icon: "facebook",
+      icon: "/websiteImage/resized-image-Promo_1_xjhkzb.jpg",
     },
     {
       url: "/",
-      icon: "youtube",
+      icon: "/websiteImage/resized-image-Promo_1_xjhkzb.jpg",
     },
     {
       url: "/",
-      icon: "instagram",
+      icon: "websiteImage/resized-image-Promo_1_xjhkzb.jpg",
     },
     {
       url: "/",
-      icon: "twitter",
+      icon: "websiteImage/resized-image-Promo_1_xjhkzb.jpg",
     },
   ],
 };

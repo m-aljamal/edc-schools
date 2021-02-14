@@ -10,11 +10,15 @@ const Header = () => {
       <SocialLinks />
       <MainLinks visible={visible} setVisible={setVisible} />
       <img
-        src="/icons/mobileButton.svg"
+        src="https://res.cloudinary.com/dqoung1wz/image/upload/v1613318362/websiteImage/mobileButton_nvpfmi.svg"
         onClick={() => setVisible(!visible)}
         className="mobileButton"
       />
-      <img src="images/edcLogo.png" alt="edc logo" className="logoimg" />
+      <img
+        src="https://res.cloudinary.com/dqoung1wz/image/upload/v1613318354/websiteImage/edcLogo_vupus2.png"
+        alt="edc logo"
+        className="logoimg"
+      />
     </Wraper>
   );
 };

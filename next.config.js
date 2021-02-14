@@ -1,5 +1,6 @@
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
-  enabled: process.env.ANALYZE === "true",
-});
-
-module.exports = withBundleAnalyzer();
+module.exports = {
+  images: {
+    loader: "cloudinary",
+    path: "https://res.cloudinary.com/dqoung1wz",
+  },
+};

@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="imageContiner">
           <Image
             alt="Picture of the author"
-            src="/images/footer-logo.png"
+            src="/websiteImage/footer-logo_ku2xch.png"
             width={175}
             height={132}
           />
