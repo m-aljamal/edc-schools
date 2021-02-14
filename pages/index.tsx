@@ -1,16 +1,36 @@
-import { getAllImages } from "../db/sanity-api/heroImages";
+import {
+  getAllImages,
+  getAboutText,
+  getbanner,
+  getAchievement,
+  getvision,
+  getNews,
+  getPartners,
+} from "../db/sanity-api/homePageComponents";
 import { Carousel } from "antd";
 import Image from "next/image";
 import { santyImageLoader } from "../utils/sanityImageLoader";
-const Home = ({ allHeroImages, preview }) => {
-  console.log({ allHeroImages, preview });
-
+import styled from "styled-components";
+import AboutSection from "../components/homePage/AboutSection";
+import AchievementSection from "../components/homePage/AchievementSection";
+import NewsSection from "../components/homePage/NewsSection";
+import Partners from "../components/homePage/Partners";
+const Home = ({
+  allHeroImages,
+  preview,
+  aboutText,
+  achievement,
+  banner,
+  vision,
+  news,
+  partners,
+}) => {
   const settings: {} = {
     dots: false,
     lazyLoad: true,
     infinite: true,
-    speed: 3000,
-    autoplaySpeed: 4000,
+    speed: 1500,
+    autoplaySpeed: 5000,
     slidesToShow: 1,
     slidesToScroll: 1,
     fade: true,
@@ -18,10 +38,10 @@ const Home = ({ allHeroImages, preview }) => {
     pauseOnHover: false,
   };
   return (
-    <div>
+    <Wrapper>
       <Carousel {...settings}>
         {allHeroImages.map((img) => (
-          <div key={img.slug}>
+          <div key={img.slug} className="heroContainer">
             <Image
               alt="Picture of the author"
               loader={santyImageLoader}
@@ -31,28 +51,76 @@ const Home = ({ allHeroImages, preview }) => {
               quality={100}
               objectFit="cover"
             />
-            <div style={{ position: "absolute", backgroundColor: "red" }}>
+            <div className="text textJustify">
               <h1> {img.title} </h1>
               <p className="desc">{img.body}</p>
             </div>
           </div>
         ))}
       </Carousel>
-    </div>
+      <AboutSection aboutText={aboutText} vision={vision} />
+      <AchievementSection achievement={achievement} banner={banner} />
+      <NewsSection news={news} />
+      <Partners partners={partners} banner={banner} />
+    </Wrapper>
   );
 };
 export default Home;
 
 export async function getStaticProps({ preview = false }) {
   const allHeroImages = await getAllImages(preview);
+  const aboutText = await getAboutText(preview);
+  const achievement = await getAchievement(preview);
+  const banner = await getbanner(preview);
+  const vision = await getvision(preview);
+  const news = await getNews(preview);
+  const partners = await getPartners(preview);
   return {
-    props: { allHeroImages, preview },
+    props: {
+      allHeroImages,
+      preview,
+      aboutText,
+      achievement,
+      banner,
+      vision,
+      news,
+      partners,
+    },
     revalidate: 5,
   };
 }
-
-// body: "تاسست المدرسة عام 2015 في قرية الاتارب في ريف حلب الغربي "
-// image: "https://cdn.sanity.io/images/3n3a6tz7/production/8dc0ca0409aa327737e50c0fd2bed6fbf9810a5f-1000x372.png"
-// name: "مدرسة ايتام الاتارب"
-// slug: "y1"
-// title: "y1"
+const Wrapper = styled.div`
+  .heroContainer {
+    height: calc(100vh - 260px);
+  }
+  .text {
+    z-index: 10;
+    background: rgb(255 255 255 / 0.7);
+    padding: 20px 50px 20px 10px;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 20rem;
+    h1 {
+      margin-bottom: 10px;
+      color: var(--blue);
+      font-size: 1.5rem;
+    }
+    .desc {
+      font-size: 1.2rem;
+    }
+  }
+  @media (max-width: 400px) {
+    .text {
+      padding: 5px 10px;
+      top: 55%;
+      width: 15rem;
+      h1 {
+        font-size: 1.2rem;
+      }
+      .desc {
+        font-size: 1rem;
+      }
+    }
+  }
+`;

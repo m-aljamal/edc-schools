@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "components/homePage/AchievementSection.tsx"  ],
   "exclude": [
     "node_modules"
   ]

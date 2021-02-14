@@ -3,6 +3,7 @@ import { SWRConfig } from "swr";
 import axios from "axios";
 import Container from "../components/container";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
+
 const GlobalStyle = createGlobalStyle`
    
 html,
@@ -44,13 +45,17 @@ a {
   justify-content: center;
 }
 
-.slick-track {
-  height: calc(100vh - 131.53px);
-}
+
 
 li {
   list-style-type: none;
 }
+
+.textJustify{
+    text-align: justify;
+    text-align-last: end;
+  }
+
 
 `;
 
