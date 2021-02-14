@@ -1,15 +1,18 @@
 import styled from "styled-components";
 import Link from "next/link";
+import Image from "next/image";
 const SocialLinks = ({ socialLinks }) => {
   return (
     <LinksStyle>
       {socialLinks.map((link, index) => (
         <li key={index}>
           <Link href={link.url}>
-            <img
+            <Image
               src={`/icons/socialIcons/${link.icon}-icon.svg`}
               alt="social link"
               className="socialimg"
+              width={30}
+              height={95}
             />
           </Link>
         </li>
@@ -48,13 +51,11 @@ const LinksStyle = styled.ul`
   }
 
   .socialimg {
-    width: 30px;
     cursor: pointer;
   }
 
   @media (max-width: 815px) {
     .socialimg {
-      width: 25px;
       transform: translateY(-15px);
     }
   }
