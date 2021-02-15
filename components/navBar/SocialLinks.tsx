@@ -5,16 +5,17 @@ const SocialLinks = ({ socialLinks }) => {
   return (
     <LinksStyle>
       {socialLinks.map((link, index) => (
-        <li key={index}>
-          <Link href={link.url}>
+        <Link href={link.url} key={index}>
+          <a>
             <Image
+              priority
               alt="facebook"
-              src="websiteImage/resized-image-Promo_1_xjhkzb.jpg"
+              src={link.icon}
               width={35}
               height={65}
             />
-          </Link>
-        </li>
+          </a>
+        </Link>
       ))}
     </LinksStyle>
   );
@@ -25,27 +26,27 @@ SocialLinks.defaultProps = {
   socialLinks: [
     {
       url: "/",
-      icon: "/websiteImage/resized-image-Promo_1_xjhkzb.jpg",
+      icon: "websiteImage/twitter-icon_wnl2x6.png",
     },
     {
       url: "/",
-      icon: "/websiteImage/resized-image-Promo_1_xjhkzb.jpg",
+      icon: "websiteImage/facebook-icon_t17ui1_nbqwze.png",
     },
     {
       url: "/",
-      icon: "websiteImage/resized-image-Promo_1_xjhkzb.jpg",
+      icon: "websiteImage/youtube-icon_puqnkt_rsanj2.png",
     },
     {
       url: "/",
-      icon: "websiteImage/resized-image-Promo_1_xjhkzb.jpg",
+      icon: "websiteImage/instagram-icon_hesjcj_xz1c86.svg",
     },
   ],
 };
 
-const LinksStyle = styled.ul`
+const LinksStyle = styled.div`
   display: flex;
   transform: translateY(-20px);
-  li:not(:first-of-type) {
+  a {
     margin-left: 10px;
   }
 

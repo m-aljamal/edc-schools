@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="imageContiner">
           <Image
             alt="Picture of the author"
-            src="/websiteImage/footer-logo_ku2xch.png"
+            src="websiteImage/footer-logo_ku2xch.png"
             width={175}
             height={132}
           />
@@ -112,6 +112,7 @@ const Wraper = styled.section`
   .socialLinks {
     display: flex;
     justify-content: flex-end;
+  margin-top: 30px;
   }
   .text {
     color: rgb(255, 255, 255, 0.5);
