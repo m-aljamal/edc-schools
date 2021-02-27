@@ -6,9 +6,9 @@ const Container: React.FC = ({ children }) => {
   return (
     <div>
       <Meta />
-      <Header />
+      {/* <Header /> */}
       {children}
-      <Footer/>
+      {/* <Footer/> */}
     </div>
   );
 };

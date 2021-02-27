@@ -13,6 +13,7 @@ import { Layout, Menu } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import StudentsList from "../../components/StudentList";
 import UserLandingPage from "../../components/UserLandingPage";
+import AbsencePage from "../../components/AbsencePage";
 const { Content, Footer, Sider } = Layout;
 
 const UserDashboard = ({
@@ -49,26 +50,16 @@ const UserDashboard = ({
     }
   };
 
-  const handleAbsence = async () => {
-    const abs = [
-      {
-        name: "عبد الله الجمل",
-        fatherName: "محمد",
-        classNumber: 1,
-        division: 3,
-        _id: "62lrw2vaRLYKDfV2NTS8x",
-      },
-    ];
-    try {
-      const { data } = await axios.post("/api/absence/new", {
-        abs,
-        date: "2020",
-      });
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
+  const PageCountent = () => {
+    if (absenceList)
+      return (
+        <AbsencePage absenceList={absenceList} studentList={studentList} />
+      );
+    if (employeeList) return <p>Emp</p>;
+    if (studentList) return <StudentsList students={studentList} />;
+    if (currentUser) return <UserLandingPage currentUser={currentUser} />;
   };
+
   return (
     // <div>
     //   <h1>User Page</h1>
@@ -143,12 +134,7 @@ const UserDashboard = ({
             className="site-layout-background"
             style={{ padding: 24, textAlign: "center" }}
           >
-            {currentUser && !studentList && !employeeList && (
-              <UserLandingPage currentUser={currentUser} />
-            )}
-            {studentList && <StudentsList students={studentList} />}
-
-            {employeeList && employeeList.map((e) => e.name)}
+            {PageCountent()}
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>
@@ -163,6 +149,7 @@ UserDashboard.defaultProps = {
     { id: 1, link: "", name: "الرئيسية" },
     { id: 2, link: "?page=employees", name: "الموظفين" },
     { id: 3, link: "?page=students", name: "الطلاب" },
+    { id: 4, link: "?page=absence", name: "سجل الدوام" },
   ],
 };
 export default UserDashboard;
@@ -196,6 +183,10 @@ export async function getServerSideProps(ctx) {
   }
   if (ctx.query.page === "absence") {
     props.absenceList = await absence.getAbsenceBySchool(
+      db,
+      props.userSchool._id
+    );
+    props.studentList = await student.getStudentsForNewAbsence(
       db,
       props.userSchool._id
     );
