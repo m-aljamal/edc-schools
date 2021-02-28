@@ -70,7 +70,7 @@ const UserDashboard = ({
       return (
         <AbsencePage absenceList={absenceList} studentList={studentList} />
       );
-    if (teachersList) return <TeacherList />;
+    if (teachersList) return <TeacherList teachersList={teachersList} />;
     if (employeeList) return <p>Emp</p>;
     if (studentList) return <StudentsList students={studentList} />;
     if (currentUser) return <UserLandingPage currentUser={currentUser} />;

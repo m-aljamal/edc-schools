@@ -18,7 +18,6 @@ const DashStyle = styled.div`
   .site-layout .site-layout-background {
     background: #fff;
   }
-  /* ant-layout-sider ant-layout-sider-dark ant-layout-sider-has-trigger sider */
   .sider,
   .menu {
     background-color: var(--slide);
@@ -47,8 +46,6 @@ const DashStyle = styled.div`
   }
 `;
 const DashbordLayout = ({ pageContent, menuData, currentUser, userSchool }) => {
-  console.log(currentUser, userSchool);
-
   const [collapsed, setCollapsed] = useState(false);
 
   const menu = (

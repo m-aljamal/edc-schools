@@ -49,7 +49,15 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     padding:0;
   }
-  
+  .ant-modal-header{
+    background-color:var(--slide);
+
+     
+  }
+  .ant-modal-title,
+  .ant-modal-close-x{
+    color:white;
+  }
   `;
 
 const Container: React.FC = ({ children }) => {
