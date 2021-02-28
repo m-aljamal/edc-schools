@@ -1,11 +1,8 @@
-  const UserLandingPage = ({ currentUser }) => {
-   
-
+const UserLandingPage = ({ currentUser }) => {
   return (
     <div>
+      <p>UserLandingPage</p>
       {currentUser.name}
-      
-     
     </div>
   );
 };

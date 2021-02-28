@@ -6,7 +6,6 @@ import { FormItem, Input } from "formik-antd";
 import { string, object } from "yup";
 import { Button, message } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
-import styles from "../styles/Login.module.css";
 const login = () => {
   const [loading, setLoading] = useState(false);
   const initialValues = {
@@ -18,10 +17,10 @@ const login = () => {
     password: string().required("يجب عليك ادخال كلمة السر"),
   });
   return (
-    <div className={styles.loginContainer}>
-      <div className={styles.lgoin}>
-        <div className={styles.form}>
-          <h2 className="center bold">تسجيل الدخول</h2>
+    <div>
+      <div>
+        <div>
+          <h2>تسجيل الدخول</h2>
           <Formik
             validationSchema={validationScheam}
             initialValues={initialValues}

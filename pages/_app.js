@@ -13,7 +13,9 @@ body {
   font-family: "Cairo", sans-serif; /* font-family: tajawal-regular -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
 }
-
+button{
+  font-family: "Cairo", sans-serif;
+}
 a {
   color: inherit;
   text-decoration: none;
