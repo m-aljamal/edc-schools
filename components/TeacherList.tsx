@@ -3,6 +3,7 @@ import { useState } from "react";
 import PageTitleStyle from "./styles/PageTitle";
 import AddNewButton from "./AddNewButton";
 import MultiStepForm from "./MultiStepForm";
+import CustomMultiStepForm from "./CustomMultiStepForm";
 const TeacherList = ({ teachersList }) => {
   const [total, setTotal] = useState(teachersList.length);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -38,7 +39,7 @@ const TeacherList = ({ teachersList }) => {
           setIsModalVisible={setIsModalVisible}
           modelTitle="اضافة مدرس جديد"
           modelData={
-            <MultiStepForm
+            <CustomMultiStepForm
               setIsModalVisible={setIsModalVisible}
               setdestroyOnClose={setdestroyOnClose}
             />

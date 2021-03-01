@@ -58,6 +58,9 @@ const GlobalStyles = createGlobalStyle`
   .ant-modal-close-x{
     color:white;
   }
+  input{
+    text-align:end;
+  }
   `;
 
 const Container: React.FC = ({ children }) => {

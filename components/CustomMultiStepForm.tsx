@@ -1,224 +1,215 @@
-import { Form, Formik, FormikConfig, FormikValues } from "formik";
-import { FormItem, Input, InputNumber, Radio, DatePicker } from "formik-antd";
-import { object, string, number, boolean, array, mixed } from "yup";
+import { Formik, FormikConfig, FormikValues } from "formik";
+import {
+  FormItem,
+  Input,
+  InputNumber,
+  Radio,
+  DatePicker,
+  Form,
+  Select,
+} from "formik-antd";
+import { object, string, mixed } from "yup";
 import React, { useState } from "react";
 import { Steps, Button, message } from "antd";
 import ImageUpload from "./ImageUpload";
 import axios from "axios";
+import FormStyle from "./styles/FormStyle";
 const { Step } = Steps;
-
+const { Option } = Select;
 const layout = {
   labelCol: { span: 5 },
   wrapperCol: { span: 16 },
 };
 
 const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
+  const children = [];
+  for (let i = 1; i < 13; i++) {
+    children.push(<Option key={i}>{i}</Option>);
+  }
+
   const [imageState, setImage] = useState("");
+  const [graduateImage, setGraduateImage] = useState("");
   const initialValues = {
-    name: "",
-    fatherName: "",
-    motherName: "",
-    sex: "",
-    dateOfBirth: new Date().toISOString(),
-    plaseOfBirth: "",
-    numberOfBrother: 0,
-    familySituation: "",
-    healthSituation: "",
-    sickType: "",
-    classNumber: 1,
-    division: 1,
-    dateOfStart: new Date().toISOString(),
-    city: "",
-    region: "",
-    street: "",
-    number1: "",
-    contactName1: "",
-    contactType1: "",
-    number2: "",
-    contactName2: "",
-    contactType2: "",
+    // name: "",
+    // fatherName: "",
+    // motherName: "",
+    // sex: "",
+    // dateOfBirth:  ,
+    // plaseOfBirth: "",
+    // city: "",
+    // region: "",
+    // street: "",
+    // number1: "",
+    // number2: "",
+
+    // email: "",
+
+    subject: [],
+    classNumber: [],
+    division: [],
+    dateOfStart: "",
+
+    typeOfDegree: "",
+    DateOfGraduate: "",
   };
 
   const personalInfoValidation = object({
-    name: string().required("الرجاء ادخال الاسم"),
-    fatherName: string().required("الرجاء ادخال اسم الاب"),
-    motherName: string().required("الرجاء ادخال الام"),
-    sex: string().required("الرجاء ادخال الجنس"),
+    // name: string().required("الرجاء ادخال الاسم"),
+    // fatherName: string().required("الرجاء ادخال اسم الاب"),
+    // motherName: string().required("الرجاء ادخال الام"),
+    // sex: string().required("الرجاء ادخال الجنس"),
   });
   const studentInfoValidation = object({
-    healthSituation: string().required("الرجاء ادخال الحالة الصحية"),
-    sickType: mixed().when("healthSituation", {
-      is: (healthSituation) => healthSituation === "sick",
-      then: string().required(" لان الطالب لديه مرض, يرجى ادخل نوع المرض"),
-    }),
-    plaseOfBirth: string().required("الرجاء ادخال  مكان الولادة"),
-    familySituation: string().required("الرجاء ادخال الحالة الاجتماعية"),
+    // plaseOfBirth: string().required("الرجاء ادخال  مكان الولادة"),
+    // familySituation: string().required("الرجاء ادخال الحالة الاجتماعية"),
   });
 
   const addressInfoValidation = object({
-    city: string().required("الرجاء ادخال اسم المدينة"),
-    region: string().required("الرجاء ادخال اسم المنطقة"),
-    street: string().required("الرجاء ادخال اسم الشارع"),
-    number1: string().required("الرجاء ادخال رقم الهاتف"),
-    contactName1: string().required("الرجاء ادخال الاسم"),
-    contactType1: string().required("الرجاء ادخال صلة القرابة"),
+    // city: string().required("الرجاء ادخال اسم المدينة"),
+    // region: string().required("الرجاء ادخال اسم المنطقة"),
+    // street: string().required("الرجاء ادخال اسم الشارع"),
+    // number1: string().required("الرجاء ادخال رقم الهاتف"),
+    // contactName1: string().required("الرجاء ادخال الاسم"),
+    // contactType1: string().required("الرجاء ادخال صلة القرابة"),
   });
-
   return (
-    <FormStepper
-      initialValues={initialValues}
-      onSubmit={async (values, helpers) => {
-        console.log("values", { ...values, image: imageState });
-        try {
-          const res = await axios.post("/api/student/new", {
-            ...values,
-            image: imageState,
-          });
-          if (res.status === 200) {
-            helpers.resetForm();
-            setdestroyOnClose(true);
-            message.success("تم تسجيل الطالب بنجاح");
-            setIsModalVisible(false);
-          }
-        } catch (error) {
-          message.error(error.response.data.error);
-          console.log(error.response.data.error);
-        }
-      }}
-    >
-      <FormikStep
-        label="معلومات شخصية"
-        validationSchema={personalInfoValidation}
+    <FormStyle>
+      <FormStepper
+        initialValues={initialValues}
+        onSubmit={async (values, helpers) => {
+          console.log("values", { ...values, image: imageState });
+          // try {
+          //   const res = await axios.post("/api/student/new", {
+          //     ...values,
+          //     image: imageState,
+          //   });
+          //   if (res.status === 200) {
+          //     helpers.resetForm();
+          //     setdestroyOnClose(true);
+          //     message.success("تم تسجيل الطالب بنجاح");
+          //     setIsModalVisible(false);
+          //   }
+          // } catch (error) {
+          //   message.error(error.response.data.error);
+          //   console.log(error.response.data.error);
+          // }
+        }}
       >
-        <FormItem {...layout} name="name" label="اسم الطالب">
-          <Input name="name" autoFocus />
-        </FormItem>
-        <FormItem {...layout} name="fatherName" label="اسم الاب">
-          <Input name="fatherName" />
-        </FormItem>
-        <FormItem {...layout} name="motherName" label="اسم الام">
-          <Input name="motherName" />
-        </FormItem>
-        <FormItem {...layout} name="sex" label="الجنس">
-          <Radio.Group name="sex">
-            <Radio name="sex" value="male">
-              ذكر
-            </Radio>
-            <Radio name="sex" value="femal">
-              انثى
-            </Radio>
-          </Radio.Group>
-        </FormItem>
-      </FormikStep>
-
-      <FormikStep
-        label="معلومات الطالب"
-        validationSchema={studentInfoValidation}
-      >
-        <FormItem {...layout} name="healthSituation" label="الحالة الصحية">
-          <Radio.Group
-            name="healthSituation"
-            options={[
-              { label: "معافى", value: "healthy" },
-              { label: "مريض", value: "sick" },
-            ]}
-          />
-        </FormItem>
-
-        <FormItem {...layout} name="sickType" label="نوع المرض">
-          <Input name="sickType" />
-        </FormItem>
-
-        <FormItem {...layout} name="dateOfBirth" label="تاريخ الميلاد">
-          <DatePicker name="dateOfBirth" />
-        </FormItem>
-        <FormItem {...layout} name="plaseOfBirth" label="مكان الولادة">
-          <Input name="plaseOfBirth" />
-        </FormItem>
-        <FormItem {...layout} name="numberOfBrother" label="عدد الاخوة">
-          <InputNumber name="numberOfBrother" />
-        </FormItem>
-
-        <FormItem {...layout} name="familySituation" label="الحالة الاجتماعية">
-          <Radio.Group name="familySituation" style={{ marginLeft: "10px" }}>
-            <div>
-              <Radio name="familySituation" value="parents">
-                أبوان
+        <FormikStep
+          label="معلومات شخصية"
+          validationSchema={personalInfoValidation}
+        >
+          <FormItem {...layout} name="name" label="اسم ">
+            <Input name="name" autoFocus />
+          </FormItem>
+          <FormItem {...layout} name="fatherName" label="اسم الاب">
+            <Input name="fatherName" />
+          </FormItem>
+          <FormItem {...layout} name="motherName" label="اسم الام">
+            <Input name="motherName" />
+          </FormItem>
+          <FormItem {...layout} name="sex" label="الجنس">
+            <Radio.Group name="sex">
+              <Radio name="sex" value="male">
+                ذكر
               </Radio>
-              <Radio
-                name="familySituation"
-                value="orphanParents"
-                style={{ marginLeft: "35px" }}
-              >
-                يتيم الأبوين
+              <Radio name="sex" value="femal">
+                انثى
               </Radio>
-            </div>
-            <div style={{ marginTop: "20px" }}>
-              <Radio name="familySituation" value="orphanMother">
-                يتيم الأم
-              </Radio>
-              <Radio
-                name="familySituation"
-                value="orphanFather"
-                style={{ marginLeft: "15px" }}
-              >
-                يتيم الأب
-              </Radio>
-            </div>
-          </Radio.Group>
-        </FormItem>
-      </FormikStep>
+            </Radio.Group>
+          </FormItem>
+        </FormikStep>
 
-      <FormikStep label="الصف">
-        <FormItem {...layout} name="classNumber" label="الصف">
-          <InputNumber name="classNumber" autoFocus  />
-        </FormItem>
+        <FormikStep
+          label="معلومات المدرس"
+          validationSchema={studentInfoValidation}
+        >
+          <FormItem name="dateOfBirth" label="تاريخ الميلاد">
+            <DatePicker name="dateOfBirth" placeholder="اختر تاريخ" />
+          </FormItem>
+          <FormItem name="plaseOfBirth" label="مكان الولادة">
+            <Input name="plaseOfBirth" />
+          </FormItem>
+          <p
+            style={{
+              textAlign: "end",
+              marginBottom: "5px",
+              marginRight: "5px",
+            }}
+          >
+            :عنوان الاقامة
+          </p>
+          <div style={{ display: "flex", marginBottom: "20px" }}>
+            <FormItem name="street">
+              <Input addonAfter="الشارع" name="street" />
+            </FormItem>
+            <FormItem name="region">
+              <Input addonAfter="المنطقة" name="region" />
+            </FormItem>
+            <FormItem name="city">
+              <Input addonAfter="المدينة" name="city" />
+            </FormItem>
+          </div>
+          <div style={{ display: "flex", marginBottom: "20px" }}>
+            <FormItem name="email">
+              <Input addonAfter="الايميل" name="email" />
+            </FormItem>
+            <FormItem name="number2">
+              <Input addonAfter="2   الهاتف" name="number2" />
+            </FormItem>
+            <FormItem name="number1">
+              <Input addonAfter="1   الهاتف" name="number1" />
+            </FormItem>
+          </div>
+        </FormikStep>
 
-        <FormItem {...layout} name="division" label="الشعبة">
-          <InputNumber name="division" />
-        </FormItem>
-        <FormItem {...layout} name="dateOfStart" label="تاريخ الالتحاق">
-          <DatePicker name="dateOfStart" />
-        </FormItem>
-      </FormikStep>
+        <FormikStep label="الاختصاص">
+          subject: [], classNumber: [], division: [],
+          <FormItem {...layout} name="subject" label="المسمى الوظيفي">
+            <Select
+              mode="multiple"
+              allowClear
+              placeholder="الرجاء الاختيار"
+              defaultValue={[1]}
+              name="subject"
+            >
+              <Option value="arabic">لغة عربية</Option>
+              <Option value="math">رياضيات</Option>
+            </Select>
+          </FormItem>
+          <FormItem {...layout} name="classNumber" label="الصف">
+            {/* <InputNumber name="classNumber" autoFocus /> */}
+            <Select
+              mode="multiple"
+              allowClear
+              placeholder="الرجاء الاختيار"
+              defaultValue={[1]}
+              name="classNumber"
+            >
+              {children}
+            </Select>
+          </FormItem>
+          <FormItem {...layout} name="division" label="الشعبة">
+            <InputNumber name="division" />
+          </FormItem>
+          <FormItem {...layout} name="typeOfDegree" label="الاختصاص">
+            <InputNumber name="typeOfDegree" />
+          </FormItem>
+          <FormItem {...layout} name="DateOfGraduate" label="تاريخ التخرج">
+            <DatePicker name="DateOfGraduate" placeholder="اختر تاريخ" />
+          </FormItem>
+          <FormItem {...layout} name="dateOfStart" label="تاريخ الالتحاق">
+            <DatePicker name="dateOfStart" placeholder="اختر تاريخ" />
+          </FormItem>
+        </FormikStep>
 
-      <FormikStep label="العنوان" validationSchema={addressInfoValidation}>
-        <div style={{ display: "flex", marginBottom: "20px" }}>
-          <FormItem name="city">
-            <Input addonBefore="المدينة" name="city" autoFocus />
+        <FormikStep label="صورة الطالب">
+          <FormItem name="image">
+            <ImageUpload setImage={setImage} />
           </FormItem>
-          <FormItem name="region">
-            <Input addonBefore="المنطقة" name="region" />
-          </FormItem>
-          <FormItem name="street">
-            <Input addonBefore="الشارع" name="street" />
-          </FormItem>
-        </div>
-
-        <div style={{ display: "flex", marginBottom: "20px" }}>
-          <FormItem name="number1">
-            <Input addonBefore="1 رقم الهاتف" name="number1" />
-          </FormItem>
-          <FormItem name="contactName1">
-            <Input addonBefore="الاسم" name="contactName1" />
-          </FormItem>
-          <FormItem name="contactType1">
-            <Input addonBefore="صلة القرابة" name="contactType1" />
-          </FormItem>
-        </div>
-
-        <div style={{ display: "flex", marginBottom: "20px" }}>
-          <Input addonBefore="2 رقم الهاتف" name="number2" />
-          <Input addonBefore="الاسم" name="contactName2" />
-          <Input addonBefore="صلة القرابة" name="contactType2" />
-        </div>
-      </FormikStep>
-      <FormikStep label="صورة الطالب">
-        <FormItem name="image">
-          <ImageUpload setImage={setImage} />
-        </FormItem>
-      </FormikStep>
-    </FormStepper>
+        </FormikStep>
+      </FormStepper>
+    </FormStyle>
   );
 };
 
@@ -258,7 +249,10 @@ const FormStepper = ({ children, ...props }: FormikConfig<FormikValues>) => {
       }}
     >
       {({ isSubmitting }) => (
-        <Form>
+        <Form
+          labelAlign="left"
+          // colon={false}
+        >
           <Steps size="small" current={step} style={{ marginBottom: "50px" }}>
             {childrenArray.map((c, i) => {
               return <Step key={i} title={c.props.label} />;
@@ -271,6 +265,7 @@ const FormStepper = ({ children, ...props }: FormikConfig<FormikValues>) => {
               marginTop: "50px",
               display: "flex",
               justifyContent: "space-between",
+              flexDirection: "row-reverse",
             }}
           >
             <div>
