@@ -1,19 +1,20 @@
 import { Formik, FormikConfig, FormikValues } from "formik";
-import {
-  FormItem,
-  Input,
-  InputNumber,
-  Radio,
-  DatePicker,
-  Form,
-  Select,
-} from "formik-antd";
-import { object, string, mixed } from "yup";
+import { FormItem, Input, Radio, DatePicker, Form, Select } from "formik-antd";
+import { object, string, date } from "yup";
 import React, { useState } from "react";
 import { Steps, Button, message } from "antd";
 import ImageUpload from "./ImageUpload";
 import axios from "axios";
+import useSWR from "swr";
+import { mutate, trigger } from "swr";
+
 import FormStyle from "./styles/FormStyle";
+import {
+  classes,
+  subjects,
+  division,
+  typeOfCertifcate,
+} from "../utils/SchoolSubjects";
 const { Step } = Steps;
 const { Option } = Select;
 const layout = {
@@ -22,77 +23,78 @@ const layout = {
 };
 
 const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
-  const children = [];
-  for (let i = 1; i < 13; i++) {
-    children.push(<Option key={i}>{i}</Option>);
-  }
+  const { data } = useSWR("/api/employee");
 
   const [imageState, setImage] = useState("");
   const [graduateImage, setGraduateImage] = useState("");
   const initialValues = {
-    // name: "",
-    // fatherName: "",
-    // motherName: "",
-    // sex: "",
-    // dateOfBirth:  ,
-    // plaseOfBirth: "",
-    // city: "",
-    // region: "",
-    // street: "",
-    // number1: "",
-    // number2: "",
-
-    // email: "",
-
+    name: "",
+    fatherName: "",
+    motherName: "",
+    sex: "",
+    dateOfBirth: "",
+    plaseOfBirth: "",
+    city: "",
+    region: "",
+    street: "",
+    number1: "",
+    number2: "",
+    email: "",
     subject: [],
     classNumber: [],
     division: [],
     dateOfStart: "",
-
+    TypeOfCertifcate: "",
     typeOfDegree: "",
     DateOfGraduate: "",
+    type: "teacher",
   };
 
   const personalInfoValidation = object({
-    // name: string().required("الرجاء ادخال الاسم"),
-    // fatherName: string().required("الرجاء ادخال اسم الاب"),
-    // motherName: string().required("الرجاء ادخال الام"),
-    // sex: string().required("الرجاء ادخال الجنس"),
+    name: string().required("الرجاء ادخال الاسم"),
+    fatherName: string().required("الرجاء ادخال اسم الاب"),
+    motherName: string().required("الرجاء ادخال الام"),
+    sex: string().required("الرجاء ادخال الجنس"),
   });
   const studentInfoValidation = object({
-    // plaseOfBirth: string().required("الرجاء ادخال  مكان الولادة"),
-    // familySituation: string().required("الرجاء ادخال الحالة الاجتماعية"),
+    plaseOfBirth: string().required("الرجاء ادخال  مكان الولادة"),
+    dateOfBirth: date().required("الرجاء ادخال تاريخ الولادة"),
+    city: string().required("الرجاء ادخال اسم المدينة"),
+    region: string().required("الرجاء ادخال اسم المنطقة"),
+    street: string().required("الرجاء ادخال اسم الشارع"),
+    number1: string().required("الرجاء ادخال رقم الهاتف"),
+    email: string().email().required("الرجاء ادخال الايميل"),
   });
 
-  const addressInfoValidation = object({
-    // city: string().required("الرجاء ادخال اسم المدينة"),
-    // region: string().required("الرجاء ادخال اسم المنطقة"),
-    // street: string().required("الرجاء ادخال اسم الشارع"),
-    // number1: string().required("الرجاء ادخال رقم الهاتف"),
-    // contactName1: string().required("الرجاء ادخال الاسم"),
-    // contactType1: string().required("الرجاء ادخال صلة القرابة"),
+  const subjectValidation = object({
+    typeOfDegree: string().required("الرجاء ادخال الاختصاص"),
+    TypeOfCertifcate: string().required("الرجاء اختيار اخر تحصيل علمي"),
+    DateOfGraduate: date().required("الرجاء ادخال تاريخ التخرج"),
+    dateOfStart: date().required("الرجاء ادخال تاريخ بدأ العمل"),
   });
+
   return (
     <FormStyle>
       <FormStepper
         initialValues={initialValues}
         onSubmit={async (values, helpers) => {
-          console.log("values", { ...values, image: imageState });
-          // try {
-          //   const res = await axios.post("/api/student/new", {
-          //     ...values,
-          //     image: imageState,
-          //   });
-          //   if (res.status === 200) {
-          //     helpers.resetForm();
-          //     setdestroyOnClose(true);
-          //     message.success("تم تسجيل الطالب بنجاح");
-          //     setIsModalVisible(false);
-          //   }
-          // } catch (error) {
-          //   message.error(error.response.data.error);
-          //   console.log(error.response.data.error);
-          // }
+          try {
+            mutate("/api/employee", [...data, values], false);
+            const res = await axios.post("/api/employee/new", {
+              ...values,
+              image: imageState,
+              graduateImage: graduateImage,
+            });
+            trigger("/api/employee");
+            if (res.status === 200) {
+              helpers.resetForm();
+              setdestroyOnClose(true);
+              message.success("تم تسجيل الطالب بنجاح");
+              setIsModalVisible(false);
+            }
+          } catch (error) {
+            message.error(error.response.data.error);
+          }
         }}
       >
         <FormikStep
@@ -124,7 +126,7 @@ const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
           label="معلومات المدرس"
           validationSchema={studentInfoValidation}
         >
-          <FormItem name="dateOfBirth" label="تاريخ الميلاد">
+          <FormItem name="dateOfBirth" label="تاريخ الولادة">
             <DatePicker name="dateOfBirth" placeholder="اختر تاريخ" />
           </FormItem>
           <FormItem name="plaseOfBirth" label="مكان الولادة">
@@ -163,37 +165,75 @@ const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
           </div>
         </FormikStep>
 
-        <FormikStep label="الاختصاص">
-          subject: [], classNumber: [], division: [],
-          <FormItem {...layout} name="subject" label="المسمى الوظيفي">
+        <FormikStep label="الاختصاص" validationSchema={subjectValidation}>
+          <FormItem {...layout} name="subject" label="مدرس لمادة">
             <Select
               mode="multiple"
               allowClear
               placeholder="الرجاء الاختيار"
-              defaultValue={[1]}
               name="subject"
             >
-              <Option value="arabic">لغة عربية</Option>
-              <Option value="math">رياضيات</Option>
+              {subjects?.map((s, i) => (
+                <Option key={i} value={s.value}>
+                  {s.title}
+                </Option>
+              ))}
             </Select>
           </FormItem>
           <FormItem {...layout} name="classNumber" label="الصف">
-            {/* <InputNumber name="classNumber" autoFocus /> */}
+            <Select
+              dropdownClassName="style"
+              mode="multiple"
+              allowClear
+              placeholder="الرجاء الاختيار"
+              name="classNumber"
+            >
+              {classes?.map((c) => (
+                <Option value={c.value} key={c.value}>
+                  {c.title}
+                </Option>
+              ))}
+            </Select>
+          </FormItem>
+          <FormItem {...layout} name="division" label="الشعبة">
             <Select
               mode="multiple"
               allowClear
               placeholder="الرجاء الاختيار"
-              defaultValue={[1]}
-              name="classNumber"
+              name="division"
             >
-              {children}
+              {division?.map((d) => (
+                <Option value={d.value} key={d.value}>
+                  {d.title}
+                </Option>
+              ))}
             </Select>
           </FormItem>
-          <FormItem {...layout} name="division" label="الشعبة">
-            <InputNumber name="division" />
-          </FormItem>
           <FormItem {...layout} name="typeOfDegree" label="الاختصاص">
-            <InputNumber name="typeOfDegree" />
+            <Select
+              allowClear
+              placeholder="الرجاء الاختيار"
+              name="typeOfDegree"
+            >
+              {subjects?.map((s, i) => (
+                <Option key={i} value={s.value}>
+                  {s.title}
+                </Option>
+              ))}
+            </Select>
+          </FormItem>
+          <FormItem {...layout} name="TypeOfCertifcate" label="التحصيل العلمي">
+            <Select
+              allowClear
+              placeholder="الرجاء الاختيار"
+              name="TypeOfCertifcate"
+            >
+              {typeOfCertifcate?.map((s, i) => (
+                <Option key={i} value={s.value}>
+                  {s.title}
+                </Option>
+              ))}
+            </Select>
           </FormItem>
           <FormItem {...layout} name="DateOfGraduate" label="تاريخ التخرج">
             <DatePicker name="DateOfGraduate" placeholder="اختر تاريخ" />
@@ -203,9 +243,20 @@ const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
           </FormItem>
         </FormikStep>
 
-        <FormikStep label="صورة الطالب">
+        <FormikStep label="الملحقات">
           <FormItem name="image">
-            <ImageUpload setImage={setImage} />
+            <ImageUpload
+              setImage={setImage}
+              imageState={imageState}
+              title="تحميل صورة المدرس"
+            />
+          </FormItem>
+          <FormItem name="image">
+            <ImageUpload
+              imageState={graduateImage}
+              setImage={setGraduateImage}
+              title=" تحميل صورة الشهادة الدراسية"
+            />
           </FormItem>
         </FormikStep>
       </FormStepper>

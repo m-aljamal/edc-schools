@@ -1,11 +1,11 @@
 import axios from "axios";
 import Resizer from "react-image-file-resizer";
 import { useState } from "react";
-import { Spin } from "antd";
+import { Spin, message } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
-const ImageUpload = ({ setImage }) => {
+import { UploadImageStyle } from "./styles/UploadImageStyle";
+const ImageUpload = ({ setImage, title, imageState }) => {
   const [loading, setLoading] = useState(false);
-  const [showImage, setShowImage] = useState("");
   const handleChange = async (e) => {
     setLoading(true);
     let file = e.target.files[0];
@@ -25,7 +25,7 @@ const ImageUpload = ({ setImage }) => {
             .then((res) => {
               //   console.log("IMAGE UPLOAD RES DATA", res);
               setImage(res.data);
-              setShowImage(res.data.url);
+              // setShowImage(res.data.url);
               setLoading(false);
             })
             .catch((err) => {
@@ -37,9 +37,31 @@ const ImageUpload = ({ setImage }) => {
       );
     }
   };
+
+  const handleRemove = (id) => {
+    setLoading(true);
+    axios
+      .post(
+        "api/image/remove",
+        {
+          public_id: id,
+        },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        setLoading(false);
+        setImage("");
+      })
+      .catch((err) => {
+        message.error(err);
+        setLoading(false);
+      });
+  };
+
   const antIcon = <LoadingOutlined style={{ fontSize: 30 }} spin />;
+
   return (
-    <div>
+    <UploadImageStyle>
       {loading ? (
         <Spin indicator={antIcon} />
       ) : (
@@ -50,29 +72,27 @@ const ImageUpload = ({ setImage }) => {
             padding: "5px 10px",
             cursor: "pointer",
             color: "white",
-            display: "block",
-            width: "100px",
             margin: "0 auto",
           }}
         >
-          تحميل الصورة
+          {title}
           <input type="file" accept="images/*" onChange={handleChange} hidden />
         </label>
       )}
-      <div style={{ height: "150px" }}>
-        {showImage && (
-          <img
-            src={showImage}
-            style={{
-              width: "140px",
-              display: "block",
-              margin: "0 auto",
-              marginTop: "25px",
-            }}
-          />
+      <div className='imageContainer'>
+        {imageState && (
+          <div className="imageHoler">
+            <span
+              className="removeImage"
+              onClick={() => handleRemove(imageState.public_id)}
+            >
+              X
+            </span>
+            <img src={imageState.url} />
+          </div>
         )}
       </div>
-    </div>
+    </UploadImageStyle>
   );
 };
 

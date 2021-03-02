@@ -61,7 +61,6 @@ const FormStyle = styled.div`
   .ant-input-group-wrapper {
     text-align: end;
   }
-   
 `;
 
 export default FormStyle;
