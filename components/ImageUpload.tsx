@@ -76,7 +76,7 @@ const ImageUpload = ({ setImage, title, imageState }) => {
           }}
         >
           {title}
-          <input type="file" accept="images/*" onChange={handleChange} hidden />
+          <input type="file" accept="images/*" onChange={handleChange} hidden id='photo' name='photo'/>
         </label>
       )}
       <div className='imageContainer'>

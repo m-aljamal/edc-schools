@@ -2,7 +2,7 @@ import CustomTable from "./customTable";
 import { useState } from "react";
 import PageTitleStyle from "./styles/PageTitle";
 import AddNewButton from "./AddNewButton";
-import MultiStepForm from "./MultiStepForm";
+
 import CustomMultiStepForm from "./CustomMultiStepForm";
 const TeacherList = ({ teachersList }) => {
   const [total, setTotal] = useState(teachersList.length);
@@ -49,7 +49,7 @@ const TeacherList = ({ teachersList }) => {
       </PageTitleStyle>
       <CustomTable
         columns={teachersColumns}
-        data={teachersList}
+        allData={teachersList}
         setTotal={setTotal}
       />
     </div>

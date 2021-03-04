@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Layout, Menu, Breadcrumb, Avatar, Dropdown } from "antd";
 import styled from "styled-components";
 import { PoweroffOutlined } from "@ant-design/icons";
+import { useRouter } from "next/router";
 const { Header, Content, Sider } = Layout;
 
 const DashStyle = styled.div`
@@ -14,7 +15,6 @@ const DashStyle = styled.div`
     height: auto;
     margin: 16px;
   }
-
   .site-layout .site-layout-background {
     background: #fff;
   }
@@ -45,7 +45,16 @@ const DashStyle = styled.div`
     margin-right: 5px;
   }
 `;
-const DashbordLayout = ({ pageContent, menuData, currentUser, userSchool }) => {
+const DashbordLayout = ({
+  pageContent,
+  menuData,
+  currentUser,
+  userSchool,
+  query,
+}) => {
+  const router = useRouter();
+  
+
   const [collapsed, setCollapsed] = useState(false);
 
   const menu = (
@@ -77,7 +86,8 @@ const DashbordLayout = ({ pageContent, menuData, currentUser, userSchool }) => {
           <Menu
             theme="dark"
             mode="inline"
-            defaultSelectedKeys={["1"]}
+            defaultSelectedKeys={[`${router.query.key}`]}
+            defaultOpenKeys={[`sub${router.query.sub}`]}
             className="menu"
           >
             {menuData}

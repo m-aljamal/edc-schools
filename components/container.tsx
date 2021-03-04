@@ -1,5 +1,5 @@
 import Meta from "./Meta";
-import  { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
   @font-face {
@@ -64,7 +64,9 @@ const GlobalStyles = createGlobalStyle`
   .rc-virtual-list-holder-inner {
     text-align: end !important;
   }
-   
+   .ant-modal-header{
+     text-align:center;
+   }
   `;
 
 const Container: React.FC = ({ children }) => {

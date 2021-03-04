@@ -2,7 +2,7 @@ import { Table, Input, Button, Space } from "antd";
 import Highlighter from "react-highlight-words";
 import { SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
-const CustomTable = ({ data, columns, setTotal }) => {
+const CustomTable = ({ allData, columns, setTotal }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
 
@@ -101,10 +101,10 @@ const CustomTable = ({ data, columns, setTotal }) => {
   return (
     <Table
       columns={newColumns}
-      dataSource={data}
+      dataSource={allData}
       rowKey="_id"
       bordered
-      loading={!data}
+      loading={!allData}
       onChange={handleTableChange}
     />
   );

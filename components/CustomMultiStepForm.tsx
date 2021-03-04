@@ -24,8 +24,9 @@ const layout = {
 
 const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
   const { data } = useSWR("/api/employee");
+  console.log("data", data);
 
-  const [imageState, setImage] = useState("");
+  const [image, setImage] = useState("");
   const [graduateImage, setGraduateImage] = useState("");
   const initialValues = {
     name: "",
@@ -51,26 +52,26 @@ const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
   };
 
   const personalInfoValidation = object({
-    name: string().required("الرجاء ادخال الاسم"),
-    fatherName: string().required("الرجاء ادخال اسم الاب"),
-    motherName: string().required("الرجاء ادخال الام"),
-    sex: string().required("الرجاء ادخال الجنس"),
+    // name: string().required("الرجاء ادخال الاسم"),
+    // fatherName: string().required("الرجاء ادخال اسم الاب"),
+    // motherName: string().required("الرجاء ادخال الام"),
+    // sex: string().required("الرجاء ادخال الجنس"),
   });
   const studentInfoValidation = object({
-    plaseOfBirth: string().required("الرجاء ادخال  مكان الولادة"),
-    dateOfBirth: date().required("الرجاء ادخال تاريخ الولادة"),
-    city: string().required("الرجاء ادخال اسم المدينة"),
-    region: string().required("الرجاء ادخال اسم المنطقة"),
-    street: string().required("الرجاء ادخال اسم الشارع"),
-    number1: string().required("الرجاء ادخال رقم الهاتف"),
-    email: string().email().required("الرجاء ادخال الايميل"),
+    // plaseOfBirth: string().required("الرجاء ادخال  مكان الولادة"),
+    // dateOfBirth: date().required("الرجاء ادخال تاريخ الولادة"),
+    // city: string().required("الرجاء ادخال اسم المدينة"),
+    // region: string().required("الرجاء ادخال اسم المنطقة"),
+    // street: string().required("الرجاء ادخال اسم الشارع"),
+    // number1: string().required("الرجاء ادخال رقم الهاتف"),
+    // email: string().email().required("الرجاء ادخال الايميل"),
   });
 
   const subjectValidation = object({
-    typeOfDegree: string().required("الرجاء ادخال الاختصاص"),
-    TypeOfCertifcate: string().required("الرجاء اختيار اخر تحصيل علمي"),
-    DateOfGraduate: date().required("الرجاء ادخال تاريخ التخرج"),
-    dateOfStart: date().required("الرجاء ادخال تاريخ بدأ العمل"),
+    // typeOfDegree: string().required("الرجاء ادخال الاختصاص"),
+    // TypeOfCertifcate: string().required("الرجاء اختيار اخر تحصيل علمي"),
+    // DateOfGraduate: date().required("الرجاء ادخال تاريخ التخرج"),
+    // dateOfStart: date().required("الرجاء ادخال تاريخ بدأ العمل"),
   });
 
   return (
@@ -79,12 +80,18 @@ const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
         initialValues={initialValues}
         onSubmit={async (values, helpers) => {
           try {
-            mutate("/api/employee", [...data, values], false);
-            const res = await axios.post("/api/employee/new", {
+            mutate(
+              "/api/employee",
+              [...data, { values, image, graduateImage }],
+              false
+            );
+            const res = await axios.post("/api/employee", {
               ...values,
-              image: imageState,
-              graduateImage: graduateImage,
+              image,
+              graduateImage,
             });
+            console.log("res", res);
+
             trigger("/api/employee");
             if (res.status === 200) {
               helpers.resetForm();
@@ -93,6 +100,8 @@ const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
               setIsModalVisible(false);
             }
           } catch (error) {
+            console.log(error);
+
             message.error(error.response.data.error);
           }
         }}
@@ -247,7 +256,7 @@ const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
           <FormItem name="image">
             <ImageUpload
               setImage={setImage}
-              imageState={imageState}
+              imageState={image}
               title="تحميل صورة المدرس"
             />
           </FormItem>

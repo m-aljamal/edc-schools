@@ -1,18 +1,9 @@
-import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import {
-  connectToDB,
-  user,
-  school,
-  student,
-  employee,
-  absence,
-} from "../../db";
-import axios from "axios";
-import { Layout, Menu, Breadcrumb } from "antd";
+import { Menu } from "antd";
+import useSWR from "swr";
 import {
   RightOutlined,
-  UserOutlined,
   TeamOutlined,
   FundOutlined,
   BarcodeOutlined,
@@ -21,59 +12,16 @@ import {
   FileDoneOutlined,
   SmileOutlined,
 } from "@ant-design/icons";
-import StudentsList from "../../components/StudentList";
-import UserLandingPage from "../../components/UserLandingPage";
-import AbsencePage from "../../components/AbsencePage";
+import { connectToDB, user, school, employee } from "../../db";
 import DashbordLayout from "../../components/DashbordLayout";
-import TeacherList from "../../components/TeacherList";
-
-const { Header, Content, Footer, Sider } = Layout;
+const TeacherList = dynamic(() => import("../../components/TeacherList"));
 const { SubMenu } = Menu;
 
-const UserDashboard = ({
-  currentUser,
-  userSchool,
-  studentList,
-  employeeList,
-  absenceList,
-  page,
-  teachersList,
-}) => {
-  //  const onNewStudent = async () => {
-  //   try {
-  //     await axios.post("/api/student/new", {
-  //       name: "عبد الله الجمل",
-  //       fatherName: "محمد",
-  //       classNumber: 1,
-  //       division: 3,
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // const onAddEmployee = async () => {
-  //   try {
-  //     const { data } = await axios.post("/api/employee/new", {
-  //       name: "صفية",
-  //       fatherName: "عدنان",
-  //       classNumber: [6, 3, 4],
-  //       division: [2, 5],
-  //     });
-  //     console.log(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+const UserDashboard = ({ currentUser, userSchool, teachersList }) => {
+  const { data } = useSWR("/api/employee", { initialData: teachersList });
 
   const PageCountent = () => {
-    if (absenceList)
-      return (
-        <AbsencePage absenceList={absenceList} studentList={studentList} />
-      );
-    if (teachersList) return <TeacherList teachersList={teachersList} />;
-    if (employeeList) return <p>Emp</p>;
-    if (studentList) return <StudentsList students={studentList} />;
-    if (currentUser) return <UserLandingPage currentUser={currentUser} />;
+    if (teachersList) return <TeacherList teachersList={data || []} />;
   };
 
   return (
@@ -88,10 +36,10 @@ const UserDashboard = ({
           </Menu.Item>
           <SubMenu key="sub1" icon={<TeamOutlined />} title="الموظفين">
             <Menu.Item key="2" icon={<RightOutlined />}>
-              <Link href="/user-dashboard?page=teachers">المدرسين</Link>
+              <Link href="/user-dashboard?page=teachers&key=2&sub=1">المدرسين</Link>
             </Menu.Item>
             <Menu.Item key="3" icon={<RightOutlined />}>
-              <Link href="/user-dashboard?page=mangers">الاداريين</Link>
+              <Link href="/user-dashboard?page=mangers&key=3&sub=1">الاداريين</Link>
             </Menu.Item>
             <Menu.Item key="4" icon={<RightOutlined />}>
               <Link href="/user-dashboard?page=service">الخدميين</Link>
@@ -99,30 +47,35 @@ const UserDashboard = ({
             <Menu.Item key="5" icon={<RightOutlined />}>
               <Link href="/user-dashboard?page=emptimesheet">سجل الدوام</Link>
             </Menu.Item>
+            <Menu.Item key="6" icon={<RightOutlined />}>
+              <Link href="/user-dashboard?page=newemployee">
+                اضافة موظف جديد
+              </Link>
+            </Menu.Item>
           </SubMenu>
           <SubMenu key="sub2" icon={<SmileOutlined />} title="الطلاب">
-            <Menu.Item key="6" icon={<RightOutlined />}>
-              <Link href="/user-dashboard?page=students">جميع الطلاب</Link>
-            </Menu.Item>
             <Menu.Item key="7" icon={<RightOutlined />}>
-              <Link href="/user-dashboard?page=stutimesheet">سجل الدوام</Link>
+              <Link href="/user-dashboard?page=students&key=7&sub=2">جميع الطلاب</Link>
+            </Menu.Item>
+            <Menu.Item key="8" icon={<RightOutlined />}>
+              <Link href="/user-dashboard?page=stutimesheet&key=8&sub=2">سجل الدوام</Link>
             </Menu.Item>
           </SubMenu>
-          <Menu.Item key="8" icon={<BarcodeOutlined />}>
-            <Link href="/user-dashboard?page=schoolassets">
+          <Menu.Item key="9" icon={<BarcodeOutlined />}>
+            <Link href="/user-dashboard?page=schoolassets&key=9">
               موجودات المدرسة
             </Link>
           </Menu.Item>
-          <Menu.Item key="9" icon={<BookOutlined />}>
-            <Link href="/user-dashboard?page=schoollibrary">مكتبة المدرسة</Link>
+          <Menu.Item key="10" icon={<BookOutlined />}>
+            <Link href="/user-dashboard?page=schoollibrary&key=10">مكتبة المدرسة</Link>
           </Menu.Item>
-          <Menu.Item key="10" icon={<CalculatorOutlined />}>
-            <Link href="/user-dashboard?page=schoollibrary">
+          <Menu.Item key="11" icon={<CalculatorOutlined />}>
+            <Link href="/user-dashboard?page=schoollibrary&key=11">
               البرنامج الاسبوعي
             </Link>
           </Menu.Item>
-          <Menu.Item key="11" icon={<FileDoneOutlined />}>
-            <Link href="/user-dashboard?page=schoollibrary">
+          <Menu.Item key="12" icon={<FileDoneOutlined />}>
+            <Link href="/user-dashboard?page=schoollibrary&key=12">
               نتائج الامتحانات
             </Link>
           </Menu.Item>
@@ -163,52 +116,52 @@ export async function getServerSideProps(ctx) {
         props.userSchool._id
       );
   }
-  // if (ctx.query.page === "teachers") {
-  //   props.studentList = await employee.getEmployeesBySchool(
-  //     db,
-  //     props.userSchool._id
-  //   );
-  // }
-  // if (ctx.query.page === "mangers") {
-  //   props.studentList = await employee.getEmployeesBySchool(
-  //     db,
-  //     props.userSchool._id
-  //   );
-  // }
-  // if (ctx.query.page === "service") {
-  //   props.studentList = await employee.getEmployeesBySchool(
-  //     db,
-  //     props.userSchool._id
-  //   );
-  // }
-  // if (ctx.query.page === "emptimesheet") {
-  //   props.studentList = await employee.getEmployeesBySchool(
-  //     db,
-  //     props.userSchool._id
-  //   );
-  // }
-  // if (ctx.query.page === "students") {
-  //   props.studentList = await student.getStudentsBySchool(
-  //     db,
-  //     props.userSchool._id
-  //   );
-  // }
-  // if (ctx.query.page === "employees") {
-  //   props.employeeList = await employee.getEmployeesBySchool(
-  //     db,
-  //     props.userSchool._id
-  //   );
-  // }
-  // if (ctx.query.page === "absence") {
-  //   props.absenceList = await absence.getAbsenceBySchool(
-  //     db,
-  //     props.userSchool._id
-  //   );
-  //   props.studentList = await student.getStudentsForNewAbsence(
-  //     db,
-  //     props.userSchool._id
-  //   );
-  // }
+  //   // if (ctx.query.page === "teachers") {
+  //   //   props.studentList = await employee.getEmployeesBySchool(
+  //   //     db,
+  //   //     props.userSchool._id
+  //   //   );
+  //   // }
+  //   // if (ctx.query.page === "mangers") {
+  //   //   props.studentList = await employee.getEmployeesBySchool(
+  //   //     db,
+  //   //     props.userSchool._id
+  //   //   );
+  //   // }
+  //   // if (ctx.query.page === "service") {
+  //   //   props.studentList = await employee.getEmployeesBySchool(
+  //   //     db,
+  //   //     props.userSchool._id
+  //   //   );
+  //   // }
+  //   // if (ctx.query.page === "emptimesheet") {
+  //   //   props.studentList = await employee.getEmployeesBySchool(
+  //   //     db,
+  //   //     props.userSchool._id
+  //   //   );
+  //   // }
+  //   // if (ctx.query.page === "students") {
+  //   //   props.studentList = await student.getStudentsBySchool(
+  //   //     db,
+  //   //     props.userSchool._id
+  //   //   );
+  //   // }
+  //   // if (ctx.query.page === "employees") {
+  //   //   props.employeeList = await employee.getEmployeesBySchool(
+  //   //     db,
+  //   //     props.userSchool._id
+  //   //   );
+  //   // }
+  //   // if (ctx.query.page === "absence") {
+  //   //   props.absenceList = await absence.getAbsenceBySchool(
+  //   //     db,
+  //   //     props.userSchool._id
+  //   //   );
+  //   //   props.studentList = await student.getStudentsForNewAbsence(
+  //   //     db,
+  //   //     props.userSchool._id
+  //   //   );
+  //   // }
   return {
     props,
   };
