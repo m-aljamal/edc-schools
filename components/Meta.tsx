@@ -5,13 +5,25 @@ const Meta = () => {
     <Head>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta charSet="utf-8" />
-      <link rel="shortcut icon" href="/static/favicon.png" />
-      <link rel="stylesheet" type="text/css" href="/static/nprogress.css" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" />
       <link
-        href="https://fonts.googleapis.com/css2?family=Cairo&display=swap"
-        rel="stylesheet"
+        rel="preload"
+        href="/fonts/Tajawal-Regular.ttf"
+        as="font"
+        crossOrigin=""
       />
+      <link
+        rel="preload"
+        href="/fonts/Tajawal-Medium.ttf"
+        as="font"
+        crossOrigin=""
+      />
+      <link
+        rel="preload"
+        href="/fonts/Tajawal-Bold.ttf"
+        as="font"
+        crossOrigin=""
+      />
+      <link rel="shortcut icon" href="/static/favicon.png" />
       <title>EDC</title>
     </Head>
   );

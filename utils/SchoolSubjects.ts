@@ -153,23 +153,18 @@ export const division = [
 
 export const typeOfCertifcate = [
   {
-    title: "دكتوره",
-    value: "phd",
-  },
-  {
     title: "ماجستير",
-    value: "master",
   },
   {
     title: "بكلوريوس",
-    value: "bachelor",
   },
   {
-    title: "دبلوم",
-    value: "diploma ",
+    title: "غير متخرج",
+  },
+  {
+    title: "معهد",
   },
   {
     title: "بكلوريا",
-    value: "highScholl",
   },
 ];

@@ -3,16 +3,27 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
   @font-face {
-      font-family: 'Tajawal' ;
-      src: url('/static/Tajawal.ttf')
-      format('ttf');
-      font-weight: normal;
-      font-style: normal;
+      font-family: 'Tajawal-Regular' ;
+      src: url('/fonts/Tajawal-Regular.ttf');
+      
+      
+  }
+  @font-face {
+      font-family: 'Tajawal-Medium' ;
+      src: url('/fonts/Tajawal-Medium.ttf');
+      /* font-weight: normal;
+      font-style: normal; */
+  }
+  @font-face {
+      font-family: 'Tajawal-Bold' ;
+      src: url('/fonts/Tajawal-Bold.ttf');
+      /* font-weight: normal;
+      font-style: normal; */
   }
   
   html{
-    --slide:#222938;
-    --blue:#1890ff;
+    --slide:rgb(34, 41, 56);
+    --blue:rgb(24, 144, 255);
   --darkGray: #606060;
   --red: #ff0000;
   --black: #393939;
@@ -29,11 +40,12 @@ const GlobalStyles = createGlobalStyle`
       box-sizing: inherit;
   }
   body{
-      font-family: 'Tajawal' , --apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-family: 'Tajawal-Regular' , --apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       padding:0;
       margin: 0;
       font-size: 1.5rem;
       line-height:2;
+      text-align:end;
   }
   a{
       text-decoration: none;
@@ -42,7 +54,7 @@ const GlobalStyles = createGlobalStyle`
   }
   
   button{
-      font-family: 'Tajawal' , --apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-family:  --apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
 
   p,h1,h2,h3,h4,h5,h6{
@@ -66,6 +78,16 @@ const GlobalStyles = createGlobalStyle`
   }
    .ant-modal-header{
      text-align:center;
+   }
+   .ant-table-cell{
+    text-align-last: right;
+   }
+   .ant-layout-header {
+    padding: 0 15px;
+   }
+   
+   .ant-empty{
+    text-align-last: center ;
    }
   `;
 

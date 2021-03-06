@@ -4,8 +4,7 @@ import { useState } from "react";
 import { Spin, message } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { UploadImageStyle } from "./styles/UploadImageStyle";
-const ImageUpload = ({ setImage, title, imageState }) => {
-  const [loading, setLoading] = useState(false);
+const ImageUpload = ({ setImage, title, imageState, loading, setLoading }) => {
   const handleChange = async (e) => {
     setLoading(true);
     let file = e.target.files[0];
@@ -76,10 +75,17 @@ const ImageUpload = ({ setImage, title, imageState }) => {
           }}
         >
           {title}
-          <input type="file" accept="images/*" onChange={handleChange} hidden id='photo' name='photo'/>
+          <input
+            type="file"
+            accept="images/*"
+            onChange={handleChange}
+            hidden
+            id="photo"
+            name="photo"
+          />
         </label>
       )}
-      <div className='imageContainer'>
+      <div className="imageContainer">
         {imageState && (
           <div className="imageHoler">
             <span

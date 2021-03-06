@@ -2,7 +2,19 @@ import { Table, Input, Button, Space } from "antd";
 import Highlighter from "react-highlight-words";
 import { SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
-const CustomTable = ({ allData, columns, setTotal }) => {
+import styled from "styled-components";
+
+const FooterStyle = styled.div`
+  .ant-table-footer {
+    background-color: rgba(34, 41, 56, 0.1);
+    .total {
+      color: var(--blue);
+
+      font-weight: bold;
+    }
+  }
+`;
+const CustomTable = ({ allData, setTotal, total }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
 
@@ -93,20 +105,75 @@ const CustomTable = ({ allData, columns, setTotal }) => {
   const handleTableChange = (pagination, filters, sorter, extra) => {
     setTotal(extra.currentDataSource.length);
   };
-  const newColumns = [];
-  columns.forEach((c) =>
-    newColumns.push({ ...c, ...getColumnSearchProps(c.dataIndex, c.title) })
-  );
+  // const newColumns = [];
+  // columns.forEach((c) =>
+  //   newColumns.push({ ...c, ...getColumnSearchProps(c.dataIndex, c.title) })
+  // );
+
+  const teachersColumns = [
+    {
+      title: "الشعبة",
+      dataIndex: "division",
+
+      ...getColumnSearchProps("division", "الشعبة"),
+      render: (text) => (
+        <>
+          {text?.map((t) => (
+            <p key={t}>{t}</p>
+          ))}
+        </>
+      ),
+    },
+    {
+      title: "الصف",
+      dataIndex: "classNumber",
+
+      ...getColumnSearchProps("classNumber", "الصف"),
+      render: (text) => (
+        <>
+          {text?.map((t) => (
+            <p key={t}>{t}</p>
+          ))}
+        </>
+      ),
+    },
+    {
+      title: "المادة",
+      dataIndex: "subject",
+      ...getColumnSearchProps("subject", "المادة"),
+      render: (text) => (
+        <>
+          {text?.map((t) => (
+            <p key={t}>{t}</p>
+          ))}
+        </>
+      ),
+    },
+    {
+      title: "الاسم",
+      dataIndex: "name",
+      ...getColumnSearchProps("name", "الاسم"),
+    },
+  ];
 
   return (
-    <Table
-      columns={newColumns}
-      dataSource={allData}
-      rowKey="_id"
-      bordered
-      loading={!allData}
-      onChange={handleTableChange}
-    />
+    <FooterStyle>
+      <Table
+        columns={teachersColumns}
+        dataSource={allData}
+        rowKey="_id"
+        bordered
+        loading={!allData}
+        onChange={handleTableChange}
+        scroll={{ x: 500, y: 520 }}
+        showSorterTooltip={false}
+        footer={() => (
+          <p style={{ textAlign: "end" }}>
+            اجمالي عدد المدرسين: <span className="total">{total}</span>
+          </p>
+        )}
+      />
+    </FooterStyle>
   );
 };
 

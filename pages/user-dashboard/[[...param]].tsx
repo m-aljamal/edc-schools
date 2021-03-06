@@ -36,10 +36,14 @@ const UserDashboard = ({ currentUser, userSchool, teachersList }) => {
           </Menu.Item>
           <SubMenu key="sub1" icon={<TeamOutlined />} title="الموظفين">
             <Menu.Item key="2" icon={<RightOutlined />}>
-              <Link href="/user-dashboard?page=teachers&key=2&sub=1">المدرسين</Link>
+              <Link href="/user-dashboard?page=teachers&key=2&sub=1">
+                المدرسين
+              </Link>
             </Menu.Item>
             <Menu.Item key="3" icon={<RightOutlined />}>
-              <Link href="/user-dashboard?page=mangers&key=3&sub=1">الاداريين</Link>
+              <Link href="/user-dashboard?page=mangers&key=3&sub=1">
+                الاداريين
+              </Link>
             </Menu.Item>
             <Menu.Item key="4" icon={<RightOutlined />}>
               <Link href="/user-dashboard?page=service">الخدميين</Link>
@@ -55,10 +59,14 @@ const UserDashboard = ({ currentUser, userSchool, teachersList }) => {
           </SubMenu>
           <SubMenu key="sub2" icon={<SmileOutlined />} title="الطلاب">
             <Menu.Item key="7" icon={<RightOutlined />}>
-              <Link href="/user-dashboard?page=students&key=7&sub=2">جميع الطلاب</Link>
+              <Link href="/user-dashboard?page=students&key=7&sub=2">
+                جميع الطلاب
+              </Link>
             </Menu.Item>
             <Menu.Item key="8" icon={<RightOutlined />}>
-              <Link href="/user-dashboard?page=stutimesheet&key=8&sub=2">سجل الدوام</Link>
+              <Link href="/user-dashboard?page=stutimesheet&key=8&sub=2">
+                سجل الدوام
+              </Link>
             </Menu.Item>
           </SubMenu>
           <Menu.Item key="9" icon={<BarcodeOutlined />}>
@@ -67,7 +75,9 @@ const UserDashboard = ({ currentUser, userSchool, teachersList }) => {
             </Link>
           </Menu.Item>
           <Menu.Item key="10" icon={<BookOutlined />}>
-            <Link href="/user-dashboard?page=schoollibrary&key=10">مكتبة المدرسة</Link>
+            <Link href="/user-dashboard?page=schoollibrary&key=10">
+              مكتبة المدرسة
+            </Link>
           </Menu.Item>
           <Menu.Item key="11" icon={<CalculatorOutlined />}>
             <Link href="/user-dashboard?page=schoollibrary&key=11">

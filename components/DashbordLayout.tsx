@@ -45,15 +45,8 @@ const DashStyle = styled.div`
     margin-right: 5px;
   }
 `;
-const DashbordLayout = ({
-  pageContent,
-  menuData,
-  currentUser,
-  userSchool,
-  query,
-}) => {
+const DashbordLayout = ({ pageContent, menuData, currentUser, userSchool }) => {
   const router = useRouter();
-  
 
   const [collapsed, setCollapsed] = useState(false);
 

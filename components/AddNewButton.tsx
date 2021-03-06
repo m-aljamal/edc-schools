@@ -1,6 +1,5 @@
 import { Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { useState } from "react";
 import CustomModel from "./CustomModel";
 const AddNewButton = ({
   modelData,
