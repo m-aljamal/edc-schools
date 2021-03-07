@@ -36,19 +36,19 @@ const StudentList: React.FC<{ students: any[] }> = ({ students }) => {
         setIsModalVisible={setIsModalVisible}
         modelDate={
           <MultiStepForm
-            setIsModalVisible={setIsModalVisible}
-            setdestroyOnClose={setdestroyOnClose}
+            // setIsModalVisible={setIsModalVisible}
+            // setdestroyOnClose={setdestroyOnClose}
           />
         }
         title="تسجيل طالب جديد"
         destroyOnClose={destroyOnClose}
       />
       <p>اجمالي الطلاب {total}</p>
-      <CustomTable
+      {/* <CustomTable
         data={students}
         columns={studentsColumns}
         setTotal={setTotal}
-      />
+      /> */}
     </>
   );
 };
