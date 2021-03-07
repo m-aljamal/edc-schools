@@ -215,7 +215,7 @@ const MultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
       </FormikStep>
       <FormikStep label="صورة الطالب">
         <FormItem name="image">
-          <ImageUpload setImage={setImage} />
+          {/* <ImageUpload setImage={setImage} /> */}
         </FormItem>
       </FormikStep>
     </FormStepper>
