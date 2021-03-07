@@ -14,14 +14,22 @@ import {
 } from "@ant-design/icons";
 import { connectToDB, user, school, employee } from "../../db";
 import DashbordLayout from "../../components/DashbordLayout";
+import { useRouter } from "next/router";
+import Profile from "../../components/Profile";
+
 const TeacherList = dynamic(() => import("../../components/TeacherList"));
 const { SubMenu } = Menu;
 
 const UserDashboard = ({ currentUser, userSchool, teachersList }) => {
   const { data } = useSWR("/api/employee", { initialData: teachersList });
 
+  const router = useRouter();
+
   const PageCountent = () => {
     if (teachersList) return <TeacherList teachersList={data || []} />;
+    const { profileid } = router.query;
+    const profileData = data?.find((p) => p._id === profileid);
+    if (router.query.page === "teacher") return <Profile data={profileData} />;
   };
 
   return (

@@ -1,10 +1,17 @@
-import { Table, Input, Button, Space } from "antd";
+import { Table, Input, Button, Space, Avatar, Dropdown } from "antd";
 import Highlighter from "react-highlight-words";
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, EllipsisOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import styled from "styled-components";
+import DropdownMenu from "./DropdownMenu";
+import {
+  classes,
+  typeOfCertifcate,
+  division,
+  subjects,
+} from "../../utils/SchoolSubjects";
 
-const FooterStyle = styled.div`
+const TableStyle = styled.div`
   .ant-table-footer {
     background-color: rgba(34, 41, 56, 0.1);
     .total {
@@ -14,7 +21,7 @@ const FooterStyle = styled.div`
     }
   }
 `;
-const CustomTable = ({ allData, setTotal, total }) => {
+const TeacherTable = ({ allData, setTotal, total }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
 
@@ -27,6 +34,7 @@ const CustomTable = ({ allData, setTotal, total }) => {
     }) => (
       <div style={{ padding: 8 }}>
         <Input
+          dir="rtl"
           autoFocus
           placeholder={`بحث ${title} `}
           value={selectedKeys[0]}
@@ -105,21 +113,50 @@ const CustomTable = ({ allData, setTotal, total }) => {
   const handleTableChange = (pagination, filters, sorter, extra) => {
     setTotal(extra.currentDataSource.length);
   };
-  // const newColumns = [];
-  // columns.forEach((c) =>
-  //   newColumns.push({ ...c, ...getColumnSearchProps(c.dataIndex, c.title) })
-  // );
 
   const teachersColumns = [
     {
+      title: "",
+      width: 50,
+      render: (row) => <DropdownMenu data={row} allData={allData} />,
+    },
+    {
+      title: "الاختصاص",
+      dataIndex: "typeOfDegree",
+      filters: subjects,
+      onFilter: (value, record) => record.typeOfDegree.indexOf(value) === 0,
+    },
+    {
+      title: "التحصيل العلمي",
+      dataIndex: "TypeOfCertifcate",
+      filters: typeOfCertifcate,
+      onFilter: (value, record) => record.TypeOfCertifcate.indexOf(value) === 0,
+    },
+    {
+      title: "الجنس",
+      dataIndex: "sex",
+      filters: [
+        {
+          text: "ذكر",
+          value: "ذكر",
+        },
+        {
+          text: "انثى",
+          value: "انثى",
+        },
+      ],
+      onFilter: (value, record) => record.sex.indexOf(value) === 0,
+      sorter: (a, b) => a.sex.length - b.sex.length,
+    },
+    {
       title: "الشعبة",
       dataIndex: "division",
-
-      ...getColumnSearchProps("division", "الشعبة"),
+      filters: division,
+      onFilter: (value, record) => record.division.includes(value),
       render: (text) => (
         <>
-          {text?.map((t) => (
-            <p key={t}>{t}</p>
+          {text?.map((t, i) => (
+            <p key={i}>{t}</p>
           ))}
         </>
       ),
@@ -127,12 +164,12 @@ const CustomTable = ({ allData, setTotal, total }) => {
     {
       title: "الصف",
       dataIndex: "classNumber",
-
-      ...getColumnSearchProps("classNumber", "الصف"),
+      filters: classes,
+      onFilter: (value, record) => record.classNumber.includes(value),
       render: (text) => (
         <>
-          {text?.map((t) => (
-            <p key={t}>{t}</p>
+          {text?.map((t, i) => (
+            <p key={i}>{t}</p>
           ))}
         </>
       ),
@@ -140,12 +177,27 @@ const CustomTable = ({ allData, setTotal, total }) => {
     {
       title: "المادة",
       dataIndex: "subject",
-      ...getColumnSearchProps("subject", "المادة"),
+      filters: subjects,
+      onFilter: (value, record) => record.subject.includes(value),
       render: (text) => (
         <>
-          {text?.map((t) => (
-            <p key={t}>{t}</p>
+          {text?.map((t, i) => (
+            <p key={i}>{t}</p>
           ))}
+        </>
+      ),
+    },
+    {
+      title: "الصورة",
+      width: 75,
+      dataIndex: "image",
+      render: (text) => (
+        <>
+          {text.url ? (
+            <Avatar size="large" src={text.url} alt="image" />
+          ) : (
+            <Avatar>U</Avatar>
+          )}
         </>
       ),
     },
@@ -157,7 +209,7 @@ const CustomTable = ({ allData, setTotal, total }) => {
   ];
 
   return (
-    <FooterStyle>
+    <TableStyle>
       <Table
         columns={teachersColumns}
         dataSource={allData}
@@ -165,7 +217,7 @@ const CustomTable = ({ allData, setTotal, total }) => {
         bordered
         loading={!allData}
         onChange={handleTableChange}
-        scroll={{ x: 500, y: 520 }}
+        scroll={{ x: 1000, y: 520 }}
         showSorterTooltip={false}
         footer={() => (
           <p style={{ textAlign: "end" }}>
@@ -173,8 +225,8 @@ const CustomTable = ({ allData, setTotal, total }) => {
           </p>
         )}
       />
-    </FooterStyle>
+    </TableStyle>
   );
 };
 
-export default CustomTable;
+export default TeacherTable;

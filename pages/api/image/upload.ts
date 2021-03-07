@@ -19,7 +19,6 @@ const handler = nc({
 // handler.use(dbMissleware);
 // handler.use(auth);
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log("req.body.image", req.body.image);
   try {
     let result = await cloudinary.v2.uploader.upload(req.body.image, {
       public_id: nanoid(),

@@ -33,4 +33,6 @@ handler.post(async (req: RequestStudnet, res: NextApiResponse) => {
 
   res.send({ data: newEmployee });
 });
+
+ 
 export default handler;

@@ -3,6 +3,8 @@ import styled from "styled-components";
 export const UploadImageStyle = styled.div`
   text-align: center;
   .imageHoler {
+    height: 100px;
+     
     position: relative;
     img {
       width: 100%;
@@ -22,8 +24,8 @@ export const UploadImageStyle = styled.div`
     }
   }
   .imageContainer {
-    height: 100px;
     max-width: 150px;
+    height: 100px;
     background-color: var(--offWhite);
     margin-left: auto;
     border: 1px dashed var(--darkGray);

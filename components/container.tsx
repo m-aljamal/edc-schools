@@ -32,7 +32,7 @@ const GlobalStyles = createGlobalStyle`
   --offWhite: #ededed;
   --maxWidth: 1000px;
   --tr: all 0.3s linear;
-  --bs: 0 12px 24px 0 rgba(0,0,0,0.09);
+  --bs: 0px 1px 12px -2px rgba(0,0,0,0.75);
    box-sizing: border-box;
   font-size: 10px;
   }
@@ -63,16 +63,12 @@ const GlobalStyles = createGlobalStyle`
   }
   .ant-modal-header{
     background-color:var(--slide);
-
-     
   }
   .ant-modal-title,
   .ant-modal-close-x{
     color:white;
   }
-  input{
-    text-align:end;
-  }
+  
   .rc-virtual-list-holder-inner {
     text-align: end !important;
   }
@@ -85,10 +81,20 @@ const GlobalStyles = createGlobalStyle`
    .ant-layout-header {
     padding: 0 15px;
    }
-   
+   .ant-input{
+    text-align: right !important;
+   }
    .ant-empty{
     text-align-last: center ;
    }
+
+.ant-select-selection-overflow{
+
+  justify-content: flex-end;
+}
+.ant-popover-buttons {
+    text-align: center;
+  }
   `;
 
 const Container: React.FC = ({ children }) => {

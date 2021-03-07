@@ -1,6 +1,6 @@
 import { useState } from "react";
 import CustomModel from "./CustomModel";
-import CustomTable from "./customTable";
+import CustomTable from "./table/TeacherTable";
 import MultiStepForm from "./MultiStepForm";
 
 const StudentList: React.FC<{ students: any[] }> = ({ students }) => {

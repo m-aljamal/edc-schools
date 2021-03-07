@@ -1,14 +1,17 @@
-import CustomTable from "./customTable";
-import { useState } from "react";
+import CustomTable from "./table/TeacherTable";
+import React, { useState, useEffect } from "react";
 import PageTitleStyle from "./styles/PageTitle";
 import AddNewButton from "./AddNewButton";
-
-import CustomMultiStepForm from "./CustomMultiStepForm";
+import useSWR from "swr";
+import Add_Edit_teacher_form from "./forms/Add_Edit_teacher_form";
 const TeacherList = ({ teachersList }) => {
-  const [total, setTotal] = useState(teachersList.length);
+   const [total, setTotal] = useState(teachersList.length);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [destroyOnClose, setdestroyOnClose] = useState(false);
-  
+
+  useEffect(() => {
+    setTotal(teachersList.length);
+  }, [teachersList]);
   return (
     <div>
       <PageTitleStyle>
@@ -18,7 +21,9 @@ const TeacherList = ({ teachersList }) => {
           setIsModalVisible={setIsModalVisible}
           modelTitle="اضافة مدرس جديد"
           modelData={
-            <CustomMultiStepForm
+            <Add_Edit_teacher_form
+              oldData={undefined}
+              edit={false}
               setIsModalVisible={setIsModalVisible}
               setdestroyOnClose={setdestroyOnClose}
             />
@@ -26,12 +31,7 @@ const TeacherList = ({ teachersList }) => {
         />
         <h3 style={{ textAlign: "end" }}>:جميع المدرسين</h3>
       </PageTitleStyle>
-      <CustomTable
-       
-        allData={teachersList}
-        setTotal={setTotal}
-        total={total}
-      />
+      <CustomTable allData={teachersList} setTotal={setTotal} total={total} />
     </div>
   );
 };

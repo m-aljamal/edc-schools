@@ -1,170 +1,175 @@
 export const subjects = [
   {
-    title: "لغة عربية",
-    value: "Arabic",
+    text: "لغة عربية",
+    value: "لغة عربية",
   },
   {
-    title: "رياضيات",
-    value: "Math",
+    text: "رياضيات",
+    value: "رياضيات",
   },
   {
-    title: "علوم",
-    value: "Biology",
+    text: "علوم",
+    value: "علوم",
   },
   {
-    title: "لغة انكليزي ",
-    value: "English",
+    text: "لغة انكليزي",
+    value: "لغة انكليزي",
   },
   {
-    title: "فيزياء",
-    value: "Physics",
+    text: "فيزياء",
+    value: "فيزياء",
   },
   {
-    title: "كيمياء",
-    value: "Chemistry",
+    text: "كيمياء",
+    value: "كيمياء",
   },
   {
-    title: "رياضة",
-    value: "Sport",
+    text: "رياضة",
+    value: "رياضة",
   },
   {
-    title: "رسم",
-    value: "draw",
+    text: "رسم",
+    value: "رسم",
   },
   {
-    title: "جغرافيا",
-    value: "Geography",
+    text: "جغرافيا",
+    value: "جغرافيا",
   },
   {
-    title: "اجتماعيات",
-    value: "SocialStudies",
+    text: "اجتماعيات",
+    value: "اجتماعيات",
   },
   {
-    title: "هندسة",
-    value: "engineering",
+    text: "هندسة",
+    value: "هندسة",
   },
   {
-    title: "تاريخ",
-    value: "History",
+    text: "تاريخ",
+    value: "تاريخ",
   },
   {
-    title: "اسلامية",
-    value: "Islamic",
+    text: "اسلامية",
+    value: "اسلامية",
   },
 ];
 
 export const classes = [
   {
-    title: "الأول",
-    value: "1",
+    text: "الأول",
+    value: "الأول",
   },
   {
-    title: "الثاني",
-    value: "2",
+    text: "الثاني",
+    value: "الثاني",
   },
   {
-    title: "الثالث",
-    value: "3",
+    text: "الثالث",
+    value: "الثالث",
   },
   {
-    title: "الرابع",
-    value: "4",
+    text: "الرابع",
+    value: "الرابع",
   },
   {
-    title: "الخامس",
-    value: "5",
+    text: "الخامس",
+    value: "الخامس",
   },
   {
-    title: "السادس",
-    value: "6",
+    text: "السادس",
+    value: "السادس",
   },
   {
-    title: "السابع",
-    value: "7",
+    text: "السابع",
+    value: "السابع",
   },
   {
-    title: "الثامن",
-    value: "8",
+    text: "الثامن",
+    value: "الثامن",
   },
   {
-    title: "التاسع",
-    value: "9",
+    text: "التاسع",
+    value: "التاسع",
   },
   {
-    title: "العاشر",
-    value: "10",
+    text: "العاشر",
+    value: "العاشر",
   },
   {
-    title: "الحادي عشر",
-    value: "11",
+    text: "الحادي عشر",
+    value: "الحادي عشر",
   },
   {
-    title: "الثاني عشر",
-    value: "12",
+    text: "الثاني عشر",
+    value: "الثاني عشر",
   },
   {
-    title: "بكالوريا",
-    value: "13",
+    text: "بكالوريا",
+    value: "بكالوريا",
   },
 ];
 
 export const division = [
   {
-    title: "الشعبة الاولى",
-    value: "1",
+    text: "الاولى",
+    value: "الاولى",
   },
   {
-    title: "الشعبة الثانية",
-    value: "2",
+    text: "الثانية",
+    value: "الثانية",
   },
   {
-    title: "الشعبة الثالثة",
-    value: "3",
+    text: "الثالثة",
+    value: "الثالثة",
   },
   {
-    title: "الشعبة الرابعة",
-    value: "4",
+    text: "الرابعة",
+    value: "الرابعة",
   },
   {
-    title: "الشعبة الخامسة",
-    value: "5",
+    text: "الخامسة",
+    value: "الخامسة",
   },
   {
-    title: "الشعبة السادسة",
-    value: "6",
+    text: "السادسة",
+    value: "السادسة",
   },
   {
-    title: "الشعبة السابعة",
-    value: "7",
+    text: "السابعة",
+    value: "السابعة",
   },
   {
-    title: "الشعبة الثامنة",
-    value: "8",
+    text: "الثامنة",
+    value: "الثامنة",
   },
   {
-    title: "الشعبة التاسعة",
-    value: "9",
+    text: "التاسعة",
+    value: "التاسعة",
   },
   {
-    title: "الشعبة العاشرة",
-    value: "10",
+    text: "العاشرة",
+    value: "العاشرة",
   },
 ];
 
 export const typeOfCertifcate = [
   {
-    title: "ماجستير",
+    text: "ماجستير",
+    value: "ماجستير",
   },
   {
-    title: "بكلوريوس",
+    text: "بكلوريوس",
+    value: "بكلوريوس",
   },
   {
-    title: "غير متخرج",
+    text: "غير متخرج",
+    value: "غير متخرج",
   },
   {
-    title: "معهد",
+    text: "معهد",
+    value: "معهد",
   },
   {
-    title: "بكلوريا",
+    text: "بكلوريا",
+    value: "بكلوريا",
   },
 ];

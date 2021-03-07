@@ -3,18 +3,18 @@ import { FormItem, Input, Radio, DatePicker, Form, Select } from "formik-antd";
 import { object, string, date } from "yup";
 import React, { useState } from "react";
 import { Steps, Button, message } from "antd";
-import ImageUpload from "./ImageUpload";
+import ImageUpload from "../ImageUpload";
 import axios from "axios";
 import useSWR from "swr";
 import { mutate, trigger } from "swr";
 
-import FormStyle from "./styles/FormStyle";
+import FormStyle from "../styles/FormStyle";
 import {
   classes,
   subjects,
   division,
   typeOfCertifcate,
-} from "../utils/SchoolSubjects";
+} from "../../utils/SchoolSubjects";
 import styled from "styled-components";
 const { Step } = Steps;
 const { Option } = Select;
@@ -29,83 +29,118 @@ const AddressStyle = styled.div`
   margin-right: 90px;
 `;
 
-const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
+const AddNewTeacherForm = ({
+  setIsModalVisible,
+  setdestroyOnClose,
+  oldData,
+  edit,
+}) => {
   const { data } = useSWR("/api/employee");
   const [loading, setLoading] = useState(false);
-  const [image, setImage] = useState("");
-  const [graduateImage, setGraduateImage] = useState("");
+  const [image, setImage] = useState(oldData?.image || "");
+  const [graduateImage, setGraduateImage] = useState(
+    oldData?.graduateImage || ""
+  );
+  const [contractImage, setContractImage] = useState(
+    oldData?.contractImage || ""
+  );
   const initialValues = {
-    name: "",
-    fatherName: "",
-    motherName: "",
-    sex: "",
-    dateOfBirth: "",
-    plaseOfBirth: "",
-    city: "",
-    region: "",
-    street: "",
-    number1: "",
-    number2: "",
-    email: "",
-    subject: [],
-    classNumber: [],
-    division: [],
-    dateOfStart: "",
-    TypeOfCertifcate: "",
-    typeOfDegree: "",
-    DateOfGraduate: "",
+    name: oldData?.name || "",
+    fatherName: oldData?.fatherName || "",
+    motherName: oldData?.motherName || "",
+    sex: oldData?.sex || "",
+    dateOfBirth: oldData?.dateOfBirth || "",
+    plaseOfBirth: oldData?.plaseOfBirth || "",
+    city: oldData?.city || "",
+    region: oldData?.region || "",
+    street: oldData?.street || "",
+    number1: oldData?.number1 || "",
+    number2: oldData?.number2 || "",
+    email: oldData?.email || "",
+    subject: oldData?.subject || [],
+    classNumber: oldData?.classNumber || [],
+    division: oldData?.division || [],
+    dateOfStart: oldData?.dateOfStart || "",
+    TypeOfCertifcate: oldData?.TypeOfCertifcate || "",
+    typeOfDegree: oldData?.typeOfDegree || "",
+    DateOfGraduate: oldData?.DateOfGraduate || "",
+    type: "teacher",
   };
 
   const personalInfoValidation = object({
-    name: string().required("الرجاء ادخال الاسم"),
-    fatherName: string().required("الرجاء ادخال اسم الاب"),
-    motherName: string().required("الرجاء ادخال الام"),
-    sex: string().required("الرجاء ادخال الجنس"),
+    // name: string().required("الرجاء ادخال الاسم"),
+    // fatherName: string().required("الرجاء ادخال اسم الاب"),
+    // motherName: string().required("الرجاء ادخال الام"),
+    // sex: string().required("الرجاء ادخال الجنس"),
   });
   const studentInfoValidation = object({
-    plaseOfBirth: string().required("الرجاء ادخال  مكان الولادة"),
-    dateOfBirth: date().required("الرجاء ادخال تاريخ الولادة"),
-    city: string().required("الرجاء ادخال اسم المدينة"),
-    region: string().required("الرجاء ادخال اسم المنطقة"),
-    street: string().required("الرجاء ادخال اسم الشارع"),
-    number1: string().required("الرجاء ادخال رقم الهاتف"),
-    email: string().email().required("الرجاء ادخال الايميل"),
+    // plaseOfBirth: string().required("الرجاء ادخال  مكان الولادة"),
+    // dateOfBirth: date().required("الرجاء ادخال تاريخ الولادة"),
+    // city: string().required("الرجاء ادخال اسم المدينة"),
+    // region: string().required("الرجاء ادخال اسم المنطقة"),
+    // street: string().required("الرجاء ادخال اسم الشارع"),
+    // number1: string().required("الرجاء ادخال رقم الهاتف"),
+    // email: string().email().required("الرجاء ادخال الايميل"),
   });
 
   const subjectValidation = object({
-    dateOfStart: date().required("الرجاء ادخال تاريخ بدأ العمل"),
+    // dateOfStart: date().required("الرجاء ادخال تاريخ بدأ العمل"),
   });
 
+  const handleEdit = async (values, helpers) => {
+    try {
+      const res = await axios.put(`/api/employee/${oldData._id}`, {
+        ...values,
+        image,
+        graduateImage,
+        contractImage,
+      });
+      trigger("/api/employee");
+      if (res.status === 200) {
+        helpers.resetForm();
+        setdestroyOnClose(true);
+        message.success("تم تعديل المدرس بنجاح");
+        setIsModalVisible(false);
+      }
+    } catch (error) {
+      console.log(error);
+
+      message.error(error.response.data.error);
+    }
+  };
+
+  const handleNew = async (values, helpers) => {
+    try {
+      mutate(
+        "/api/employee",
+        [...data, { ...values, image, graduateImage, contractImage }],
+        false
+      );
+      const res = await axios.post("/api/employee", {
+        ...values,
+        image,
+        graduateImage,
+        contractImage,
+      });
+
+      trigger("/api/employee");
+      if (res.status === 200) {
+        helpers.resetForm();
+        setdestroyOnClose(true);
+        message.success("تم تسجيل المدرس بنجاح");
+        setIsModalVisible(false);
+      }
+    } catch (error) {
+      console.log(error);
+
+      message.error(error.response.data.error);
+    }
+  };
   return (
     <FormStyle>
       <FormStepper
         initialValues={initialValues}
-        onSubmit={async (values, helpers) => {
-          try {
-            mutate(
-              "/api/employee",
-              [...data, { ...values, image, graduateImage }],
-              false
-            );
-            const res = await axios.post("/api/employee", {
-              ...values,
-              image,
-              graduateImage,
-            });
-
-            trigger("/api/employee");
-            if (res.status === 200) {
-              helpers.resetForm();
-              setdestroyOnClose(true);
-              message.success("تم تسجيل المدرس بنجاح");
-              setIsModalVisible(false);
-            }
-          } catch (error) {
-            console.log(error);
-
-            message.error(error.response.data.error);
-          }
-        }}
+        onSubmit={edit ? handleEdit : handleNew}
       >
         <FormikStep
           label="معلومات شخصية"
@@ -113,20 +148,20 @@ const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
           loading={loading}
         >
           <FormItem {...layout} name="name" label="اسم ">
-            <Input name="name" autoFocus />
+            <Input name="name" autoFocus dir="rtl" />
           </FormItem>
           <FormItem {...layout} name="fatherName" label="اسم الاب">
-            <Input name="fatherName" />
+            <Input name="fatherName" dir="rtl" />
           </FormItem>
           <FormItem {...layout} name="motherName" label="اسم الام">
-            <Input name="motherName" />
+            <Input name="motherName" dir="rtl" />
           </FormItem>
           <FormItem {...layout} name="sex" label="الجنس">
             <Radio.Group name="sex">
-              <Radio name="sex" value="male">
+              <Radio name="sex" value="ذكر">
                 ذكر
               </Radio>
-              <Radio name="sex" value="femal">
+              <Radio name="sex" value="انثى">
                 انثى
               </Radio>
             </Radio.Group>
@@ -142,11 +177,10 @@ const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
             <DatePicker name="dateOfBirth" placeholder="اختر تاريخ" />
           </FormItem>
           <FormItem name="plaseOfBirth" label="مكان الولادة">
-            <Input name="plaseOfBirth" />
+            <Input name="plaseOfBirth" dir="rtl" />
           </FormItem>
           <p
             style={{
-              textAlign: "end",
               marginBottom: "5px",
               marginRight: "5px",
             }}
@@ -155,24 +189,24 @@ const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
           </p>
           <AddressStyle>
             <FormItem name="street">
-              <Input addonAfter="الشارع" name="street" />
+              <Input addonAfter="الشارع" name="street" dir="rtl" />
             </FormItem>
             <FormItem name="region">
-              <Input addonAfter="المنطقة" name="region" />
+              <Input addonAfter="المنطقة" name="region" dir="rtl" />
             </FormItem>
             <FormItem name="city">
-              <Input addonAfter="المدينة" name="city" />
+              <Input addonAfter="المدينة" name="city" dir="rtl" />
             </FormItem>
           </AddressStyle>
           <AddressStyle>
             <FormItem name="email">
-              <Input addonAfter="الايميل" name="email" />
+              <Input addonAfter="الايميل" name="email" dir="rtl" />
             </FormItem>
             <FormItem name="number2">
-              <Input addonAfter="2   الهاتف" name="number2" />
+              <Input addonAfter="2   الهاتف" name="number2" dir="rtl" />
             </FormItem>
             <FormItem name="number1">
-              <Input addonAfter="1   الهاتف" name="number1" />
+              <Input addonAfter="1   الهاتف" name="number1" dir="rtl" />
             </FormItem>
           </AddressStyle>
         </FormikStep>
@@ -190,8 +224,8 @@ const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
               name="subject"
             >
               {subjects?.map((s, i) => (
-                <Option key={i} value={s.title}>
-                  {s.title}
+                <Option key={i} value={s.text}>
+                  {s.text}
                 </Option>
               ))}
             </Select>
@@ -205,8 +239,8 @@ const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
               name="classNumber"
             >
               {classes?.map((c) => (
-                <Option value={c.title} key={c.title}>
-                  {c.title}
+                <Option value={c.text} key={c.text}>
+                  {c.text}
                 </Option>
               ))}
             </Select>
@@ -219,8 +253,8 @@ const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
               name="division"
             >
               {division?.map((d) => (
-                <Option value={d.title} key={d.title}>
-                  {d.title}
+                <Option value={d.text} key={d.text}>
+                  {d.text}
                 </Option>
               ))}
             </Select>
@@ -232,8 +266,8 @@ const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
               name="typeOfDegree"
             >
               {subjects?.map((s, i) => (
-                <Option key={i} value={s.title}>
-                  {s.title}
+                <Option key={i} value={s.text}>
+                  {s.text}
                 </Option>
               ))}
             </Select>
@@ -245,8 +279,8 @@ const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
               name="TypeOfCertifcate"
             >
               {typeOfCertifcate?.map((s, i) => (
-                <Option key={i} value={s.title}>
-                  {s.title}
+                <Option key={i} value={s.text}>
+                  {s.text}
                 </Option>
               ))}
             </Select>
@@ -266,7 +300,7 @@ const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
               setLoading={setLoading}
               setImage={setImage}
               imageState={image}
-              title="تحميل صورة المدرس"
+              title="الصورة الشخصية"
             />
           </FormItem>
           <FormItem name="image">
@@ -275,7 +309,16 @@ const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
               setLoading={setLoading}
               imageState={graduateImage}
               setImage={setGraduateImage}
-              title=" تحميل صورة الشهادة الدراسية"
+              title="صورة الشهادة الدراسية"
+            />
+          </FormItem>
+          <FormItem name="image">
+            <ImageUpload
+              loading={loading}
+              setLoading={setLoading}
+              imageState={contractImage}
+              setImage={setContractImage}
+              title="صورة عقد العمل"
             />
           </FormItem>
         </FormikStep>
@@ -284,7 +327,7 @@ const CustomMultiStepForm = ({ setIsModalVisible, setdestroyOnClose }) => {
   );
 };
 
-export default CustomMultiStepForm;
+export default AddNewTeacherForm;
 
 interface FormikStepProps
   extends Pick<FormikConfig<FormikValues>, "children" | "validationSchema"> {
