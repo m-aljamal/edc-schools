@@ -116,43 +116,31 @@ const TeacherTable = ({ allData, setTotal, total }) => {
 
   const teachersColumns = [
     {
-      title: "",
-      width: 50,
-      render: (row) => <DropdownMenu data={row} allData={allData} />,
+      title: "الاسم",
+      dataIndex: "name",
+      ...getColumnSearchProps("name", "الاسم"),
     },
+
     {
-      title: "الاختصاص",
-      dataIndex: "typeOfDegree",
+      title: "الصورة",
+      width: 75,
+      dataIndex: "image",
+      render: (text) => (
+        <>
+          {text.url ? (
+            <Avatar size="large" src={text.url} alt="image" />
+          ) : (
+            <Avatar>U</Avatar>
+          )}
+        </>
+      ),
+    },
+
+    {
+      title: "المادة",
+      dataIndex: "subject",
       filters: subjects,
-      onFilter: (value, record) => record.typeOfDegree.indexOf(value) === 0,
-    },
-    {
-      title: "التحصيل العلمي",
-      dataIndex: "TypeOfCertifcate",
-      filters: typeOfCertifcate,
-      onFilter: (value, record) => record.TypeOfCertifcate.indexOf(value) === 0,
-    },
-    {
-      title: "الجنس",
-      dataIndex: "sex",
-      filters: [
-        {
-          text: "ذكر",
-          value: "ذكر",
-        },
-        {
-          text: "انثى",
-          value: "انثى",
-        },
-      ],
-      onFilter: (value, record) => record.sex.indexOf(value) === 0,
-      sorter: (a, b) => a.sex.length - b.sex.length,
-    },
-    {
-      title: "الشعبة",
-      dataIndex: "division",
-      filters: division,
-      onFilter: (value, record) => record.division.includes(value),
+      onFilter: (value, record) => record.subject.includes(value),
       render: (text) => (
         <>
           {text?.map((t, i) => (
@@ -174,11 +162,12 @@ const TeacherTable = ({ allData, setTotal, total }) => {
         </>
       ),
     },
+
     {
-      title: "المادة",
-      dataIndex: "subject",
-      filters: subjects,
-      onFilter: (value, record) => record.subject.includes(value),
+      title: "الشعبة",
+      dataIndex: "division",
+      filters: division,
+      onFilter: (value, record) => record.division.includes(value),
       render: (text) => (
         <>
           {text?.map((t, i) => (
@@ -187,24 +176,42 @@ const TeacherTable = ({ allData, setTotal, total }) => {
         </>
       ),
     },
+
     {
-      title: "الصورة",
-      width: 75,
-      dataIndex: "image",
-      render: (text) => (
-        <>
-          {text.url ? (
-            <Avatar size="large" src={text.url} alt="image" />
-          ) : (
-            <Avatar>U</Avatar>
-          )}
-        </>
-      ),
+      title: "الجنس",
+      dataIndex: "sex",
+      filters: [
+        {
+          text: "ذكر",
+          value: "ذكر",
+        },
+        {
+          text: "انثى",
+          value: "انثى",
+        },
+      ],
+      onFilter: (value, record) => record.sex.indexOf(value) === 0,
+      sorter: (a, b) => a.sex.length - b.sex.length,
     },
+
     {
-      title: "الاسم",
-      dataIndex: "name",
-      ...getColumnSearchProps("name", "الاسم"),
+      title: "التحصيل العلمي",
+      dataIndex: "TypeOfCertifcate",
+      filters: typeOfCertifcate,
+      onFilter: (value, record) => record.TypeOfCertifcate.indexOf(value) === 0,
+    },
+
+    {
+      title: "الاختصاص",
+      dataIndex: "typeOfDegree",
+      filters: subjects,
+      onFilter: (value, record) => record.typeOfDegree.indexOf(value) === 0,
+    },
+
+    {
+      title: "",
+      width: 50,
+      render: (row) => <DropdownMenu data={row} allData={allData} />,
     },
   ];
 
@@ -219,8 +226,9 @@ const TeacherTable = ({ allData, setTotal, total }) => {
         onChange={handleTableChange}
         scroll={{ x: 1000, y: 520 }}
         showSorterTooltip={false}
+        pagination={{ position: ['bottomRight'] }}
         footer={() => (
-          <p style={{ textAlign: "end" }}>
+          <p style={{ textAlign: "start" }}>
             اجمالي عدد المدرسين: <span className="total">{total}</span>
           </p>
         )}

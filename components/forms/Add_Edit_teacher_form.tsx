@@ -25,8 +25,7 @@ const layout = {
 
 const AddressStyle = styled.div`
   display: flex;
-  justify-content: flex-end;
-  margin-right: 90px;
+  direction: ltr;
 `;
 
 const AddNewTeacherForm = ({
@@ -36,7 +35,10 @@ const AddNewTeacherForm = ({
   edit,
 }) => {
   const { data } = useSWR("/api/employee");
-  const [loading, setLoading] = useState(false);
+  const [isImageLoading, setIsImageLoading] = useState(false);
+  const askIfLoading = (state) => {
+    setIsImageLoading(state);
+  };
   const [image, setImage] = useState(oldData?.image || "");
   const [graduateImage, setGraduateImage] = useState(
     oldData?.graduateImage || ""
@@ -136,6 +138,8 @@ const AddNewTeacherForm = ({
       message.error(error.response.data.error);
     }
   };
+  console.log(isImageLoading);
+  
   return (
     <FormStyle>
       <FormStepper
@@ -145,16 +149,16 @@ const AddNewTeacherForm = ({
         <FormikStep
           label="معلومات شخصية"
           validationSchema={personalInfoValidation}
-          loading={loading}
+          loading={isImageLoading}
         >
           <FormItem {...layout} name="name" label="اسم ">
-            <Input name="name" autoFocus dir="rtl" />
+            <Input name="name" autoFocus />
           </FormItem>
           <FormItem {...layout} name="fatherName" label="اسم الاب">
-            <Input name="fatherName" dir="rtl" />
+            <Input name="fatherName" />
           </FormItem>
           <FormItem {...layout} name="motherName" label="اسم الام">
-            <Input name="motherName" dir="rtl" />
+            <Input name="motherName" />
           </FormItem>
           <FormItem {...layout} name="sex" label="الجنس">
             <Radio.Group name="sex">
@@ -169,7 +173,7 @@ const AddNewTeacherForm = ({
         </FormikStep>
 
         <FormikStep
-          loading={loading}
+          loading={isImageLoading}
           label="معلومات المدرس"
           validationSchema={studentInfoValidation}
         >
@@ -177,36 +181,36 @@ const AddNewTeacherForm = ({
             <DatePicker name="dateOfBirth" placeholder="اختر تاريخ" />
           </FormItem>
           <FormItem name="plaseOfBirth" label="مكان الولادة">
-            <Input name="plaseOfBirth" dir="rtl" />
+            <Input name="plaseOfBirth" />
           </FormItem>
           <p
             style={{
               marginBottom: "5px",
-              marginRight: "5px",
+              textAlign: "start",
             }}
           >
-            :عنوان الاقامة
+            عنوان الاقامة :
           </p>
           <AddressStyle>
             <FormItem name="street">
-              <Input addonAfter="الشارع" name="street" dir="rtl" />
+              <Input addonAfter="الشارع" name="street" />
             </FormItem>
             <FormItem name="region">
-              <Input addonAfter="المنطقة" name="region" dir="rtl" />
+              <Input addonAfter="المنطقة" name="region" />
             </FormItem>
             <FormItem name="city">
-              <Input addonAfter="المدينة" name="city" dir="rtl" />
+              <Input addonAfter="المدينة" name="city" />
             </FormItem>
           </AddressStyle>
           <AddressStyle>
             <FormItem name="email">
-              <Input addonAfter="الايميل" name="email" dir="rtl" />
+              <Input addonAfter="الايميل" name="email" />
             </FormItem>
             <FormItem name="number2">
-              <Input addonAfter="2   الهاتف" name="number2" dir="rtl" />
+              <Input addonAfter="2   الهاتف" name="number2" />
             </FormItem>
             <FormItem name="number1">
-              <Input addonAfter="1   الهاتف" name="number1" dir="rtl" />
+              <Input addonAfter="1   الهاتف" name="number1" />
             </FormItem>
           </AddressStyle>
         </FormikStep>
@@ -214,7 +218,7 @@ const AddNewTeacherForm = ({
         <FormikStep
           label="الاختصاص"
           validationSchema={subjectValidation}
-          loading={loading}
+          loading={isImageLoading}
         >
           <FormItem {...layout} name="subject" label="مدرس لمادة">
             <Select
@@ -293,11 +297,10 @@ const AddNewTeacherForm = ({
           </FormItem>
         </FormikStep>
 
-        <FormikStep label="الملحقات" loading={loading}>
+        <FormikStep label="الملحقات" loading={isImageLoading}>
           <FormItem name="image">
             <ImageUpload
-              loading={loading}
-              setLoading={setLoading}
+              askIfLoading={askIfLoading}
               setImage={setImage}
               imageState={image}
               title="الصورة الشخصية"
@@ -305,8 +308,7 @@ const AddNewTeacherForm = ({
           </FormItem>
           <FormItem name="image">
             <ImageUpload
-              loading={loading}
-              setLoading={setLoading}
+              askIfLoading={askIfLoading}
               imageState={graduateImage}
               setImage={setGraduateImage}
               title="صورة الشهادة الدراسية"
@@ -314,8 +316,7 @@ const AddNewTeacherForm = ({
           </FormItem>
           <FormItem name="image">
             <ImageUpload
-              loading={loading}
-              setLoading={setLoading}
+              askIfLoading={askIfLoading}
               imageState={contractImage}
               setImage={setContractImage}
               title="صورة عقد العمل"
@@ -374,10 +375,8 @@ const FormStepper = ({ children, ...props }: FormikConfig<FormikValues>) => {
           {currentChild}
           <div
             style={{
-              marginTop: "50px",
               display: "flex",
               justifyContent: "space-between",
-              flexDirection: "row-reverse",
             }}
           >
             <div>

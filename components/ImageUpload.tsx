@@ -1,10 +1,15 @@
 import axios from "axios";
 import Resizer from "react-image-file-resizer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Spin, message } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { UploadImageStyle } from "./styles/UploadImageStyle";
-const ImageUpload = ({ setImage, title, imageState, loading, setLoading }) => {
+const ImageUpload = ({ setImage, title, imageState, askIfLoading }) => {
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    askIfLoading(loading);
+  }, [loading]);
+
   const handleChange = async (e) => {
     setLoading(true);
     let file = e.target.files[0];

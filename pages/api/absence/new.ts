@@ -16,6 +16,6 @@ handler.post(async (req: RequestStudnet, res: NextApiResponse) => {
     schoolId: req.userSchool._id,
   });
 
-  res.send({ data: newAbsence });
+  res.json(newAbsence);
 });
 export default handler;

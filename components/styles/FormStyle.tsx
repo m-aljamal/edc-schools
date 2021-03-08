@@ -1,39 +1,8 @@
 import styled from "styled-components";
 
 const FormStyle = styled.div`
-  .ant-row {
-    flex-direction: row-reverse;
-  }
   .ant-form-item-control-input-content {
     text-align: right;
-  }
-  .ant-form-item-label > label::before {
-    content: ":";
-    position: relative;
-    top: -0.5px;
-    margin: 0 2px 0 8px;
-  }
-  .ant-form-item-label > label::after {
-    content: "";
-  }
-  .ant-steps {
-    flex-direction: row-reverse;
-  }
-
-  .ant-steps-item {
-    padding-right: 12px;
-  }
-
-  .ant-steps-small .ant-steps-item-title {
-    padding-left: 12px;
-  }
-
-  .ant-steps-small .ant-steps-item-icon {
-    margin: 0 0px 8px 0;
-  }
-
-  .ant-steps-item-container {
-    text-align: end;
   }
 
   .ant-steps-item-title::before {

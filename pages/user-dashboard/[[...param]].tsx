@@ -3,7 +3,6 @@ import Link from "next/link";
 import { Menu } from "antd";
 import useSWR from "swr";
 import {
-  RightOutlined,
   TeamOutlined,
   FundOutlined,
   BarcodeOutlined,
@@ -11,11 +10,13 @@ import {
   CalculatorOutlined,
   FileDoneOutlined,
   SmileOutlined,
+  LeftOutlined,
 } from "@ant-design/icons";
 import { connectToDB, user, school, employee } from "../../db";
 import DashbordLayout from "../../components/DashbordLayout";
 import { useRouter } from "next/router";
 import Profile from "../../components/Profile";
+import TimeSheet from "../../components/employees/TimeSheet";
 
 const TeacherList = dynamic(() => import("../../components/TeacherList"));
 const { SubMenu } = Menu;
@@ -30,6 +31,7 @@ const UserDashboard = ({ currentUser, userSchool, teachersList }) => {
     const { profileid } = router.query;
     const profileData = data?.find((p) => p._id === profileid);
     if (router.query.page === "teacher") return <Profile data={profileData} />;
+    if (router.query.page === "emptimesheet") return <TimeSheet data={data} />;
   };
 
   return (
@@ -43,35 +45,37 @@ const UserDashboard = ({ currentUser, userSchool, teachersList }) => {
             <Link href="/user-dashboard">الرئيسية</Link>
           </Menu.Item>
           <SubMenu key="sub1" icon={<TeamOutlined />} title="الموظفين">
-            <Menu.Item key="2" icon={<RightOutlined />}>
+            <Menu.Item key="2" icon={<LeftOutlined />}>
               <Link href="/user-dashboard?page=teachers&key=2&sub=1">
                 المدرسين
               </Link>
             </Menu.Item>
-            <Menu.Item key="3" icon={<RightOutlined />}>
+            <Menu.Item key="3" icon={<LeftOutlined />}>
               <Link href="/user-dashboard?page=mangers&key=3&sub=1">
                 الاداريين
               </Link>
             </Menu.Item>
-            <Menu.Item key="4" icon={<RightOutlined />}>
+            <Menu.Item key="4" icon={<LeftOutlined />}>
               <Link href="/user-dashboard?page=service">الخدميين</Link>
             </Menu.Item>
-            <Menu.Item key="5" icon={<RightOutlined />}>
-              <Link href="/user-dashboard?page=emptimesheet">سجل الدوام</Link>
+            <Menu.Item key="5" icon={<LeftOutlined />}>
+              <Link href="/user-dashboard?page=emptimesheet&key=5&sub=1">
+                سجل الدوام
+              </Link>
             </Menu.Item>
-            <Menu.Item key="6" icon={<RightOutlined />}>
+            <Menu.Item key="6" icon={<LeftOutlined />}>
               <Link href="/user-dashboard?page=newemployee">
                 اضافة موظف جديد
               </Link>
             </Menu.Item>
           </SubMenu>
           <SubMenu key="sub2" icon={<SmileOutlined />} title="الطلاب">
-            <Menu.Item key="7" icon={<RightOutlined />}>
+            <Menu.Item key="7" icon={<LeftOutlined />}>
               <Link href="/user-dashboard?page=students&key=7&sub=2">
                 جميع الطلاب
               </Link>
             </Menu.Item>
-            <Menu.Item key="8" icon={<RightOutlined />}>
+            <Menu.Item key="8" icon={<LeftOutlined />}>
               <Link href="/user-dashboard?page=stutimesheet&key=8&sub=2">
                 سجل الدوام
               </Link>

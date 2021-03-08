@@ -4,8 +4,9 @@ import PageTitleStyle from "./styles/PageTitle";
 import AddNewButton from "./AddNewButton";
 import useSWR from "swr";
 import Add_Edit_teacher_form from "./forms/Add_Edit_teacher_form";
+import { TitleStyle } from "./styles/TitleStyle";
 const TeacherList = ({ teachersList }) => {
-   const [total, setTotal] = useState(teachersList.length);
+  const [total, setTotal] = useState(teachersList.length);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [destroyOnClose, setdestroyOnClose] = useState(false);
 
@@ -29,7 +30,7 @@ const TeacherList = ({ teachersList }) => {
             />
           }
         />
-        <h3 style={{ textAlign: "end" }}>:جميع المدرسين</h3>
+        <TitleStyle>جميع المدرسين:</TitleStyle>
       </PageTitleStyle>
       <CustomTable allData={teachersList} setTotal={setTotal} total={total} />
     </div>

@@ -28,6 +28,7 @@ const GlobalStyles = createGlobalStyle`
   --red: #ff0000;
   --black: #393939;
   --gray: #3A3A3A;
+  --background: #f0f2f5;
   --lightGrey: #e1e1e1;
   --offWhite: #ededed;
   --maxWidth: 1000px;
@@ -46,6 +47,7 @@ const GlobalStyles = createGlobalStyle`
       font-size: 1.5rem;
       line-height:2;
       text-align:end;
+      direction:rtl;
   }
   a{
       text-decoration: none;
@@ -69,9 +71,9 @@ const GlobalStyles = createGlobalStyle`
     color:white;
   }
   
-  .rc-virtual-list-holder-inner {
+  /* .rc-virtual-list-holder-inner {
     text-align: end !important;
-  }
+  } */
    .ant-modal-header{
      text-align:center;
    }
@@ -81,19 +83,22 @@ const GlobalStyles = createGlobalStyle`
    .ant-layout-header {
     padding: 0 15px;
    }
-   .ant-input{
+   /* .ant-input{
     text-align: right !important;
-   }
+   } */
    .ant-empty{
     text-align-last: center ;
    }
 
-.ant-select-selection-overflow{
+/* .ant-select-selection-overflow{
 
   justify-content: flex-end;
-}
+} */
 .ant-popover-buttons {
     text-align: center;
+  }
+  .ant-pagination{
+    direction: initial;
   }
   `;
 

@@ -5,10 +5,6 @@ const PageTitleStyle = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
-  h3 {
-    text-align: end;
-    font-weight: bold;
-    color: var(--blue);
-  }
+  flex-direction: row-reverse;
 `;
 export default PageTitleStyle;

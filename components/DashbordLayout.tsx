@@ -12,7 +12,7 @@ const DashStyle = styled.div`
       width: 100%;
       height: 100%;
     }
-    height: auto;
+    height: 135px;
     margin: 16px;
   }
   .site-layout .site-layout-background {
@@ -43,6 +43,9 @@ const DashStyle = styled.div`
   }
   .user {
     margin-right: 5px;
+  }
+  .ant-menu {
+    direction: ltr;
   }
 `;
 const DashbordLayout = ({ pageContent, menuData, currentUser, userSchool }) => {
