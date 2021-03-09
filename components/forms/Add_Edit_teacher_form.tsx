@@ -66,6 +66,7 @@ const AddNewTeacherForm = ({
     TypeOfCertifcate: oldData?.TypeOfCertifcate || "",
     typeOfDegree: oldData?.typeOfDegree || "",
     DateOfGraduate: oldData?.DateOfGraduate || "",
+    absences: [],
     type: "teacher",
   };
 
@@ -139,7 +140,7 @@ const AddNewTeacherForm = ({
     }
   };
   console.log(isImageLoading);
-  
+
   return (
     <FormStyle>
       <FormStepper

@@ -12,7 +12,7 @@ import {
   SmileOutlined,
   LeftOutlined,
 } from "@ant-design/icons";
-import { connectToDB, user, school, employee } from "../../db";
+import { connectToDB, user, school, employee, absence } from "../../db";
 import DashbordLayout from "../../components/DashbordLayout";
 import { useRouter } from "next/router";
 import Profile from "../../components/Profile";
@@ -21,7 +21,13 @@ import TimeSheet from "../../components/employees/TimeSheet";
 const TeacherList = dynamic(() => import("../../components/TeacherList"));
 const { SubMenu } = Menu;
 
-const UserDashboard = ({ currentUser, userSchool, teachersList }) => {
+const UserDashboard = ({
+  currentUser,
+  userSchool,
+  teachersList,
+  absenceListByMonth,
+  absenceListByDay,
+}) => {
   const { data } = useSWR("/api/employee", { initialData: teachersList });
 
   const router = useRouter();
@@ -31,8 +37,16 @@ const UserDashboard = ({ currentUser, userSchool, teachersList }) => {
     const { profileid } = router.query;
     const profileData = data?.find((p) => p._id === profileid);
     if (router.query.page === "teacher") return <Profile data={profileData} />;
-    if (router.query.page === "emptimesheet") return <TimeSheet data={data} />;
+    if (router.query.page === "emptimesheet")
+      return (
+        <TimeSheet
+          data={data}
+          absenceListByDay={absenceListByDay}
+          absenceListByMonth={absenceListByMonth}
+        />
+      );
   };
+  console.log('absenceListByMonth',absenceListByMonth);
 
   return (
     <DashbordLayout
@@ -137,7 +151,20 @@ export async function getServerSideProps(ctx) {
         db,
         props.userSchool._id
       );
+    case "emptimesheet":
+      props.absenceListByMonth = await absence.absenceMonthPreview(
+        db,
+        props.userSchool._id
+      );
   }
+  if (ctx.query.date) {
+    props.absenceListByDay = await absence.getAbsenceBySchoolAndDate(
+      db,
+      props.userSchool._id,
+      ctx.query.date
+    );
+  }
+
   //   // if (ctx.query.page === "teachers") {
   //   //   props.studentList = await employee.getEmployeesBySchool(
   //   //     db,

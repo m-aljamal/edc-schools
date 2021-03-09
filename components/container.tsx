@@ -46,7 +46,7 @@ const GlobalStyles = createGlobalStyle`
       margin: 0;
       font-size: 1.5rem;
       line-height:2;
-      text-align:end;
+       
       direction:rtl;
   }
   a{

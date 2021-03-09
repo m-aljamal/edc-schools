@@ -10,7 +10,7 @@ const handler = nc({
 });
 handler.use(dbMissleware);
 handler.use(auth);
-handler.post(async (req: RequestStudnet, res: NextApiResponse) => {
+handler.put(async (req: RequestStudnet, res: NextApiResponse) => {
   const newAbsence = await absence.addAbsences(req.db, {
     ...req.body,
     schoolId: req.userSchool._id,
