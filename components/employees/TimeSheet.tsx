@@ -27,15 +27,17 @@ const TimeSheetStyle = styled.div`
 `;
 const TimeSheet = ({ data, absenceListByMonth, absenceListByDay }) => {
   if (!data) return <SkeletonLoading />;
-  console.log(absenceListByMonth);
 
   const [absenceIds, setAbsenceIds] = useState([]);
   const [date, setDate] = useState("");
   const [reason, setReason] = useState("");
+  const [displaySheetMonth, setdisplayMonthSheet] = useState(
+    new Date().getMonth() + 1
+  );
   const router = useRouter();
   const handleTimeSheet = async () => {
     try {
-      const res = await axios.put("/api/absence/new", {
+      const res = await axios.post("/api/absence/new", {
         absenceIds,
         date,
         reason,
@@ -56,6 +58,15 @@ const TimeSheet = ({ data, absenceListByMonth, absenceListByDay }) => {
     router.push(
       `user-dashboard?page=emptimesheet&key=5&sub=1&date=${dateString}`
     );
+  };
+  const handleLastMonth = () => {
+    const current = new Date();
+    const prev =
+      new Date(current.setMonth(current.getMonth() - 1)).getMonth() + 1;
+    setdisplayMonthSheet(prev);
+    console.log(prev);
+
+    router.push(`?page=emptimesheet&key=5&sub=1&month=${prev}`);
   };
 
   return (
@@ -98,7 +109,12 @@ const TimeSheet = ({ data, absenceListByMonth, absenceListByDay }) => {
             </>
           )}
         </div>
-        <MonthTable names={data} absenceListByMonth={absenceListByMonth} />
+        <button onClick={handleLastMonth}>للخلف</button>
+        <MonthTable
+          names={data}
+          absenceListByMonth={absenceListByMonth}
+          displaySheetMonth={displaySheetMonth}
+        />
       </div>
     </TimeSheetStyle>
   );

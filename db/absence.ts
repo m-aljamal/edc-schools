@@ -43,34 +43,34 @@ export const getAbsenceBySchoolAndDate = async (
     .collection("absences")
     .findOne({ $and: [{ schoolId }, { date: { $eq: date } }] });
 
-  // if (!findAbsences) return null;
-
-  // const users = await db
-  //   .collection("employee")
-  //   .find({ _id: { $in: findAbsences.absenceIds } })
-  //   .project({ name: 1 })
-  //   .toArray();
-
   return findAbsences;
 };
 
-export const absenceMonthPreview = async (db: Db, schoolId: string) => {
+export const absenceMonthPreview = async (
+  db: Db,
+  schoolId: string,
+  month: number
+) => {
   const date = new Date(),
     y = date.getFullYear(),
     m = date.getMonth();
-  const firstDay = new Date(y, m, 1);
-  const lastDay = new Date(y, m + 1, 0);
+
+  const firstDay = month ? new Date(y, m - 1, 0) : new Date(y, m, 1);
+  const lastDay = month ? new Date(y, m, 1) : new Date(y, m + 1, 0);
+  // console.log({ firstDay, lastDay });
 
   const currentMonthTimeSheet = await db
     .collection("absences")
     .find({
+      schoolId: schoolId,
       $and: [
         { date: { $gte: firstDay.toISOString() } },
-        { date: { $lt: lastDay.toISOString() } },
+        { date: { $lte: lastDay.toISOString() } },
       ],
     })
     .toArray();
-  console.log("currentMonthTimeSheet", currentMonthTimeSheet);
+console.log(currentMonthTimeSheet);
+console.log(currentMonthTimeSheet.length);
 
   return currentMonthTimeSheet;
 };

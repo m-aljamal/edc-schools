@@ -18,15 +18,15 @@ const TableStyle = styled.div`
     }
   }
 `;
-const MonthTable = ({ names, absenceListByMonth }) => {
+const MonthTable = ({ names, absenceListByMonth, displaySheetMonth }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
 
   const date = new Date();
   const y = date.getFullYear();
-  const m = date.getMonth() + 1;
+  const m = displaySheetMonth || date.getMonth() + 1;
   const totalDays = new Date(y, m, 0).getDate();
-
+ 
   const getColumnSearchProps = (dataIndex: string, title: string) => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -121,11 +121,15 @@ const MonthTable = ({ names, absenceListByMonth }) => {
       width: 100,
     },
   ];
-  for (let i = 1; i < totalDays; i++) {
+  for (let i = 1; i <= totalDays; i++) {
     teachersColumns.push({
       title: i,
       width: 25,
       render: (value, row, index) => {
+        const weekend = new Date(date.getFullYear(), date.getMonth(), i);
+        if (weekend.getDay() == 4 || weekend.getDay() == 5) {
+          return <p>-</p>;
+        }
         let abcence;
         for (abcence in absenceListByMonth) {
           let employee;

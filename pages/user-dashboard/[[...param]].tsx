@@ -46,7 +46,6 @@ const UserDashboard = ({
         />
       );
   };
-
   return (
     <DashbordLayout
       currentUser={currentUser}
@@ -151,9 +150,12 @@ export async function getServerSideProps(ctx) {
         props.userSchool._id
       );
     case "emptimesheet":
+      const month =  +ctx.query.month;
+
       props.absenceListByMonth = await absence.absenceMonthPreview(
         db,
-        props.userSchool._id
+        props.userSchool._id,
+        month
       );
   }
   if (ctx.query.date) {
