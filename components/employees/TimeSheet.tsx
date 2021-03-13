@@ -6,6 +6,8 @@ import { DatePicker, Input } from "antd";
 import SkeletonLoading from "../SkeletonLoading";
 import axios from "axios";
 import { useRouter } from "next/router";
+import React from "react";
+import MonthTable from "./MonthTable";
 const { TextArea } = Input;
 const TimeSheetStyle = styled.div`
   position: relative;
@@ -25,6 +27,7 @@ const TimeSheetStyle = styled.div`
 `;
 const TimeSheet = ({ data, absenceListByMonth, absenceListByDay }) => {
   if (!data) return <SkeletonLoading />;
+  console.log(absenceListByMonth);
 
   const [absenceIds, setAbsenceIds] = useState([]);
   const [date, setDate] = useState("");
@@ -95,6 +98,7 @@ const TimeSheet = ({ data, absenceListByMonth, absenceListByDay }) => {
             </>
           )}
         </div>
+        <MonthTable names={data} absenceListByMonth={absenceListByMonth} />
       </div>
     </TimeSheetStyle>
   );

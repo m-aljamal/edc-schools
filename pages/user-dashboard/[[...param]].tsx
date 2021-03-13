@@ -46,7 +46,6 @@ const UserDashboard = ({
         />
       );
   };
-  console.log('absenceListByMonth',absenceListByMonth);
 
   return (
     <DashbordLayout

@@ -1,15 +1,12 @@
-import { Table, Input, Button, Space, Avatar, Dropdown } from "antd";
+import { Table, Input, Button, Space, Avatar } from "antd";
 import Highlighter from "react-highlight-words";
-import { SearchOutlined } from "@ant-design/icons";
+import {
+  SearchOutlined,
+  CheckOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
 import { useState } from "react";
 import styled from "styled-components";
-import DropdownMenu from "./DropdownMenu";
-import {
-  classes,
-  typeOfCertifcate,
-  division,
-  subjects,
-} from "../../utils/SchoolSubjects";
 
 const TableStyle = styled.div`
   .ant-table-footer {
@@ -21,9 +18,14 @@ const TableStyle = styled.div`
     }
   }
 `;
-const TeacherTable = ({ allData, setTotal, total }) => {
+const MonthTable = ({ names, absenceListByMonth }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
+
+  const date = new Date();
+  const y = date.getFullYear();
+  const m = date.getMonth() + 1;
+  const totalDays = new Date(y, m, 0).getDate();
 
   const getColumnSearchProps = (dataIndex: string, title: string) => ({
     filterDropdown: ({
@@ -110,130 +112,51 @@ const TeacherTable = ({ allData, setTotal, total }) => {
     clearFilters();
     setSearchText("");
   };
-  const handleTableChange = (pagination, filters, sorter, extra) => {
-    setTotal(extra.currentDataSource.length);
-  };
 
-  const teachersColumns = [
+  const teachersColumns: [{}] = [
     {
       title: "الاسم",
       dataIndex: "name",
       ...getColumnSearchProps("name", "الاسم"),
-    },
-    {
-      title: "الصورة",
-      width: 75,
-      dataIndex: "image",
-      render: (text) => (
-        <>
-          {text.url ? (
-            <Avatar size="large" src={text.url} alt="image" />
-          ) : (
-            <Avatar>U</Avatar>
-          )}
-        </>
-      ),
-    },
-
-    {
-      title: "المادة",
-      dataIndex: "subject",
-      filters: subjects,
-      onFilter: (value, record) => record.subject.includes(value),
-      render: (text) => (
-        <>
-          {text?.map((t, i) => (
-            <p key={i}>{t}</p>
-          ))}
-        </>
-      ),
-    },
-    {
-      title: "الصف",
-      dataIndex: "classNumber",
-      filters: classes,
-      onFilter: (value, record) => record.classNumber.includes(value),
-      render: (text) => (
-        <>
-          {text?.map((t, i) => (
-            <p key={i}>{t}</p>
-          ))}
-        </>
-      ),
-    },
-
-    {
-      title: "الشعبة",
-      dataIndex: "division",
-      filters: division,
-      onFilter: (value, record) => record.division.includes(value),
-      render: (value, row, index) => (
-        <>
-          {value?.map((t, i) => (
-            <p key={i}>{t}</p>
-          ))}
-        </>
-      ),
-    },
-
-    {
-      title: "الجنس",
-      dataIndex: "sex",
-      filters: [
-        {
-          text: "ذكر",
-          value: "ذكر",
-        },
-        {
-          text: "انثى",
-          value: "انثى",
-        },
-      ],
-      onFilter: (value, record) => record.sex.indexOf(value) === 0,
-      sorter: (a, b) => a.sex.length - b.sex.length,
-    },
-
-    {
-      title: "التحصيل العلمي",
-      dataIndex: "TypeOfCertifcate",
-      filters: typeOfCertifcate,
-      onFilter: (value, record) => record.TypeOfCertifcate.indexOf(value) === 0,
-    },
-
-    {
-      title: "الاختصاص",
-      dataIndex: "typeOfDegree",
-      filters: subjects,
-      onFilter: (value, record) => record.typeOfDegree.indexOf(value) === 0,
-    },
-
-    {
-      title: "",
-      width: 50,
-      render: (row) => <DropdownMenu data={row} allData={allData} />,
+      width: 100,
     },
   ];
+  for (let i = 1; i < totalDays; i++) {
+    teachersColumns.push({
+      title: i,
+      width: 25,
+      render: (value, row, index) => {
+        let abcence;
+        for (abcence in absenceListByMonth) {
+          let employee;
+          for (employee in absenceListByMonth[abcence].emplpyees) {
+            while (
+              new Date(absenceListByMonth[abcence].date).getUTCDate() === i &&
+              row.name === absenceListByMonth[abcence].emplpyees[employee].name
+            ) {
+              return <CloseOutlined style={{ color: "red" }} />;
+            }
+          }
+        }
 
+        return <CheckOutlined style={{ color: "green" }} />;
+      },
+    });
+  }
   return (
     <TableStyle>
       <Table
         columns={teachersColumns}
-        dataSource={allData}
+        dataSource={names}
         rowKey="_id"
         bordered
-        loading={!allData}
-        onChange={handleTableChange}
-        scroll={{ x: 1000, y: 520 }}
+        loading={!names}
+        scroll={{ x: 1800, y: 520 }}
         showSorterTooltip={false}
         pagination={{ position: ["bottomRight"] }}
-        footer={() => (
-          <p style={{ textAlign: "start" }}>
-            اجمالي عدد المدرسين: <span className="total">{total}</span>
-          </p>
-        )}
       />
     </TableStyle>
   );
 };
 
-export default TeacherTable;
+export default MonthTable;

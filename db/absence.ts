@@ -4,26 +4,36 @@ import { Db } from "mongodb";
 export const addAbsences = async (
   db: Db,
   absenceList: {
-    name: string;
-    fatherName: string;
     schoolId: string;
-    classNumber: number;
-    division: number;
+    date: string;
+    reason: string;
+    absenceIds: [];
   }
 ) => {
+  const absenceUsers = await db
+    .collection("employee")
+    .find({ _id: { $in: absenceList.absenceIds } })
+    .project({ name: 1 })
+    .toArray();
+
   const newAbsence = await db
     .collection("absences")
     .insertOne({
       _id: nanoid(),
-      ...absenceList,
+      emplpyees: absenceUsers,
+      date: absenceList.date,
+      reason: absenceList.reason,
+      schoolId: absenceList.schoolId,
     })
     .then(({ ops }) => ops[0]);
-  return newAbsence;
+
+  return [];
 };
 
 export const getAbsenceBySchool = async (db: Db, schoolId: string) => {
   return db.collection("absences").find({ schoolId }).toArray();
 };
+
 export const getAbsenceBySchoolAndDate = async (
   db: Db,
   schoolId: string,
@@ -33,15 +43,15 @@ export const getAbsenceBySchoolAndDate = async (
     .collection("absences")
     .findOne({ $and: [{ schoolId }, { date: { $eq: date } }] });
 
-  if (!findAbsences) return null;
+  // if (!findAbsences) return null;
 
-  const users = await db
-    .collection("employee")
-    .find({ _id: { $in: findAbsences.absenceIds } })
-    .project({ name: 1 })
-    .toArray();
+  // const users = await db
+  //   .collection("employee")
+  //   .find({ _id: { $in: findAbsences.absenceIds } })
+  //   .project({ name: 1 })
+  //   .toArray();
 
-  return { users, findAbsences };
+  return findAbsences;
 };
 
 export const absenceMonthPreview = async (db: Db, schoolId: string) => {
@@ -60,17 +70,7 @@ export const absenceMonthPreview = async (db: Db, schoolId: string) => {
       ],
     })
     .toArray();
+  console.log("currentMonthTimeSheet", currentMonthTimeSheet);
 
-  const usersIds = currentMonthTimeSheet
-    .map((user) => [...user.absenceIds])
-    .flat();
-
-  const users = await db
-    .collection("employee")
-    .find({ _id: { $in: usersIds } })
-    .project({ name: 1 })
-    .toArray();
-  console.log("users", users);
-
-  return { currentMonthTimeSheet };
+  return currentMonthTimeSheet;
 };
