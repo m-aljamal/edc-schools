@@ -12,7 +12,7 @@ export interface Request extends NextApiRequest {
     isAdmin: boolean;
   };
 }
-export interface RequestStudnet extends NextApiRequest {
+export interface Request extends NextApiRequest {
   db: Db;
   dbClient: MongoClient;
   userSchool: {

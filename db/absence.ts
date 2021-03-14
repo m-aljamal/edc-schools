@@ -45,32 +45,3 @@ export const getAbsenceBySchoolAndDate = async (
 
   return findAbsences;
 };
-
-export const absenceMonthPreview = async (
-  db: Db,
-  schoolId: string,
-  month: number
-) => {
-  const date = new Date(),
-    y = date.getFullYear(),
-    m = date.getMonth();
-
-  const firstDay = month ? new Date(y, m - 1, 0) : new Date(y, m, 1);
-  const lastDay = month ? new Date(y, m, 1) : new Date(y, m + 1, 0);
-  // console.log({ firstDay, lastDay });
-
-  const currentMonthTimeSheet = await db
-    .collection("absences")
-    .find({
-      schoolId: schoolId,
-      $and: [
-        { date: { $gte: firstDay.toISOString() } },
-        { date: { $lte: lastDay.toISOString() } },
-      ],
-    })
-    .toArray();
-console.log(currentMonthTimeSheet);
-console.log(currentMonthTimeSheet.length);
-
-  return currentMonthTimeSheet;
-};

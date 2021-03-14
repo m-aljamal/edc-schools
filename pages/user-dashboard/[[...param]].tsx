@@ -25,10 +25,12 @@ const UserDashboard = ({
   currentUser,
   userSchool,
   teachersList,
-  absenceListByMonth,
   absenceListByDay,
 }) => {
-  const { data } = useSWR("/api/employee", { initialData: teachersList });
+  const { data } = useSWR("/api/employee", {
+    initialData: teachersList,
+    dedupingInterval: 60000,
+  });
 
   const router = useRouter();
 
@@ -38,13 +40,7 @@ const UserDashboard = ({
     const profileData = data?.find((p) => p._id === profileid);
     if (router.query.page === "teacher") return <Profile data={profileData} />;
     if (router.query.page === "emptimesheet")
-      return (
-        <TimeSheet
-          data={data}
-          absenceListByDay={absenceListByDay}
-          absenceListByMonth={absenceListByMonth}
-        />
-      );
+      return <TimeSheet names={data} absenceListByDay={absenceListByDay} />;
   };
   return (
     <DashbordLayout
@@ -149,21 +145,6 @@ export async function getServerSideProps(ctx) {
         db,
         props.userSchool._id
       );
-    case "emptimesheet":
-      const month =  +ctx.query.month;
-
-      props.absenceListByMonth = await absence.absenceMonthPreview(
-        db,
-        props.userSchool._id,
-        month
-      );
-  }
-  if (ctx.query.date) {
-    props.absenceListByDay = await absence.getAbsenceBySchoolAndDate(
-      db,
-      props.userSchool._id,
-      ctx.query.date
-    );
   }
 
   //   // if (ctx.query.page === "teachers") {

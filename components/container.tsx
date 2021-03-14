@@ -1,5 +1,7 @@
 import Meta from "./Meta";
 import { createGlobalStyle } from "styled-components";
+import { ConfigProvider } from "antd";
+import arEG from "antd/lib/locale/ar_EG";
 
 const GlobalStyles = createGlobalStyle`
   @font-face {
@@ -71,9 +73,7 @@ const GlobalStyles = createGlobalStyle`
     color:white;
   }
   
-  /* .rc-virtual-list-holder-inner {
-    text-align: end !important;
-  } */
+ 
    .ant-modal-header{
      text-align:center;
    }
@@ -83,32 +83,32 @@ const GlobalStyles = createGlobalStyle`
    .ant-layout-header {
     padding: 0 15px;
    }
-   /* .ant-input{
-    text-align: right !important;
-   } */
+   
    .ant-empty{
     text-align-last: center ;
    }
 
-/* .ant-select-selection-overflow{
-
-  justify-content: flex-end;
-} */
+ 
 .ant-popover-buttons {
     text-align: center;
   }
   .ant-pagination{
     direction: initial;
   }
+  .ant-dropdown-menu {
+    direction: ltr;
+  }
   `;
 
 const Container: React.FC = ({ children }) => {
   return (
     <div>
-      <GlobalStyles />
-      <Meta />
+      {/* <ConfigProvider locale={arEG}> */}
+        <GlobalStyles />
+        <Meta />
 
-      {children}
+        {children}
+      {/* </ConfigProvider> */}
     </div>
   );
 };

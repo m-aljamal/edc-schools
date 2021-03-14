@@ -1,11 +1,11 @@
-import { Table, Input, Button, Space, Avatar } from "antd";
+import { Table, Input, Button, Space, Avatar, Tooltip } from "antd";
 import Highlighter from "react-highlight-words";
 import {
   SearchOutlined,
   CheckOutlined,
   CloseOutlined,
 } from "@ant-design/icons";
-import { useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const TableStyle = styled.div`
@@ -18,15 +18,18 @@ const TableStyle = styled.div`
     }
   }
 `;
-const MonthTable = ({ names, absenceListByMonth, displaySheetMonth }) => {
+const AbcenceMonthTable = ({
+  names,
+  absenceListByMonth,
+  displaySheetMonth,
+}) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
-
-  const date = new Date();
+  const date = new Date(displaySheetMonth);
   const y = date.getFullYear();
-  const m = displaySheetMonth || date.getMonth() + 1;
+  const m = date.getMonth() + 1;
   const totalDays = new Date(y, m, 0).getDate();
- 
+
   const getColumnSearchProps = (dataIndex: string, title: string) => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -121,6 +124,7 @@ const MonthTable = ({ names, absenceListByMonth, displaySheetMonth }) => {
       width: 100,
     },
   ];
+
   for (let i = 1; i <= totalDays; i++) {
     teachersColumns.push({
       title: i,
@@ -130,6 +134,7 @@ const MonthTable = ({ names, absenceListByMonth, displaySheetMonth }) => {
         if (weekend.getDay() == 4 || weekend.getDay() == 5) {
           return <p>-</p>;
         }
+
         let abcence;
         for (abcence in absenceListByMonth) {
           let employee;
@@ -138,7 +143,16 @@ const MonthTable = ({ names, absenceListByMonth, displaySheetMonth }) => {
               new Date(absenceListByMonth[abcence].date).getUTCDate() === i &&
               row.name === absenceListByMonth[abcence].emplpyees[employee].name
             ) {
-              return <CloseOutlined style={{ color: "red" }} />;
+              return (
+                <>
+                  <Tooltip
+                    placement="topLeft"
+                    title={absenceListByMonth[abcence].reason}
+                  >
+                    <CloseOutlined style={{ color: "red" }} />
+                  </Tooltip>
+                </>
+              );
             }
           }
         }
@@ -154,7 +168,7 @@ const MonthTable = ({ names, absenceListByMonth, displaySheetMonth }) => {
         dataSource={names}
         rowKey="_id"
         bordered
-        loading={!names}
+        loading={!absenceListByMonth || !names}
         scroll={{ x: 1800, y: 520 }}
         showSorterTooltip={false}
         pagination={{ position: ["bottomRight"] }}
@@ -163,4 +177,4 @@ const MonthTable = ({ names, absenceListByMonth, displaySheetMonth }) => {
   );
 };
 
-export default MonthTable;
+export default AbcenceMonthTable;

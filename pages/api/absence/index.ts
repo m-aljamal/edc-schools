@@ -1,15 +1,16 @@
 import nc from "next-connect";
 import onError from "../../../middleware/error";
 import { NextApiResponse } from "next";
-import { RequestStudnet } from "../../../types";
+import { Request } from "../../../types";
 import { connect } from "../../../utils/database";
+import dbMissleware from "../../../middleware/db";
 
 const handler = nc({
   onError,
 });
-handler.post(async (req: RequestStudnet, res: NextApiResponse) => {
-  const { db } = await connect();
-  const newAbsence = await db
+handler.use(dbMissleware);
+handler.post(async (req: Request, res: NextApiResponse) => {
+  const newAbsence = await req.db
     .collection("absences")
     .insertOne({ ...req.body, schoolId: req.userSchool._id });
 

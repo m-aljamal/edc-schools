@@ -3,25 +3,12 @@ import dbMissleware from "../../../middleware/db";
 import { user } from "../../../db";
 import onError from "../../../middleware/error";
 import { Request } from "../../../types";
-import { NextApiResponse,NextApiRequest } from "next";
+import { NextApiResponse } from "next";
 import cookie from "cookie";
 import jwt from "jsonwebtoken";
-import {connect} from '../../../utils/database'
 const handler = nc({
   onError,
 });
-handler.get(async (req:NextApiRequest, res:NextApiResponse)=>{
-  const {db}  = await connect()
-  // const decoded = jwt.verify(token, process.env.JWT_SECRET);
-console.log(req.headers.auth_token);
-
-  // let currentUser = await db
-  res.send('test')
-})
-// export const getLogedUser = async (db: Db, token) => {
-//   const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//   return db.collection("users").findOne({ _id: decoded.id });
-// };
 
 handler.use(dbMissleware);
 handler.post(async (req: Request, res: NextApiResponse) => {
@@ -51,4 +38,3 @@ handler.post(async (req: Request, res: NextApiResponse) => {
   res.send({ data: logedUser });
 });
 export default handler;
- 

@@ -139,7 +139,6 @@ const AddNewTeacherForm = ({
       message.error(error.response.data.error);
     }
   };
-  console.log(isImageLoading);
 
   return (
     <FormStyle>
