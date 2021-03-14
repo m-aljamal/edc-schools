@@ -39,8 +39,7 @@ const UserDashboard = ({
     const { profileid } = router.query;
     const profileData = data?.find((p) => p._id === profileid);
     if (router.query.page === "teacher") return <Profile data={profileData} />;
-    if (router.query.page === "emptimesheet")
-      return <TimeSheet names={data} absenceListByDay={absenceListByDay} />;
+    if (router.query.page === "emptimesheet") return <TimeSheet names={data} />;
   };
   return (
     <DashbordLayout
