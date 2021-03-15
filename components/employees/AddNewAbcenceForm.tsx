@@ -19,18 +19,41 @@ const validation = object({
   reason: string().required("الرجاء كتابة سبب الغياب"),
 });
 
-const initialValues = {
-  date: "",
-  absenceIds: [],
-  reason: "",
-};
+const AddNewAbcenceForm = ({
+  names,
+  displaySheetMonth,
+  edit,
+  oldData,
+  setIsEdit,
+}) => {
+  console.log(oldData);
 
-const AddNewAbcenceForm = ({ names, displaySheetMonth }) => {
-  const handleTimeSheet = async (values, helpers) => {
+  const initialValues = {
+    date: oldData?.date || "",
+    absenceIds: oldData?.emplpyees.map((emp) => emp._id) || [],
+    reason: oldData?.reason || "",
+  };
+
+  const handleUpdate = async (values, helpers) => {
     try {
-      const res = await axios.post("/api/absence/new", values);
+      let res = await axios.put(`/api/absence/edit/${oldData._id}`, values);
       trigger(`/api/absence/${displaySheetMonth}`);
       if (res.status === 200) {
+        setIsEdit(false);
+        helpers.resetForm();
+        message.success("تم تعديل الغياب بنجاح");
+      }
+    } catch (error) {
+      message.error(error.response?.data?.error);
+      console.log(error);
+    }
+  };
+  const handleAddNew = async (values, helpers) => {
+    try {
+      let res = await axios.post("/api/absence/new", values);
+      trigger(`/api/absence/${displaySheetMonth}`);
+      if (res.status === 200) {
+        setIsEdit(false);
         helpers.resetForm();
         message.success("تم تسجيل الغياب بنجاح");
       }
@@ -38,6 +61,10 @@ const AddNewAbcenceForm = ({ names, displaySheetMonth }) => {
       message.error(error.response?.data?.error);
       console.log(error);
     }
+  };
+
+  const handleTimeSheet = async (values, helpers) => {
+    edit ? handleUpdate(values, helpers) : handleAddNew(values, helpers);
   };
 
   return (

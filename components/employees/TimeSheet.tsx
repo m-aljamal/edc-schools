@@ -17,10 +17,10 @@ const TimeSheetStyle = styled.div`
     left: -25px;
   }
   .addNew {
-    margin: 50px 0;
+    padding-bottom: 24px;
   }
   .table {
-    padding-bottom: 24px;
+    margin: 50px 0;
   }
 `;
 const TimeSheet = ({ names }) => {
@@ -54,6 +54,11 @@ const TimeSheet = ({ names }) => {
 
   return (
     <TimeSheetStyle>
+      <div className="addNew">
+        <AddNewAbcence names={names} displaySheetMonth={displaySheetMonth} />
+      </div>
+
+      <div className="devider"></div>
       <div className="table">
         <div className="head">
           <TitleStyle>جدول الغياب لتاريخ:</TitleStyle>
@@ -86,11 +91,6 @@ const TimeSheet = ({ names }) => {
             displaySheetMonth={displaySheetMonth}
           />
         </div>
-      </div>
-
-      <div className="devider"></div>
-      <div className="addNew">
-        <AddNewAbcence names={names} displaySheetMonth={displaySheetMonth} />
       </div>
       <div className="devider"></div>
     </TimeSheetStyle>

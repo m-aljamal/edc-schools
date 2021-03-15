@@ -1,11 +1,11 @@
 import { nanoid } from "nanoid";
 import { Db } from "mongodb";
-
+import setDate from "../utils/setDate";
 export const addAbsences = async (
   db: Db,
   absenceList: {
     schoolId: string;
-    date: string;
+    date: Date;
     reason: string;
     absenceIds: [];
   }
@@ -21,13 +21,13 @@ export const addAbsences = async (
     .insertOne({
       _id: nanoid(),
       emplpyees: absenceUsers,
-      date: absenceList.date,
+      date: setDate(absenceList.date),
       reason: absenceList.reason,
       schoolId: absenceList.schoolId,
     })
     .then(({ ops }) => ops[0]);
 
-  return [];
+  return newAbsence;
 };
 
 export const getAbsenceBySchool = async (db: Db, schoolId: string) => {

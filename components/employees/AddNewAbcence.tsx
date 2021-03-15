@@ -2,25 +2,14 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { TitleStyle } from "../styles/TitleStyle";
 import { Dropdown, Menu } from "antd";
-import styled from "styled-components";
 import {
   EditOutlined,
   EllipsisOutlined,
   CloseOutlined,
 } from "@ant-design/icons";
+import { NewAbcenceStyle } from "../../components/styles/NewAbcenceStyle";
 const AddNewAbcenceForm = dynamic(() => import("./AddNewAbcenceForm"));
 const EditAbcenceForm = dynamic(() => import("./EditAbcenceForm"));
-
-
-const NewAbcenceStyle = styled.div`
-  .ant-transfer {
-    justify-content: start !important;
-  }
-  .submitButton {
-    max-width: 30%;
-    margin: 0 auto;
-  }
-`;
 
 const AddNewAbcence = ({ names, displaySheetMonth }) => {
   const [isEdit, setIsEdit] = useState(false);
@@ -53,11 +42,18 @@ const AddNewAbcence = ({ names, displaySheetMonth }) => {
         )}
       </div>
       {isEdit ? (
-        <EditAbcenceForm />
-      ) : (
-        <AddNewAbcenceForm
+        <EditAbcenceForm
+          setIsEdit={setIsEdit}
           names={names}
           displaySheetMonth={displaySheetMonth}
+        />
+      ) : (
+        <AddNewAbcenceForm
+          oldData={null}
+          edit={false}
+          names={names}
+          displaySheetMonth={displaySheetMonth}
+          setIsEdit={setIsEdit}
         />
       )}
     </NewAbcenceStyle>

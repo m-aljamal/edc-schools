@@ -4,16 +4,30 @@ import { NextApiResponse } from "next";
 import { Request } from "../../../../types";
 import dbMissleware from "../../../../middleware/db";
 import setDate from "../../../../utils/setDate";
+
 const handler = nc({
   onError,
 });
 handler.use(dbMissleware);
-handler.get(async (req: Request, res: NextApiResponse) => {
-  const abcence = await req.db.collection("absences").findOne({
-    date: { $eq: setDate(req.query.singleDate.toString()) },
-  });
+handler.put(async (req: Request, res: NextApiResponse) => {
+  const absenceUsers = await req.db
+    .collection("employee")
+    .find({ _id: { $in: req.body.absenceIds } })
+    .project({ name: 1 })
+    .toArray();
 
-  res.json(abcence);
+  const newAbsence = await req.db.collection("absences").updateOne(
+    { _id: req.query.id },
+    {
+      $set: {
+        emplpyees: absenceUsers,
+        date: setDate(req.body.date),
+        reason: req.body.reason,
+      },
+    }
+  );
+
+  res.status(200).json(newAbsence);
 });
 
 // .findOne({ $and: [{ schoolId }, { date: { $eq: date } }] });
