@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import { NewAbcenceStyle } from "../../components/styles/NewAbcenceStyle";
 const AddNewAbcenceForm = dynamic(() => import("./AddNewAbcenceForm"));
-const EditAbcenceForm = dynamic(() => import("./EditAbcenceForm"));
+const EditAbcenceForm = dynamic(() => import("./EditAbcence"));
 
 const AddNewAbcence = ({ names, displaySheetMonth }) => {
   const [isEdit, setIsEdit] = useState(false);

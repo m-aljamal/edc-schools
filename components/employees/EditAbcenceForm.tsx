@@ -1,55 +1,90 @@
-import { DatePicker, message } from "antd";
+import { Formik } from "formik";
+import { FormItem, Input, DatePicker, Form, Transfer } from "formik-antd";
+import { Button, message, Tag } from "antd";
+import { object, string, date, array } from "yup";
+import { trigger } from "swr";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { NewAbcenceStyle } from "../styles/NewAbcenceStyle";
-import AddNewAbcenceForm from "./AddNewAbcenceForm";
+import styled from "styled-components";
 
-const EditAbcenceForm = ({ names, displaySheetMonth, setIsEdit }) => {
-  const [abcenceData, setAbcenceData] = useState(null);
-  const [date, setDate] = useState("");
+const layout = {
+  labelCol: { span: 4 },
+  wrapperCol: { span: 18 },
+};
 
-  useEffect(() => {
-    const update = async () => {
-      if (date) {
-        try {
-          const { data } = await axios.get(`/api/absence/find/${date}`);
-          if (!data) return message.info(`لايوجد غياب في هذا التاريخ`);
-          setAbcenceData(data);
-        } catch (error) {
-          console.log(error);
-          message.error(error.response?.data?.error);
-        }
+const validation = object({
+  date: date().required("الرجاء اختيار التاريخ"),
+  absenceIds: array()
+    .of(string())
+    .min(1)
+    .required("الرجاء اختيار اسماء الغياب"),
+  reason: string().required("الرجاء كتابة سبب الغياب"),
+});
+
+const EditAbcenceForm = ({ names, displaySheetMonth, oldData, setIsEdit }) => {
+  const initialValues = {
+    date: oldData?.date,
+    absenceIds: oldData?.emplpyees?.map((emp) => emp._id),
+    reason: oldData?.reason,
+  };
+
+  const handleTimeSheet = async (values, helpers) => {
+    try {
+      let res = await axios.put(`/api/absence/edit/${oldData._id}`, values);
+      trigger(`/api/absence/${displaySheetMonth}`);
+      if (res.status === 200) {
+        setIsEdit(false);
+        helpers.resetForm();
+        message.success("تم تعديل الغياب بنجاح");
       }
-    };
-    update();
-  }, [date, setAbcenceData]);
-
-  // const handleDateChange = async (date, dateString) => {
-  //   try {
-  //     const { data } = await axios.get(`/api/absence/find/${dateString}`);
-  //     if (!data) return message.info(`لايوجد غياب في هذا التاريخ`);
-  //     setAbcenceData(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //     message.error(error.response?.data?.error);
-  //   }
-  // };
+    } catch (error) {
+      message.error(error.response?.data?.error);
+      console.log(error);
+    }
+  };
 
   return (
-    <div>
-      <DatePicker onChange={(date, dateString) => setDate(dateString)} />
-      {abcenceData && (
-        <NewAbcenceStyle>
-          <AddNewAbcenceForm
-            oldData={abcenceData}
-            names={names}
-            displaySheetMonth={displaySheetMonth}
-            edit
-            setIsEdit={setIsEdit}
-          />
-        </NewAbcenceStyle>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={(values, helpers) => handleTimeSheet(values, helpers)}
+      validationSchema={validation}
+    >
+      {(isSubmitting, values) => (
+        <Form {...layout}>
+          <FormItem name="date" label="التاريخ">
+            <DatePicker name="date" placeholder="تاريخ الغياب" />
+          </FormItem>
+          <FormItem name="absenceIds" label="الاسماء">
+            <Transfer
+              name="absenceIds"
+              dataSource={names}
+              titles={[
+                <Tag color="geekblue">اسماء الموظفين</Tag>,
+                <Tag color="geekblue">اسماء الغياب</Tag>,
+              ]}
+              render={(item) => item.name}
+              oneWay
+              rowKey={(record) => record._id}
+              pagination
+              showSearch
+              operations={["اختيار الاسماء"]}
+            />
+          </FormItem>
+          <FormItem name="reason" label="اسباب الغياب">
+            <Input.TextArea name="reason" rows={4} placeholder="سبب الغياب" />
+          </FormItem>
+          <div className="submitButton">
+            <Button
+              htmlType="submit"
+              // loading={isSubmitting}
+              type="primary"
+              block
+            >
+              تعديل الغياب
+            </Button>
+          </div>
+        </Form>
       )}
-    </div>
+    </Formik>
   );
 };
 

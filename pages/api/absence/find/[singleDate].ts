@@ -13,7 +13,7 @@ handler.get(async (req: Request, res: NextApiResponse) => {
     date: { $eq: setDate(req.query.singleDate.toString()) },
   });
 
-  res.json(abcence);
+  res.status(200).json(abcence);
 });
 
 // .findOne({ $and: [{ schoolId }, { date: { $eq: date } }] });

@@ -19,41 +19,18 @@ const validation = object({
   reason: string().required("الرجاء كتابة سبب الغياب"),
 });
 
-const AddNewAbcenceForm = ({
-  names,
-  displaySheetMonth,
-  edit,
-  oldData,
-  setIsEdit,
-}) => {
-  console.log(oldData);
-
+const AddNewAbcenceForm = ({ names, displaySheetMonth }) => {
   const initialValues = {
-    date: oldData?.date || "",
-    absenceIds: oldData?.emplpyees.map((emp) => emp._id) || [],
-    reason: oldData?.reason || "",
+    date: "",
+    absenceIds: [],
+    reason: "",
   };
 
-  const handleUpdate = async (values, helpers) => {
-    try {
-      let res = await axios.put(`/api/absence/edit/${oldData._id}`, values);
-      trigger(`/api/absence/${displaySheetMonth}`);
-      if (res.status === 200) {
-        setIsEdit(false);
-        helpers.resetForm();
-        message.success("تم تعديل الغياب بنجاح");
-      }
-    } catch (error) {
-      message.error(error.response?.data?.error);
-      console.log(error);
-    }
-  };
-  const handleAddNew = async (values, helpers) => {
+  const handleTimeSheet = async (values, helpers) => {
     try {
       let res = await axios.post("/api/absence/new", values);
       trigger(`/api/absence/${displaySheetMonth}`);
       if (res.status === 200) {
-        setIsEdit(false);
         helpers.resetForm();
         message.success("تم تسجيل الغياب بنجاح");
       }
@@ -63,10 +40,6 @@ const AddNewAbcenceForm = ({
     }
   };
 
-  const handleTimeSheet = async (values, helpers) => {
-    edit ? handleUpdate(values, helpers) : handleAddNew(values, helpers);
-  };
-
   return (
     <Formik
       initialValues={initialValues}
@@ -74,7 +47,7 @@ const AddNewAbcenceForm = ({
       validationSchema={validation}
     >
       {(isSubmitting, values) => (
-        <Form {...layout} style={{ marginTop: "20px" }}>
+        <Form {...layout}>
           <FormItem name="date" label="التاريخ">
             <DatePicker name="date" placeholder="تاريخ الغياب" />
           </FormItem>
