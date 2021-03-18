@@ -13,19 +13,21 @@ import {
   LeftOutlined,
 } from "@ant-design/icons";
 import { connectToDB, user, school, employee, absence } from "../../db";
-import DashbordLayout from "../../components/DashbordLayout";
+import DashbordLayout from "../../components/shared/DashbordLayout";
 import { useRouter } from "next/router";
-import Profile from "../../components/Profile";
-import TimeSheet from "../../components/employees/TimeSheet";
-
-const TeacherList = dynamic(() => import("../../components/TeacherList"));
+import TimeSheet from "../../components/abcence/TimeSheet";
+import ProfilePage from "../../components/shared/ProfilePage";
+const NamesList = dynamic(
+  () => import("../../components/user-pages/NamesList")
+);
 const { SubMenu } = Menu;
 
 const UserDashboard = ({
   currentUser,
   userSchool,
   teachersList,
-  absenceListByDay,
+  administratorsList,
+  teacher,
 }) => {
   const { data } = useSWR("/api/employee", {
     initialData: teachersList,
@@ -35,10 +37,14 @@ const UserDashboard = ({
   const router = useRouter();
 
   const PageCountent = () => {
-    if (teachersList) return <TeacherList teachersList={data || []} />;
-    const { profileid } = router.query;
-    const profileData = data?.find((p) => p._id === profileid);
-    if (router.query.page === "teacher") return <Profile data={profileData} />;
+    if (teachersList)
+      return <NamesList type="teacher" namesList={teachersList || []} />;
+    if (administratorsList)
+      return (
+        <NamesList type="administrators" namesList={administratorsList || []} />
+      );
+
+    if (teacher) return <ProfilePage userInfo={teacher} />;
     if (router.query.page === "emptimesheet") return <TimeSheet names={data} />;
   };
   return (
@@ -142,8 +148,17 @@ export async function getServerSideProps(ctx) {
     case "teachers":
       props.teachersList = await employee.getEmployeesBySchool(
         db,
-        props.userSchool._id
+        props.userSchool._id,
+        "teacher"
       );
+    case "mangers":
+      props.administratorsList = await employee.getEmployeesBySchool(
+        db,
+        props.userSchool._id,
+        "Administrators"
+      );
+    case "teacher":
+      props.teacher = await employee.getEmployee(db, ctx.query.profileid);
   }
 
   //   // if (ctx.query.page === "teachers") {

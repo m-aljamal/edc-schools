@@ -1,4 +1,4 @@
-import { Table, Input, Button, Space, Avatar, Tooltip } from "antd";
+import { Table, Input, Button, Space, Tooltip } from "antd";
 import Highlighter from "react-highlight-words";
 import {
   SearchOutlined,

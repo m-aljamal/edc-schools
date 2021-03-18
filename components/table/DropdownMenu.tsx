@@ -8,8 +8,8 @@ import {
 import axios from "axios";
 import { mutate, trigger } from "swr";
 import React, { useState } from "react";
-import CustomModel from "../CustomModel";
-import Add_Edit_teacher_form from "../forms/Add_Edit_teacher_form";
+import CustomModel from "../shared/CustomModel";
+import Add_Edit_teacher_form from "../add-new-employee/Add_Edit_teacher_form";
 import Link from "next/link";
 
 const DropdownMenu = ({ data, allData }) => {

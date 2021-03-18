@@ -1,7 +1,5 @@
 import Meta from "./Meta";
 import { createGlobalStyle } from "styled-components";
-import { ConfigProvider } from "antd";
-import arEG from "antd/lib/locale/ar_EG";
 
 const GlobalStyles = createGlobalStyle`
   @font-face {
@@ -103,12 +101,9 @@ const GlobalStyles = createGlobalStyle`
 const Container: React.FC = ({ children }) => {
   return (
     <div>
-      {/* <ConfigProvider locale={arEG}> */}
-        <GlobalStyles />
-        <Meta />
-
-        {children}
-      {/* </ConfigProvider> */}
+      <GlobalStyles />
+      <Meta />
+      {children}
     </div>
   );
 };

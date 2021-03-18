@@ -3,7 +3,7 @@ import Resizer from "react-image-file-resizer";
 import { useEffect, useState } from "react";
 import { Spin, message } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
-import { UploadImageStyle } from "./styles/UploadImageStyle";
+import { UploadImageStyle } from "../styles/UploadImageStyle";
 const ImageUpload = ({ setImage, title, imageState, askIfLoading }) => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {

@@ -7,7 +7,7 @@ import {
   EllipsisOutlined,
   CloseOutlined,
 } from "@ant-design/icons";
-import { NewAbcenceStyle } from "../../components/styles/NewAbcenceStyle";
+import { NewAbcenceStyle } from "../styles/NewAbcenceStyle";
 const AddNewAbcenceForm = dynamic(() => import("./AddNewAbcenceForm"));
 const EditAbcenceForm = dynamic(() => import("./EditAbcence"));
 
@@ -49,11 +49,8 @@ const AddNewAbcence = ({ names, displaySheetMonth }) => {
         />
       ) : (
         <AddNewAbcenceForm
-          oldData={null}
-          edit={false}
           names={names}
           displaySheetMonth={displaySheetMonth}
-          setIsEdit={setIsEdit}
         />
       )}
     </NewAbcenceStyle>

@@ -3,7 +3,7 @@ import { FormItem, Input, Radio, DatePicker, Form, Select } from "formik-antd";
 import { object, string, date } from "yup";
 import React, { useState } from "react";
 import { Steps, Button, message } from "antd";
-import ImageUpload from "../ImageUpload";
+import ImageUpload from "../shared/ImageUpload";
 import axios from "axios";
 import useSWR from "swr";
 import { mutate, trigger } from "swr";
@@ -26,6 +26,8 @@ const layout = {
 const AddressStyle = styled.div`
   display: flex;
   direction: ltr;
+  justify-content: center;
+  margin-top: 10px;
 `;
 
 const AddNewTeacherForm = ({
@@ -33,6 +35,7 @@ const AddNewTeacherForm = ({
   setdestroyOnClose,
   oldData,
   edit,
+  type,
 }) => {
   const { data } = useSWR("/api/employee");
   const [isImageLoading, setIsImageLoading] = useState(false);
@@ -67,7 +70,20 @@ const AddNewTeacherForm = ({
     typeOfDegree: oldData?.typeOfDegree || "",
     DateOfGraduate: oldData?.DateOfGraduate || "",
     absences: [],
-    type: "teacher",
+    type,
+  };
+
+  const words = {
+    teacher: {
+      edit: "تم تعديل المدرس بنجاح",
+      create: "تم تسجيل المدرس بنجاح",
+      information: "معلومات المدرس",
+    },
+    administrators: {
+      edit: "تم تعديل الاداري بنجاح",
+      create: "تم تسجيل الاداري بنجاح",
+      information: "معلومات الاداري",
+    },
   };
 
   const personalInfoValidation = object({
@@ -102,7 +118,7 @@ const AddNewTeacherForm = ({
       if (res.status === 200) {
         helpers.resetForm();
         setdestroyOnClose(true);
-        message.success("تم تعديل المدرس بنجاح");
+        message.success(words[type].edit);
         setIsModalVisible(false);
       }
     } catch (error) {
@@ -130,7 +146,7 @@ const AddNewTeacherForm = ({
       if (res.status === 200) {
         helpers.resetForm();
         setdestroyOnClose(true);
-        message.success("تم تسجيل المدرس بنجاح");
+        message.success(words[type].create);
         setIsModalVisible(false);
       }
     } catch (error) {
@@ -174,19 +190,18 @@ const AddNewTeacherForm = ({
 
         <FormikStep
           loading={isImageLoading}
-          label="معلومات المدرس"
+          label={words[type].information}
           validationSchema={studentInfoValidation}
         >
-          <FormItem name="dateOfBirth" label="تاريخ الولادة">
+          <FormItem {...layout} name="dateOfBirth" label="تاريخ الولادة">
             <DatePicker name="dateOfBirth" placeholder="اختر تاريخ" />
           </FormItem>
-          <FormItem name="plaseOfBirth" label="مكان الولادة">
+          <FormItem {...layout} name="plaseOfBirth" label="مكان الولادة">
             <Input name="plaseOfBirth" />
           </FormItem>
           <p
             style={{
-              marginBottom: "5px",
-              textAlign: "start",
+              marginRight: "90px",
             }}
           >
             عنوان الاقامة :
@@ -198,7 +213,7 @@ const AddNewTeacherForm = ({
             <FormItem name="region">
               <Input addonAfter="المنطقة" name="region" />
             </FormItem>
-            <FormItem name="city">
+            <FormItem {...layout} name="city">
               <Input addonAfter="المدينة" name="city" />
             </FormItem>
           </AddressStyle>
@@ -209,7 +224,7 @@ const AddNewTeacherForm = ({
             <FormItem name="number2">
               <Input addonAfter="2   الهاتف" name="number2" />
             </FormItem>
-            <FormItem name="number1">
+            <FormItem {...layout} name="number1">
               <Input addonAfter="1   الهاتف" name="number1" />
             </FormItem>
           </AddressStyle>

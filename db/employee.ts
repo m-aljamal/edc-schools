@@ -21,6 +21,17 @@ export const addEmployee = async (
   return newEmployee;
 };
 
-export const getEmployeesBySchool = async (db: Db, schoolId: string) => {
-  return db.collection("employee").find({ schoolId }).toArray();
+export const getEmployeesBySchool = async (
+  db: Db,
+  schoolId: string,
+  type: string
+) => {
+  return db
+    .collection("employee")
+    .find({ $and: [{ schoolId }, { type }] })
+    .toArray();
+};
+
+export const getEmployee = async (db: Db, id: string) => {
+  return db.collection("employee").findOne({ _id: id });
 };

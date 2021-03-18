@@ -223,7 +223,7 @@ const TeacherTable = ({ allData, setTotal, total }) => {
         bordered
         loading={!allData}
         onChange={handleTableChange}
-        scroll={{ x: 1000, y: 520 }}
+        scroll={{ x: 1150, y: 520 }}
         showSorterTooltip={false}
         pagination={{ position: ["bottomRight"] }}
         footer={() => (

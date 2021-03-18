@@ -20,8 +20,8 @@ const ProfileStyle = styled.div`
     }
   }
 `;
-const Profile = ({ data }) => {
-  if (!data) return <SkeletonLoading />;
+const ProfilePage = ({ userInfo }) => {
+  if (!userInfo) return <SkeletonLoading />;
   const {
     image,
     name,
@@ -32,7 +32,7 @@ const Profile = ({ data }) => {
     dateOfBirth,
     email,
     graduateImage,
-  } = data;
+  } = userInfo;
   return (
     <ProfileStyle>
       <div className="info">
@@ -86,7 +86,7 @@ const Profile = ({ data }) => {
   );
 };
 
-export default Profile;
+export default ProfilePage;
 
 // DateOfGraduate: "2021-03-22T12:37:37.805Z"
 
