@@ -21,7 +21,7 @@ const TableStyle = styled.div`
     }
   }
 `;
-const TeacherTable = ({ allData, setTotal, total }) => {
+const TeacherTable = ({ allData, setTotal, total, type }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
 
@@ -114,6 +114,57 @@ const TeacherTable = ({ allData, setTotal, total }) => {
     setTotal(extra.currentDataSource.length);
   };
 
+  const columnsByType = {
+    teacher: [
+      {
+        title: "المادة",
+        dataIndex: "subject",
+        filters: subjects,
+        onFilter: (value, record) => record.subject.includes(value),
+        render: (text) => (
+          <>
+            {text?.map((t, i) => (
+              <p key={i}>{t}</p>
+            ))}
+          </>
+        ),
+      },
+      {
+        title: "الصف",
+        dataIndex: "classNumber",
+        filters: classes,
+        onFilter: (value, record) => record.classNumber.includes(value),
+        render: (text) => (
+          <>
+            {text?.map((t, i) => (
+              <p key={i}>{t}</p>
+            ))}
+          </>
+        ),
+      },
+
+      {
+        title: "الشعبة",
+        dataIndex: "division",
+        filters: division,
+        onFilter: (value, record) => record.division.includes(value),
+        render: (value, row, index) => (
+          <>
+            {value?.map((t, i) => (
+              <p key={i}>{t}</p>
+            ))}
+          </>
+        ),
+      },
+    ],
+    administrators: [
+      {
+        title: "المسمى الوظيفي",
+        dataIndex: "jobTitle",
+      },
+    ],
+  };
+
   const teachersColumns = [
     {
       title: "الاسم",
@@ -134,47 +185,47 @@ const TeacherTable = ({ allData, setTotal, total }) => {
         </>
       ),
     },
+    ...columnsByType[type],
+    // {
+    //   title: "المادة",
+    //   dataIndex: "subject",
+    //   filters: subjects,
+    //   onFilter: (value, record) => record.subject.includes(value),
+    //   render: (text) => (
+    //     <>
+    //       {text?.map((t, i) => (
+    //         <p key={i}>{t}</p>
+    //       ))}
+    //     </>
+    //   ),
+    // },
+    // {
+    //   title: "الصف",
+    //   dataIndex: "classNumber",
+    //   filters: classes,
+    //   onFilter: (value, record) => record.classNumber.includes(value),
+    //   render: (text) => (
+    //     <>
+    //       {text?.map((t, i) => (
+    //         <p key={i}>{t}</p>
+    //       ))}
+    //     </>
+    //   ),
+    // },
 
-    {
-      title: "المادة",
-      dataIndex: "subject",
-      filters: subjects,
-      onFilter: (value, record) => record.subject.includes(value),
-      render: (text) => (
-        <>
-          {text?.map((t, i) => (
-            <p key={i}>{t}</p>
-          ))}
-        </>
-      ),
-    },
-    {
-      title: "الصف",
-      dataIndex: "classNumber",
-      filters: classes,
-      onFilter: (value, record) => record.classNumber.includes(value),
-      render: (text) => (
-        <>
-          {text?.map((t, i) => (
-            <p key={i}>{t}</p>
-          ))}
-        </>
-      ),
-    },
-
-    {
-      title: "الشعبة",
-      dataIndex: "division",
-      filters: division,
-      onFilter: (value, record) => record.division.includes(value),
-      render: (value, row, index) => (
-        <>
-          {value?.map((t, i) => (
-            <p key={i}>{t}</p>
-          ))}
-        </>
-      ),
-    },
+    // {
+    //   title: "الشعبة",
+    //   dataIndex: "division",
+    //   filters: division,
+    //   onFilter: (value, record) => record.division.includes(value),
+    //   render: (value, row, index) => (
+    //     <>
+    //       {value?.map((t, i) => (
+    //         <p key={i}>{t}</p>
+    //       ))}
+    //     </>
+    //   ),
+    // },
 
     {
       title: "الجنس",
@@ -210,7 +261,9 @@ const TeacherTable = ({ allData, setTotal, total }) => {
     {
       title: "",
       width: 50,
-      render: (row) => <DropdownMenu data={row} allData={allData} />,
+      render: (row) => (
+        <DropdownMenu data={row} allData={allData} type={type} />
+      ),
     },
   ];
 

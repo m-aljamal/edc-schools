@@ -51,6 +51,10 @@ export const subjects = [
     text: "اسلامية",
     value: "اسلامية",
   },
+  {
+    text: "لايوجد",
+    value: "لايوجد",
+  },
 ];
 
 export const classes = [
@@ -171,5 +175,30 @@ export const typeOfCertifcate = [
   {
     text: "بكلوريا",
     value: "بكلوريا",
+  },
+  {
+    text: "لايوجد",
+    value: "لايوجد",
+  },
+];
+
+export const jopTitle = [
+  {
+    text: "مدير المدرسة",
+  },
+  {
+    text: "معاون مدير",
+  },
+  {
+    text: "امين سر",
+  },
+  {
+    text: "مشرف طابق",
+  },
+  {
+    text: "مدخل بيانات",
+  },
+  {
+    text: "اعلامي",
   },
 ];

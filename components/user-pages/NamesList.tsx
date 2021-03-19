@@ -50,7 +50,12 @@ const NamesList = ({ namesList, type }) => {
         />
         <TitleStyle>جميع {words[type].all}:</TitleStyle>
       </PageTitleStyle>
-      <CustomTable allData={data} setTotal={setTotal} total={total} />
+      <CustomTable
+        allData={data}
+        setTotal={setTotal}
+        total={total}
+        type={type}
+      />
     </div>
   );
 };

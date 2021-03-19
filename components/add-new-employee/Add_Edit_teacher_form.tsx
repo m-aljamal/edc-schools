@@ -14,6 +14,7 @@ import {
   subjects,
   division,
   typeOfCertifcate,
+  jopTitle,
 } from "../../utils/SchoolSubjects";
 import styled from "styled-components";
 const { Step } = Steps;
@@ -37,7 +38,7 @@ const AddNewTeacherForm = ({
   edit,
   type,
 }) => {
-  const { data } = useSWR("/api/employee");
+  const { data } = useSWR(`/api/employee/find/${type}`);
   const [isImageLoading, setIsImageLoading] = useState(false);
   const askIfLoading = (state) => {
     setIsImageLoading(state);
@@ -49,6 +50,17 @@ const AddNewTeacherForm = ({
   const [contractImage, setContractImage] = useState(
     oldData?.contractImage || ""
   );
+
+  const otherValues = {
+    teacher: {
+      subject: oldData?.subject || [],
+      classNumber: oldData?.classNumber || [],
+      division: oldData?.division || [],
+    },
+    administrators: {
+      jobTitle: oldData?.jobTitle || "",
+    },
+  };
   const initialValues = {
     name: oldData?.name || "",
     fatherName: oldData?.fatherName || "",
@@ -62,15 +74,82 @@ const AddNewTeacherForm = ({
     number1: oldData?.number1 || "",
     number2: oldData?.number2 || "",
     email: oldData?.email || "",
-    subject: oldData?.subject || [],
-    classNumber: oldData?.classNumber || [],
-    division: oldData?.division || [],
     dateOfStart: oldData?.dateOfStart || "",
     TypeOfCertifcate: oldData?.TypeOfCertifcate || "",
     typeOfDegree: oldData?.typeOfDegree || "",
     DateOfGraduate: oldData?.DateOfGraduate || "",
-    absences: [],
     type,
+    ...otherValues[type],
+  };
+  const otherFormData = {
+    teacher: {
+      form: (
+        <>
+          <FormItem {...layout} name="subject" label="مدرس لمادة">
+            <Select
+              mode="multiple"
+              allowClear
+              placeholder="الرجاء الاختيار"
+              name="subject"
+            >
+              {subjects?.map((s, i) => (
+                <Option key={i} value={s.text}>
+                  {s.text}
+                </Option>
+              ))}
+            </Select>
+          </FormItem>
+          <FormItem {...layout} name="classNumber" label="الصف">
+            <Select
+              dropdownClassName="style"
+              mode="multiple"
+              allowClear
+              placeholder="الرجاء الاختيار"
+              name="classNumber"
+            >
+              {classes?.map((c) => (
+                <Option value={c.text} key={c.text}>
+                  {c.text}
+                </Option>
+              ))}
+            </Select>
+          </FormItem>
+          <FormItem {...layout} name="division" label="الشعبة">
+            <Select
+              mode="multiple"
+              allowClear
+              placeholder="الرجاء الاختيار"
+              name="division"
+            >
+              {division?.map((d) => (
+                <Option value={d.text} key={d.text}>
+                  {d.text}
+                </Option>
+              ))}
+            </Select>
+          </FormItem>
+        </>
+      ),
+    },
+    administrators: {
+      form: (
+        <>
+          <FormItem {...layout} name="jobTitle" label="المسمى الوظيفي">
+            <Select
+              dropdownClassName="style"
+              placeholder="الرجاء الاختيار"
+              name="jobTitle"
+            >
+              {jopTitle?.map((c) => (
+                <Option value={c.text} key={c.text}>
+                  {c.text}
+                </Option>
+              ))}
+            </Select>
+          </FormItem>
+        </>
+      ),
+    },
   };
 
   const words = {
@@ -114,7 +193,7 @@ const AddNewTeacherForm = ({
         graduateImage,
         contractImage,
       });
-      trigger("/api/employee");
+      trigger(`/api/employee/find/${type}`);
       if (res.status === 200) {
         helpers.resetForm();
         setdestroyOnClose(true);
@@ -131,7 +210,7 @@ const AddNewTeacherForm = ({
   const handleNew = async (values, helpers) => {
     try {
       mutate(
-        "/api/employee",
+        `/api/employee/find/${type}`,
         [...data, { ...values, image, graduateImage, contractImage }],
         false
       );
@@ -142,7 +221,7 @@ const AddNewTeacherForm = ({
         contractImage,
       });
 
-      trigger("/api/employee");
+      trigger(`/api/employee/find/${type}`);
       if (res.status === 200) {
         helpers.resetForm();
         setdestroyOnClose(true);
@@ -190,7 +269,7 @@ const AddNewTeacherForm = ({
 
         <FormikStep
           loading={isImageLoading}
-          label={words[type].information}
+          label={words[type]?.information}
           validationSchema={studentInfoValidation}
         >
           <FormItem {...layout} name="dateOfBirth" label="تاريخ الولادة">
@@ -235,49 +314,7 @@ const AddNewTeacherForm = ({
           validationSchema={subjectValidation}
           loading={isImageLoading}
         >
-          <FormItem {...layout} name="subject" label="مدرس لمادة">
-            <Select
-              mode="multiple"
-              allowClear
-              placeholder="الرجاء الاختيار"
-              name="subject"
-            >
-              {subjects?.map((s, i) => (
-                <Option key={i} value={s.text}>
-                  {s.text}
-                </Option>
-              ))}
-            </Select>
-          </FormItem>
-          <FormItem {...layout} name="classNumber" label="الصف">
-            <Select
-              dropdownClassName="style"
-              mode="multiple"
-              allowClear
-              placeholder="الرجاء الاختيار"
-              name="classNumber"
-            >
-              {classes?.map((c) => (
-                <Option value={c.text} key={c.text}>
-                  {c.text}
-                </Option>
-              ))}
-            </Select>
-          </FormItem>
-          <FormItem {...layout} name="division" label="الشعبة">
-            <Select
-              mode="multiple"
-              allowClear
-              placeholder="الرجاء الاختيار"
-              name="division"
-            >
-              {division?.map((d) => (
-                <Option value={d.text} key={d.text}>
-                  {d.text}
-                </Option>
-              ))}
-            </Select>
-          </FormItem>
+          {otherFormData[type]?.form}
           <FormItem {...layout} name="typeOfDegree" label="الاختصاص">
             <Select
               allowClear

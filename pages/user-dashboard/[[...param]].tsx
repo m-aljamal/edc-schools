@@ -155,7 +155,7 @@ export async function getServerSideProps(ctx) {
       props.administratorsList = await employee.getEmployeesBySchool(
         db,
         props.userSchool._id,
-        "Administrators"
+        "administrators"
       );
     case "teacher":
       props.teacher = await employee.getEmployee(db, ctx.query.profileid);

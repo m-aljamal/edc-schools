@@ -12,13 +12,13 @@ import CustomModel from "../shared/CustomModel";
 import Add_Edit_teacher_form from "../add-new-employee/Add_Edit_teacher_form";
 import Link from "next/link";
 
-const DropdownMenu = ({ data, allData }) => {
+const DropdownMenu = ({ data, allData, type }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [destroyOnClose, setdestroyOnClose] = useState(false);
 
   const handleDelete = async (id, allData) => {
     const deleteURL = "/api/employee/" + id;
-    const url = "/api/employee";
+    const url = `/api/employee/find/${type}`;
     mutate(
       url,
       allData.filter((c) => c._id !== id),
@@ -68,6 +68,7 @@ const DropdownMenu = ({ data, allData }) => {
         modelDate={
           <Add_Edit_teacher_form
             edit={true}
+            type={type}
             setIsModalVisible={setIsModalVisible}
             setdestroyOnClose={setdestroyOnClose}
             oldData={data}
