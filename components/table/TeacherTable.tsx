@@ -163,6 +163,13 @@ const TeacherTable = ({ allData, setTotal, total, type }) => {
         dataIndex: "jobTitle",
       },
     ],
+    services: [
+      {
+        title: "المسمى الوظيفي",
+        dataIndex: "jobTitle",
+      },
+    ],
+    students: [{}],
   };
 
   const teachersColumns = [

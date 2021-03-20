@@ -2,7 +2,7 @@ import { Formik, FormikConfig, FormikValues } from "formik";
 import { FormItem, Input, Radio, DatePicker, Form, Select } from "formik-antd";
 import { object, string, date } from "yup";
 import React, { useState } from "react";
-import { Steps, Button, message } from "antd";
+import { Steps, Button, message, InputNumber } from "antd";
 import ImageUpload from "../shared/ImageUpload";
 import axios from "axios";
 import useSWR from "swr";
@@ -15,6 +15,8 @@ import {
   division,
   typeOfCertifcate,
   jopTitle,
+  serviceJopTitle,
+  familySituation,
 } from "../../utils/SchoolSubjects";
 import styled from "styled-components";
 const { Step } = Steps;
@@ -60,6 +62,17 @@ const AddNewTeacherForm = ({
     administrators: {
       jobTitle: oldData?.jobTitle || "",
     },
+    services: {
+      jobTitle: oldData?.jobTitle || "",
+    },
+    students: {
+      classNumber: oldData?.classNumber || "",
+      division: oldData?.division || "",
+      familySituation: oldData?.familySituation || "",
+      numberOfBrother: oldData?.numberOfBrother || 0,
+      healthSituation: oldData?.healthSituation || "",
+      sickType: oldData?.sickType || "",
+    },
   };
   const initialValues = {
     name: oldData?.name || "",
@@ -81,10 +94,35 @@ const AddNewTeacherForm = ({
     type,
     ...otherValues[type],
   };
+
+  const personalInfoValidation = object({
+    // name: string().required("الرجاء ادخال الاسم"),
+    // fatherName: string().required("الرجاء ادخال اسم الاب"),
+    // motherName: string().required("الرجاء ادخال الام"),
+    // sex: string().required("الرجاء ادخال الجنس"),
+  });
+  const studentInfoValidation = object({
+    // plaseOfBirth: string().required("الرجاء ادخال  مكان الولادة"),
+    // dateOfBirth: date().required("الرجاء ادخال تاريخ الولادة"),
+    // city: string().required("الرجاء ادخال اسم المدينة"),
+    // region: string().required("الرجاء ادخال اسم المنطقة"),
+    // street: string().required("الرجاء ادخال اسم الشارع"),
+    // number1: string().required("الرجاء ادخال رقم الهاتف"),
+    // email: string().email().required("الرجاء ادخال الايميل"),
+  });
+
+  const subjectValidation = object({
+    // dateOfStart: date().required("الرجاء ادخال تاريخ بدأ العمل"),
+  });
+
   const otherFormData = {
     teacher: {
       form: (
-        <>
+        <FormikStep
+          label="الاختصاص"
+          validationSchema={subjectValidation}
+          loading={isImageLoading}
+        >
           <FormItem {...layout} name="subject" label="مدرس لمادة">
             <Select
               mode="multiple"
@@ -128,12 +166,48 @@ const AddNewTeacherForm = ({
               ))}
             </Select>
           </FormItem>
-        </>
+          <FormItem {...layout} name="typeOfDegree" label="الاختصاص">
+            <Select
+              allowClear
+              placeholder="الرجاء الاختيار"
+              name="typeOfDegree"
+            >
+              {subjects?.map((s, i) => (
+                <Option key={i} value={s.text}>
+                  {s.text}
+                </Option>
+              ))}
+            </Select>
+          </FormItem>
+          <FormItem {...layout} name="TypeOfCertifcate" label="التحصيل العلمي">
+            <Select
+              allowClear
+              placeholder="الرجاء الاختيار"
+              name="TypeOfCertifcate"
+            >
+              {typeOfCertifcate?.map((s, i) => (
+                <Option key={i} value={s.text}>
+                  {s.text}
+                </Option>
+              ))}
+            </Select>
+          </FormItem>
+          <FormItem {...layout} name="DateOfGraduate" label="تاريخ التخرج">
+            <DatePicker name="DateOfGraduate" placeholder="اختر تاريخ" />
+          </FormItem>
+          <FormItem {...layout} name="dateOfStart" label="تاريخ الالتحاق">
+            <DatePicker name="dateOfStart" placeholder="اختر تاريخ" />
+          </FormItem>
+        </FormikStep>
       ),
     },
     administrators: {
       form: (
-        <>
+        <FormikStep
+          label="الاختصاص"
+          validationSchema={subjectValidation}
+          loading={isImageLoading}
+        >
           <FormItem {...layout} name="jobTitle" label="المسمى الوظيفي">
             <Select
               dropdownClassName="style"
@@ -147,43 +221,140 @@ const AddNewTeacherForm = ({
               ))}
             </Select>
           </FormItem>
-        </>
+          <FormItem {...layout} name="typeOfDegree" label="الاختصاص">
+            <Select
+              allowClear
+              placeholder="الرجاء الاختيار"
+              name="typeOfDegree"
+            >
+              {subjects?.map((s, i) => (
+                <Option key={i} value={s.text}>
+                  {s.text}
+                </Option>
+              ))}
+            </Select>
+          </FormItem>
+          <FormItem {...layout} name="TypeOfCertifcate" label="التحصيل العلمي">
+            <Select
+              allowClear
+              placeholder="الرجاء الاختيار"
+              name="TypeOfCertifcate"
+            >
+              {typeOfCertifcate?.map((s, i) => (
+                <Option key={i} value={s.text}>
+                  {s.text}
+                </Option>
+              ))}
+            </Select>
+          </FormItem>
+          <FormItem {...layout} name="DateOfGraduate" label="تاريخ التخرج">
+            <DatePicker name="DateOfGraduate" placeholder="اختر تاريخ" />
+          </FormItem>
+          <FormItem {...layout} name="dateOfStart" label="تاريخ الالتحاق">
+            <DatePicker name="dateOfStart" placeholder="اختر تاريخ" />
+          </FormItem>
+        </FormikStep>
+      ),
+    },
+    services: {
+      form: (
+        <FormikStep
+          label="الاختصاص"
+          validationSchema={subjectValidation}
+          loading={isImageLoading}
+        >
+          <FormItem {...layout} name="jobTitle" label="المسمى الوظيفي">
+            <Select
+              dropdownClassName="style"
+              placeholder="الرجاء الاختيار"
+              name="jobTitle"
+            >
+              {serviceJopTitle?.map((c) => (
+                <Option value={c.text} key={c.text}>
+                  {c.text}
+                </Option>
+              ))}
+            </Select>
+          </FormItem>
+          <FormItem {...layout} name="TypeOfCertifcate" label="التحصيل العلمي">
+            <Select
+              allowClear
+              placeholder="الرجاء الاختيار"
+              name="TypeOfCertifcate"
+            >
+              {typeOfCertifcate?.map((s, i) => (
+                <Option key={i} value={s.text}>
+                  {s.text}
+                </Option>
+              ))}
+            </Select>
+          </FormItem>
+          <FormItem {...layout} name="dateOfStart" label="تاريخ الالتحاق">
+            <DatePicker name="dateOfStart" placeholder="اختر تاريخ" />
+          </FormItem>
+        </FormikStep>
+      ),
+    },
+    students: {
+      form: (
+        <FormikStep
+          label="معلومات الصف"
+          validationSchema={subjectValidation}
+          loading={isImageLoading}
+        >
+          <FormItem {...layout} name="classNumber" label="الصف">
+            <Select
+              dropdownClassName="style"
+              allowClear
+              placeholder="الرجاء الاختيار"
+              name="classNumber"
+            >
+              {classes?.map((c) => (
+                <Option value={c.text} key={c.text}>
+                  {c.text}
+                </Option>
+              ))}
+            </Select>
+          </FormItem>
+          <FormItem {...layout} name="division" label="الشعبة">
+            <Select allowClear placeholder="الرجاء الاختيار" name="division">
+              {division?.map((d) => (
+                <Option value={d.text} key={d.text}>
+                  {d.text}
+                </Option>
+              ))}
+            </Select>
+          </FormItem>
+          <FormItem {...layout} name="dateOfStart" label="تاريخ الالتحاق">
+            <DatePicker name="dateOfStart" placeholder="اختر تاريخ" />
+          </FormItem>
+        </FormikStep>
       ),
     },
   };
 
   const words = {
     teacher: {
-      edit: "تم تعديل المدرس بنجاح",
+      edit: "تم تعديل معلومات المدرس بنجاح",
       create: "تم تسجيل المدرس بنجاح",
       information: "معلومات المدرس",
     },
     administrators: {
-      edit: "تم تعديل الاداري بنجاح",
+      edit: "تم تعديل  معلومات الاداري بنجاح",
       create: "تم تسجيل الاداري بنجاح",
       information: "معلومات الاداري",
     },
+    services: {
+      edit: "تم تعديل معلومات المستخدم بنجاح",
+      create: "تم تسجيل المستخدم بنجاح",
+      information: "معلومات المستخدم",
+    },
+    students: {
+      edit: "تم تعديل معلومات الطالب بنجاح",
+      create: "تم تسجيل الطالب بنجاح",
+      information: "معلومات الطالب",
+    },
   };
-
-  const personalInfoValidation = object({
-    // name: string().required("الرجاء ادخال الاسم"),
-    // fatherName: string().required("الرجاء ادخال اسم الاب"),
-    // motherName: string().required("الرجاء ادخال الام"),
-    // sex: string().required("الرجاء ادخال الجنس"),
-  });
-  const studentInfoValidation = object({
-    // plaseOfBirth: string().required("الرجاء ادخال  مكان الولادة"),
-    // dateOfBirth: date().required("الرجاء ادخال تاريخ الولادة"),
-    // city: string().required("الرجاء ادخال اسم المدينة"),
-    // region: string().required("الرجاء ادخال اسم المنطقة"),
-    // street: string().required("الرجاء ادخال اسم الشارع"),
-    // number1: string().required("الرجاء ادخال رقم الهاتف"),
-    // email: string().email().required("الرجاء ادخال الايميل"),
-  });
-
-  const subjectValidation = object({
-    // dateOfStart: date().required("الرجاء ادخال تاريخ بدأ العمل"),
-  });
 
   const handleEdit = async (values, helpers) => {
     try {
@@ -194,6 +365,7 @@ const AddNewTeacherForm = ({
         contractImage,
       });
       trigger(`/api/employee/find/${type}`);
+      trigger("/api/employee");
       if (res.status === 200) {
         helpers.resetForm();
         setdestroyOnClose(true);
@@ -222,6 +394,7 @@ const AddNewTeacherForm = ({
       });
 
       trigger(`/api/employee/find/${type}`);
+      trigger("/api/employee");
       if (res.status === 200) {
         helpers.resetForm();
         setdestroyOnClose(true);
@@ -309,46 +482,29 @@ const AddNewTeacherForm = ({
           </AddressStyle>
         </FormikStep>
 
-        <FormikStep
-          label="الاختصاص"
-          validationSchema={subjectValidation}
-          loading={isImageLoading}
-        >
-          {otherFormData[type]?.form}
-          <FormItem {...layout} name="typeOfDegree" label="الاختصاص">
-            <Select
-              allowClear
-              placeholder="الرجاء الاختيار"
-              name="typeOfDegree"
-            >
-              {subjects?.map((s, i) => (
-                <Option key={i} value={s.text}>
-                  {s.text}
-                </Option>
-              ))}
-            </Select>
-          </FormItem>
-          <FormItem {...layout} name="TypeOfCertifcate" label="التحصيل العلمي">
-            <Select
-              allowClear
-              placeholder="الرجاء الاختيار"
-              name="TypeOfCertifcate"
-            >
-              {typeOfCertifcate?.map((s, i) => (
-                <Option key={i} value={s.text}>
-                  {s.text}
-                </Option>
-              ))}
-            </Select>
-          </FormItem>
-          <FormItem {...layout} name="DateOfGraduate" label="تاريخ التخرج">
-            <DatePicker name="DateOfGraduate" placeholder="اختر تاريخ" />
-          </FormItem>
-          <FormItem {...layout} name="dateOfStart" label="تاريخ الالتحاق">
-            <DatePicker name="dateOfStart" placeholder="اختر تاريخ" />
-          </FormItem>
-        </FormikStep>
-
+        {otherFormData[type]?.form}
+        {type === "students" && (
+          <FormikStep label="الوضع الاجتماعي" loading={isImageLoading}>
+            oldData?.numberOfBrother || 0 
+            oldData?.healthSituation || "", sickType: oldData?.sickType || "",
+            <FormItem {...layout} name="familySituation" label="الوضع العائلي">
+              <Select
+                allowClear
+                placeholder="الرجاء الاختيار"
+                name="familySituation"
+              >
+                {familySituation?.map((d) => (
+                  <Option value={d.text} key={d.text}>
+                    {d.text}
+                  </Option>
+                ))}
+              </Select>
+            </FormItem>
+            <FormItem {...layout} name="numberOfBrother" label="عدد الاخوة">
+              <InputNumber name="numberOfBrother" />
+            </FormItem>
+          </FormikStep>
+        )}
         <FormikStep label="الملحقات" loading={isImageLoading}>
           <FormItem name="image">
             <ImageUpload

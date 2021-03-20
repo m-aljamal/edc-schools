@@ -1,7 +1,6 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Menu } from "antd";
-import useSWR from "swr";
 import {
   TeamOutlined,
   FundOutlined,
@@ -12,11 +11,11 @@ import {
   SmileOutlined,
   LeftOutlined,
 } from "@ant-design/icons";
-import { connectToDB, user, school, employee, absence } from "../../db";
+import { connectToDB, user, school, employee, student } from "../../db";
 import DashbordLayout from "../../components/shared/DashbordLayout";
-import { useRouter } from "next/router";
 import TimeSheet from "../../components/abcence/TimeSheet";
 import ProfilePage from "../../components/shared/ProfilePage";
+import StudentsList from "../../components/user-pages/StudentsList";
 const NamesList = dynamic(
   () => import("../../components/user-pages/NamesList")
 );
@@ -28,14 +27,10 @@ const UserDashboard = ({
   teachersList,
   administratorsList,
   teacher,
+  serviceList,
+  allEmployeeNames,
+  studentsList,
 }) => {
-  const { data } = useSWR("/api/employee", {
-    initialData: teachersList,
-    dedupingInterval: 60000,
-  });
-
-  const router = useRouter();
-
   const PageCountent = () => {
     if (teachersList)
       return <NamesList type="teacher" namesList={teachersList || []} />;
@@ -43,10 +38,15 @@ const UserDashboard = ({
       return (
         <NamesList type="administrators" namesList={administratorsList || []} />
       );
-
+    if (serviceList)
+      return <NamesList type="services" namesList={serviceList || []} />;
     if (teacher) return <ProfilePage userInfo={teacher} />;
-    if (router.query.page === "emptimesheet") return <TimeSheet names={data} />;
+    if (allEmployeeNames)
+      return <TimeSheet allEmployeeNames={allEmployeeNames || []} />;
+    if (studentsList)
+      return <NamesList type="students" namesList={studentsList || []} />;
   };
+
   return (
     <DashbordLayout
       currentUser={currentUser}
@@ -69,22 +69,19 @@ const UserDashboard = ({
               </Link>
             </Menu.Item>
             <Menu.Item key="4" icon={<LeftOutlined />}>
-              <Link href="/user-dashboard?page=service">الخدميين</Link>
+              <Link href="/user-dashboard?page=services&key=4&sub=1">
+                الخدميين
+              </Link>
             </Menu.Item>
             <Menu.Item key="5" icon={<LeftOutlined />}>
               <Link href="/user-dashboard?page=emptimesheet&key=5&sub=1">
                 سجل الدوام
               </Link>
             </Menu.Item>
-            <Menu.Item key="6" icon={<LeftOutlined />}>
-              <Link href="/user-dashboard?page=newemployee">
-                اضافة موظف جديد
-              </Link>
-            </Menu.Item>
           </SubMenu>
           <SubMenu key="sub2" icon={<SmileOutlined />} title="الطلاب">
-            <Menu.Item key="7" icon={<LeftOutlined />}>
-              <Link href="/user-dashboard?page=students&key=7&sub=2">
+            <Menu.Item key="6" icon={<LeftOutlined />}>
+              <Link href="/user-dashboard?page=students&key=6&sub=2">
                 جميع الطلاب
               </Link>
             </Menu.Item>
@@ -119,14 +116,7 @@ const UserDashboard = ({
     />
   );
 };
-UserDashboard.defaultProps = {
-  page: [
-    { id: 1, link: "", name: "الرئيسية" },
-    { id: 2, link: "?page=employees", name: "الموظفين" },
-    { id: 3, link: "?page=students", name: "الطلاب" },
-    { id: 4, link: "?page=absence", name: "سجل الدوام" },
-  ],
-};
+
 export default UserDashboard;
 
 export async function getServerSideProps(ctx) {
@@ -144,6 +134,7 @@ export async function getServerSideProps(ctx) {
     db,
     props.currentUser._id
   );
+
   switch (ctx.query.page) {
     case "teachers":
       props.teachersList = await employee.getEmployeesBySchool(
@@ -157,69 +148,27 @@ export async function getServerSideProps(ctx) {
         props.userSchool._id,
         "administrators"
       );
+    case "services":
+      props.serviceList = await employee.getEmployeesBySchool(
+        db,
+        props.userSchool._id,
+        "services"
+      );
+    case "emptimesheet":
+      props.allEmployeeNames = await employee.getAllEmployees(
+        db,
+        props.userSchool._id
+      );
     case "teacher":
       props.teacher = await employee.getEmployee(db, ctx.query.profileid);
+    case "students":
+      props.studentsList = await student.getStudentsBySchool(
+        db,
+        props.userSchool._id
+      );
   }
 
-  //   // if (ctx.query.page === "teachers") {
-  //   //   props.studentList = await employee.getEmployeesBySchool(
-  //   //     db,
-  //   //     props.userSchool._id
-  //   //   );
-  //   // }
-  //   // if (ctx.query.page === "mangers") {
-  //   //   props.studentList = await employee.getEmployeesBySchool(
-  //   //     db,
-  //   //     props.userSchool._id
-  //   //   );
-  //   // }
-  //   // if (ctx.query.page === "service") {
-  //   //   props.studentList = await employee.getEmployeesBySchool(
-  //   //     db,
-  //   //     props.userSchool._id
-  //   //   );
-  //   // }
-  //   // if (ctx.query.page === "emptimesheet") {
-  //   //   props.studentList = await employee.getEmployeesBySchool(
-  //   //     db,
-  //   //     props.userSchool._id
-  //   //   );
-  //   // }
-  //   // if (ctx.query.page === "students") {
-  //   //   props.studentList = await student.getStudentsBySchool(
-  //   //     db,
-  //   //     props.userSchool._id
-  //   //   );
-  //   // }
-  //   // if (ctx.query.page === "employees") {
-  //   //   props.employeeList = await employee.getEmployeesBySchool(
-  //   //     db,
-  //   //     props.userSchool._id
-  //   //   );
-  //   // }
-  //   // if (ctx.query.page === "absence") {
-  //   //   props.absenceList = await absence.getAbsenceBySchool(
-  //   //     db,
-  //   //     props.userSchool._id
-  //   //   );
-  //   //   props.studentList = await student.getStudentsForNewAbsence(
-  //   //     db,
-  //   //     props.userSchool._id
-  //   //   );
-  //   // }
   return {
     props,
   };
 }
-
-/**
- * todo
- *
- * add new employee
- * add informtaion to the students requerds and for employee
- * take daily Absence
- * add students marks and information
- * make student pass to the next calss
- *
- *
- */

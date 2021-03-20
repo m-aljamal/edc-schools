@@ -6,7 +6,10 @@ import Add_Edit_teacher_form from "../add-new-employee/Add_Edit_teacher_form";
 import { TitleStyle } from "../styles/TitleStyle";
 import useSWR from "swr";
 const NamesList = ({ namesList, type }) => {
-  const { data } = useSWR(`/api/employee/find/${type}`, {
+  const employeeUrl = `/api/employee/find/${type}`;
+  const studentsUrl = `/api/student/`;
+
+  const { data } = useSWR(type === "students" ? studentsUrl : employeeUrl, {
     initialData: namesList,
     dedupingInterval: 60000,
   });
@@ -27,6 +30,14 @@ const NamesList = ({ namesList, type }) => {
     administrators: {
       add: "اداري",
       all: "الاداريين",
+    },
+    services: {
+      add: "مستخدم",
+      all: "مستخدمين",
+    },
+    students: {
+      add: "طالب",
+      all: "طلاب",
     },
   };
 

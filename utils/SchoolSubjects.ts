@@ -202,3 +202,29 @@ export const jopTitle = [
     text: "اعلامي",
   },
 ];
+
+export const serviceJopTitle = [
+  {
+    text: "حارس",
+  },
+  {
+    text: "طباخ",
+  },
+  {
+    text: "تنظيف",
+  },
+];
+export const familySituation = [
+  {
+    text: "يتيم الاب",
+  },
+  {
+    text: "يتيم الام",
+  },
+  {
+    text: "يتيم الاب و الام",
+  },
+  {
+    text: "ابوين",
+  },
+];

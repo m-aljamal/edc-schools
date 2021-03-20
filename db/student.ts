@@ -44,7 +44,7 @@ export const getStudentsBySchool = async (db: Db, schoolId: string) => {
   return db.collection("students").find({ schoolId }).toArray();
 };
 
-// todo find way to element the data returned 
+// todo find way to element the data returned
 export const getStudentsForNewAbsence = async (db: Db, schoolId: string) => {
   return db.collection("students").find({ schoolId }).toArray();
 };

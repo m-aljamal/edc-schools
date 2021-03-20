@@ -32,6 +32,10 @@ export const getEmployeesBySchool = async (
     .toArray();
 };
 
+export const getAllEmployees = async (db: Db, schoolId: string) => {
+  return db.collection("employee").find({ schoolId }).toArray();
+};
+
 export const getEmployee = async (db: Db, id: string) => {
   return db.collection("employee").findOne({ _id: id });
 };

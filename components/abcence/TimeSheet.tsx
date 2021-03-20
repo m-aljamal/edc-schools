@@ -23,9 +23,16 @@ const TimeSheetStyle = styled.div`
     margin: 50px 0;
   }
 `;
-const TimeSheet = ({ names }) => {
+
+const TimeSheet = ({ allEmployeeNames }) => {
   const [displaySheetMonth, setdisplayMonthSheet] = useState(new Date());
   const [loading, setLoading] = useState(false);
+
+  const res = useSWR("/api/employee", {
+    initialData: allEmployeeNames,
+    dedupingInterval: 60000,
+  });
+
   const { data } = useSWR(`/api/absence/${displaySheetMonth}`, {
     dedupingInterval: 60000,
   });
@@ -55,7 +62,7 @@ const TimeSheet = ({ names }) => {
   return (
     <TimeSheetStyle>
       <div className="addNew">
-        <AddNewAbcence names={names} displaySheetMonth={displaySheetMonth} />
+        <AddNewAbcence names={res.data} displaySheetMonth={displaySheetMonth} />
       </div>
 
       <div className="devider"></div>
@@ -86,7 +93,7 @@ const TimeSheet = ({ names }) => {
         </h3>
         <div className="monthTable">
           <MonthTable
-            names={names}
+            names={res.data}
             absenceListByMonth={data}
             displaySheetMonth={displaySheetMonth}
           />

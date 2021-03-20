@@ -4,9 +4,11 @@ import {
   SearchOutlined,
   CheckOutlined,
   CloseOutlined,
+  PauseOutlined,
 } from "@ant-design/icons";
 import React, { useState } from "react";
 import styled from "styled-components";
+import setDate from "../../utils/setDate";
 
 const TableStyle = styled.div`
   .ant-table-footer {
@@ -132,7 +134,11 @@ const AbcenceMonthTable = ({
       render: (value, row, index) => {
         const weekend = new Date(date.getFullYear(), date.getMonth(), i);
         if (weekend.getDay() == 4 || weekend.getDay() == 5) {
-          return <p>-</p>;
+          return (
+            <Tooltip placement="topLeft" title="عطلة اسبوعية">
+              <PauseOutlined style={{ color: "blue" }} />
+            </Tooltip>
+          );
         }
 
         let abcence;
@@ -144,20 +150,26 @@ const AbcenceMonthTable = ({
               row.name === absenceListByMonth[abcence].emplpyees[employee].name
             ) {
               return (
-                <>
-                  <Tooltip
-                    placement="topLeft"
-                    title={absenceListByMonth[abcence].reason}
-                  >
-                    <CloseOutlined style={{ color: "red" }} />
-                  </Tooltip>
-                </>
+                <Tooltip
+                  placement="topLeft"
+                  title={absenceListByMonth[abcence].reason}
+                >
+                  <CloseOutlined style={{ color: "red" }} />
+                </Tooltip>
               );
             }
           }
         }
 
-        return <CheckOutlined style={{ color: "green" }} />;
+        if (setDate(row.dateOfStart) <= setDate(new Date(y, m - 1, i))) {
+          return <CheckOutlined style={{ color: "green" }} />;
+        }
+
+        return (
+          <Tooltip placement="topLeft" title="لا يوجد بيانات">
+            <p>-</p>
+          </Tooltip>
+        );
       },
     });
   }

@@ -13,7 +13,7 @@ export const addAbsences = async (
   const absenceUsers = await db
     .collection("employee")
     .find({ _id: { $in: absenceList.absenceIds } })
-    .project({ name: 1 })
+    .project({ name: 1, dateOfStart: 1 })
     .toArray();
 
   const newAbsence = await db
