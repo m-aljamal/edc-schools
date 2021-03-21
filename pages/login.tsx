@@ -6,12 +6,14 @@ import { FormItem, Input } from "formik-antd";
 import { string, object } from "yup";
 import { Button, message } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
+import styles from "../components/styles/login.module.css";
 import styled from "styled-components";
+// import styled from "styled-components";
 
-const LoginStyle = styled.h2`
-  font-size: 3rem;
-  color: red;
-`;
+// const LoginStyle = styled.h2`
+//   font-size: 5rem;
+//   color: red;
+// `;
 
 const login = () => {
   const [loading, setLoading] = useState(false);
@@ -27,7 +29,8 @@ const login = () => {
     <div>
       <div>
         <div>
-          <LoginStyle className="title">تسجيل الدخول</LoginStyle>
+          <h1 className={styles.h1}>teest</h1>
+          <div className={styles.title}>تسجيل الدخول</div>
           <Formik
             validationSchema={validationScheam}
             initialValues={initialValues}

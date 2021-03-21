@@ -19,8 +19,8 @@ handler.put(async (req: Request, res: NextApiResponse) => {
   await req.db
     .collection("absences")
     .updateMany(
-      { employees: { $elemMatch: { _id: req.query.id } } },
-      { $set: { "employees.$": { _id: req.query.id, ...req.body } } }
+      { names: { $elemMatch: { _id: req.query.id } } },
+      { $set: { "names.$": { _id: req.query.id, ...req.body } } }
     );
 
   const employee = await req.db

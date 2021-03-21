@@ -1,9 +1,9 @@
 import nc from "next-connect";
-import onError from "../../../../middleware/error";
+import onError from "../../../../../middleware/error";
 import { NextApiResponse } from "next";
-import { Request } from "../../../../types";
-import dbMissleware from "../../../../middleware/db";
-import setDate from "../../../../utils/setDate";
+import { Request } from "../../../../../types";
+import dbMissleware from "../../../../../middleware/db";
+import setDate from "../../../../../utils/setDate";
 
 const handler = nc({
   onError,
@@ -11,12 +11,12 @@ const handler = nc({
 handler.use(dbMissleware);
 handler.put(async (req: Request, res: NextApiResponse) => {
   const absenceUsers = await req.db
-    .collection("employee")
+    .collection("students")
     .find({ _id: { $in: req.body.absenceIds } })
     .project({ name: 1 })
     .toArray();
 
-  const newAbsence = await req.db.collection("absences").updateOne(
+  const newAbsence = await req.db.collection("studentsAbcence").updateOne(
     { _id: req.query.id },
     {
       $set: {

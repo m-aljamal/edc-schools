@@ -27,16 +27,20 @@ const TimeSheetStyle = styled.div`
 const TimeSheet = ({ allEmployeeNames, type }) => {
   const [displaySheetMonth, setdisplayMonthSheet] = useState(new Date());
   const [loading, setLoading] = useState(false);
-  const studentsUrl = "/api/student";
-  const employeesUrl = "/api/employee";
-  const res = useSWR(type === "students" ? studentsUrl : employeesUrl, {
+
+  const res = useSWR(type === "employees" ? "/api/employee" : "/api/student", {
     initialData: allEmployeeNames,
     dedupingInterval: 60000,
   });
 
-  const { data } = useSWR(`/api/absence/${displaySheetMonth}`, {
-    dedupingInterval: 60000,
-  });
+  const { data } = useSWR(
+    type === "employees"
+      ? `/api/absence/${displaySheetMonth}`
+      : `/api/student/absence/${displaySheetMonth}`,
+    {
+      dedupingInterval: 60000,
+    }
+  );
 
   useEffect(() => {
     if (!data) {
@@ -64,9 +68,9 @@ const TimeSheet = ({ allEmployeeNames, type }) => {
     <TimeSheetStyle>
       <div className="addNew">
         <AddNewAbcence
-          
           names={res.data}
           displaySheetMonth={displaySheetMonth}
+          type={type}
         />
       </div>
 

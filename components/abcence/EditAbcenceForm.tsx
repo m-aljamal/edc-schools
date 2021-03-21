@@ -19,10 +19,16 @@ const validation = object({
   reason: string().required("الرجاء كتابة سبب الغياب"),
 });
 
-const EditAbcenceForm = ({ names, displaySheetMonth, oldData, setIsEdit }) => {
+const EditAbcenceForm = ({
+  names,
+  displaySheetMonth,
+  oldData,
+  setIsEdit,
+  type,
+}) => {
   const initialValues = {
     date: oldData?.date,
-    absenceIds: oldData?.employees?.map((emp) => emp._id),
+    absenceIds: oldData?.names?.map((emp) => emp._id),
     reason: oldData?.reason,
   };
 
@@ -40,11 +46,28 @@ const EditAbcenceForm = ({ names, displaySheetMonth, oldData, setIsEdit }) => {
       console.log(error);
     }
   };
+  const handleStudentTimeSheet = async (values, helpers) => {
+    try {
+      let res = await axios.put(
+        `/api/student/absence/edit/${oldData._id}`,
+        values
+      );
+      trigger(`/api/student/absence/${displaySheetMonth}`);
+      if (res.status === 200) {
+        setIsEdit(false);
+        helpers.resetForm();
+        message.success("تم تعديل الغياب بنجاح");
+      }
+    } catch (error) {
+      message.error(error.response?.data?.error);
+      console.log(error);
+    }
+  };
 
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={(values, helpers) => handleTimeSheet(values, helpers)}
+      onSubmit={type === "employees" ? handleTimeSheet : handleStudentTimeSheet}
       validationSchema={validation}
     >
       {(isSubmitting, values) => (

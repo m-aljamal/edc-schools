@@ -5,7 +5,7 @@ import { NewAbcenceStyle } from "../styles/NewAbcenceStyle";
 import AddNewAbcenceForm from "./AddNewAbcenceForm";
 import EditAbcenceForm from "./EditAbcenceForm";
 
-const EditAbcence = ({ names, displaySheetMonth, setIsEdit }) => {
+const EditAbcence = ({ names, displaySheetMonth, setIsEdit, type }) => {
   const [abcenceData, setAbcenceData] = useState(null);
   const [date, setDate] = useState("");
 
@@ -16,7 +16,11 @@ const EditAbcence = ({ names, displaySheetMonth, setIsEdit }) => {
       if (isMounted) {
         if (date) {
           try {
-            const res = await axios.get(`/api/absence/find/${date}`);
+            const res = await axios.get(
+              type === "employees"
+                ? `/api/absence/find/${date}`
+                : `/api/student/absence/find/${date}`
+            );
             if (!res.data) {
               setAbcenceData(null);
               return message.info(`لايوجد غياب في هذا التاريخ`);
@@ -49,6 +53,7 @@ const EditAbcence = ({ names, displaySheetMonth, setIsEdit }) => {
       {abcenceData && (
         <NewAbcenceStyle>
           <EditAbcenceForm
+            type={type}
             oldData={abcenceData}
             names={names}
             displaySheetMonth={displaySheetMonth}

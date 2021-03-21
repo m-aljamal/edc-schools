@@ -13,8 +13,15 @@ handler.delete(async (req: Request, res: NextApiResponse) => {
 
   res.json("delete");
 });
-
+ث
 handler.put(async (req: Request, res: NextApiResponse) => {
+  await req.db
+    .collection("studentsAbcence")
+    .updateMany(
+      { names: { $elemMatch: { _id: req.query.id } } },
+      { $set: { "names.$": { _id: req.query.id, ...req.body } } }
+    );
+
   const student = await req.db
     .collection("students")
     .updateOne({ _id: req.query.id }, { $set: req.body });

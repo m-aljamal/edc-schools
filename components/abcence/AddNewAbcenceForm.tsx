@@ -19,7 +19,7 @@ const validation = object({
   reason: string().required("الرجاء كتابة سبب الغياب"),
 });
 
-const AddNewAbcenceForm = ({ names, displaySheetMonth }) => {
+const AddNewAbcenceForm = ({ names, displaySheetMonth, type }) => {
   const initialValues = {
     date: "",
     absenceIds: [],
@@ -40,10 +40,25 @@ const AddNewAbcenceForm = ({ names, displaySheetMonth }) => {
     }
   };
 
+  const handleStudentsTimeSheet = async (values, helpers) => {
+    try {
+      let res = await axios.post("/api/student/absence/new", values);
+      trigger(`/api/student/absence/${displaySheetMonth}`);
+      if (res.status === 200) {
+        helpers.resetForm();
+        message.success("تم تسجيل الغياب بنجاح");
+      }
+    } catch (error) {
+      message.error(error.response?.data?.error);
+      console.log(error);
+    }
+  };
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={(values, helpers) => handleTimeSheet(values, helpers)}
+      onSubmit={
+        type === "employees" ? handleTimeSheet : handleStudentsTimeSheet
+      }
       validationSchema={validation}
     >
       {(isSubmitting, values) => (
@@ -57,7 +72,7 @@ const AddNewAbcenceForm = ({ names, displaySheetMonth }) => {
               style={{ justifyContent: " center", marginTop: "15px" }}
               dataSource={names}
               titles={[
-                <Tag color="geekblue">اسماء الحضور</Tag>,
+                <Tag color="geekblue">اسماء الموظفين</Tag>,
                 <Tag color="geekblue">اسماء الغياب</Tag>,
               ]}
               render={(item) => item.name}

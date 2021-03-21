@@ -11,7 +11,7 @@ import { NewAbcenceStyle } from "../styles/NewAbcenceStyle";
 const AddNewAbcenceForm = dynamic(() => import("./AddNewAbcenceForm"));
 const EditAbcenceForm = dynamic(() => import("./EditAbcence"));
 
-const AddNewAbcence = ({ names, displaySheetMonth }) => {
+const AddNewAbcence = ({ names, displaySheetMonth, type }) => {
   const [isEdit, setIsEdit] = useState(false);
 
   const menu = () => (
@@ -43,12 +43,14 @@ const AddNewAbcence = ({ names, displaySheetMonth }) => {
       </div>
       {isEdit ? (
         <EditAbcenceForm
+          type={type}
           setIsEdit={setIsEdit}
           names={names}
           displaySheetMonth={displaySheetMonth}
         />
       ) : (
         <AddNewAbcenceForm
+          type={type}
           names={names}
           displaySheetMonth={displaySheetMonth}
         />
