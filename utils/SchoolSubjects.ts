@@ -177,6 +177,14 @@ export const typeOfCertifcate = [
     value: "بكلوريا",
   },
   {
+    text: "اعدادي",
+    value: "اعدادي",
+  },
+  {
+    text: "ابتدائي",
+    value: "ابتدائي",
+  },
+  {
     text: "لايوجد",
     value: "لايوجد",
   },
@@ -217,14 +225,18 @@ export const serviceJopTitle = [
 export const familySituation = [
   {
     text: "يتيم الاب",
+    value: "يتيم الاب",
   },
   {
     text: "يتيم الام",
+    value: "يتيم الام",
   },
   {
     text: "يتيم الاب و الام",
+    value: "يتيم الاب و الام",
   },
   {
     text: "ابوين",
+    value: "ابوين",
   },
 ];

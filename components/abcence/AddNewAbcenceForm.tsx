@@ -57,7 +57,7 @@ const AddNewAbcenceForm = ({ names, displaySheetMonth }) => {
               style={{ justifyContent: " center", marginTop: "15px" }}
               dataSource={names}
               titles={[
-                <Tag color="geekblue">اسماء الموظفين</Tag>,
+                <Tag color="geekblue">اسماء الحضور</Tag>,
                 <Tag color="geekblue">اسماء الغياب</Tag>,
               ]}
               render={(item) => item.name}

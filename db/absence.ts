@@ -20,7 +20,7 @@ export const addAbsences = async (
     .collection("absences")
     .insertOne({
       _id: nanoid(),
-      emplpyees: absenceUsers,
+      employees: absenceUsers,
       date: setDate(absenceList.date),
       reason: absenceList.reason,
       schoolId: absenceList.schoolId,

@@ -69,40 +69,43 @@ const ImageUpload = ({ setImage, title, imageState, askIfLoading }) => {
       {loading ? (
         <Spin indicator={antIcon} />
       ) : (
-        <label
-          className="input-wrapper"
-          style={{
-            backgroundColor: "#1890ff",
-            padding: "5px 10px",
-            cursor: "pointer",
-            color: "white",
-            margin: "0 auto",
-          }}
-        >
-          {title}
-          <input
-            type="file"
-            accept="images/*"
-            onChange={handleChange}
-            hidden
-            id="photo"
-            name="photo"
-          />
-        </label>
-      )}
-      <div className="imageContainer">
-        {imageState && (
-          <div className="imageHoler">
-            <span
-              className="removeImage"
-              onClick={() => handleRemove(imageState.public_id)}
-            >
-              X
-            </span>
-            <img src={imageState.url} />
+        <>
+          <label
+            className="input-wrapper"
+            style={{
+              backgroundColor: "#1890ff",
+              padding: "5px 10px",
+              cursor: "pointer",
+              color: "white",
+              margin: "0 auto",
+            }}
+          >
+            {title}
+            <input
+              type="file"
+              accept="images/*"
+              onChange={handleChange}
+              hidden
+              id="photo"
+              name="photo"
+            />
+          </label>
+
+          <div className="imageContainer">
+            {imageState && (
+              <div className="imageHoler">
+                <span
+                  className="removeImage"
+                  onClick={() => handleRemove(imageState.public_id)}
+                >
+                  X
+                </span>
+                <img src={imageState.url} />
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        </>
+      )}
     </UploadImageStyle>
   );
 };

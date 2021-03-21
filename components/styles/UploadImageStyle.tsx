@@ -4,7 +4,7 @@ export const UploadImageStyle = styled.div`
   text-align: center;
   .imageHoler {
     height: 100px;
-     
+
     position: relative;
     img {
       width: 100%;
@@ -24,7 +24,8 @@ export const UploadImageStyle = styled.div`
     }
   }
   .imageContainer {
-    max-width: 150px;
+    margin-top: 20px;
+    width: 150px;
     height: 100px;
     background-color: var(--offWhite);
     margin-left: auto;

@@ -20,7 +20,7 @@ handler.put(async (req: Request, res: NextApiResponse) => {
     { _id: req.query.id },
     {
       $set: {
-        emplpyees: absenceUsers,
+        employees: absenceUsers,
         date: setDate(req.body.date),
         reason: req.body.reason,
       },

@@ -9,6 +9,7 @@ import {
   typeOfCertifcate,
   division,
   subjects,
+  familySituation,
 } from "../../utils/SchoolSubjects";
 
 const TableStyle = styled.div`
@@ -156,11 +157,37 @@ const TeacherTable = ({ allData, setTotal, total, type }) => {
           </>
         ),
       },
+      {
+        title: "الاختصاص",
+        dataIndex: "typeOfDegree",
+        filters: subjects,
+        onFilter: (value, record) => record.typeOfDegree.indexOf(value) === 0,
+      },
+      {
+        title: "التحصيل العلمي",
+        dataIndex: "TypeOfCertifcate",
+        filters: typeOfCertifcate,
+        onFilter: (value, record) =>
+          record.TypeOfCertifcate.indexOf(value) === 0,
+      },
     ],
     administrators: [
       {
         title: "المسمى الوظيفي",
         dataIndex: "jobTitle",
+      },
+      {
+        title: "الاختصاص",
+        dataIndex: "typeOfDegree",
+        filters: subjects,
+        onFilter: (value, record) => record.typeOfDegree.indexOf(value) === 0,
+      },
+      {
+        title: "التحصيل العلمي",
+        dataIndex: "TypeOfCertifcate",
+        filters: typeOfCertifcate,
+        onFilter: (value, record) =>
+          record.TypeOfCertifcate.indexOf(value) === 0,
       },
     ],
     services: [
@@ -168,8 +195,57 @@ const TeacherTable = ({ allData, setTotal, total, type }) => {
         title: "المسمى الوظيفي",
         dataIndex: "jobTitle",
       },
+      {
+        title: "التحصيل العلمي",
+        dataIndex: "TypeOfCertifcate",
+        filters: typeOfCertifcate,
+        onFilter: (value, record) =>
+          record.TypeOfCertifcate.indexOf(value) === 0,
+      },
     ],
-    students: [{}],
+    students: [
+      {
+        title: "الصف",
+        dataIndex: "classNumber",
+        filters: classes,
+        onFilter: (value, record) => record.classNumber.includes(value),
+      },
+
+      {
+        title: "الشعبة",
+        dataIndex: "division",
+        filters: division,
+        onFilter: (value, record) => record.division.includes(value),
+      },
+      {
+        title: "الوضع العائلي",
+        dataIndex: "familySituation",
+        filters: familySituation,
+        onFilter: (value, record) => record.familySituation.includes(value),
+      },
+      {
+        title: "الوضع الصحي",
+        dataIndex: "healthSituation",
+        filters: [
+          {
+            text: "مريض",
+            value: "مريض",
+          },
+          {
+            text: "معافاة",
+            value: "معافاة",
+          },
+        ],
+        onFilter: (value, record) =>
+          record.healthSituation.indexOf(value) === 0,
+      },
+      {
+        title: "نوع المرض",
+        dataIndex: "sickType",
+        ...getColumnSearchProps("sickType", "نوع المرض"),
+        render: (text) => <>{text ? <p>{text}</p> : <p>....</p>}</>,
+      },
+    ],
   };
 
   const teachersColumns = [
@@ -192,6 +268,7 @@ const TeacherTable = ({ allData, setTotal, total, type }) => {
         </>
       ),
     },
+
     ...columnsByType[type],
     // {
     //   title: "المادة",
@@ -249,20 +326,6 @@ const TeacherTable = ({ allData, setTotal, total, type }) => {
       ],
       onFilter: (value, record) => record.sex.indexOf(value) === 0,
       sorter: (a, b) => a.sex.length - b.sex.length,
-    },
-
-    {
-      title: "التحصيل العلمي",
-      dataIndex: "TypeOfCertifcate",
-      filters: typeOfCertifcate,
-      onFilter: (value, record) => record.TypeOfCertifcate.indexOf(value) === 0,
-    },
-
-    {
-      title: "الاختصاص",
-      dataIndex: "typeOfDegree",
-      filters: subjects,
-      onFilter: (value, record) => record.typeOfDegree.indexOf(value) === 0,
     },
 
     {

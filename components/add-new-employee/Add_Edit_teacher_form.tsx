@@ -1,8 +1,16 @@
 import { Formik, FormikConfig, FormikValues } from "formik";
-import { FormItem, Input, Radio, DatePicker, Form, Select } from "formik-antd";
+import {
+  FormItem,
+  Input,
+  Radio,
+  DatePicker,
+  Form,
+  Select,
+  InputNumber,
+} from "formik-antd";
 import { object, string, date } from "yup";
 import React, { useState } from "react";
-import { Steps, Button, message, InputNumber } from "antd";
+import { Steps, Button, message } from "antd";
 import ImageUpload from "../shared/ImageUpload";
 import axios from "axios";
 import useSWR from "swr";
@@ -39,8 +47,8 @@ const AddNewTeacherForm = ({
   oldData,
   edit,
   type,
+  data,
 }) => {
-  const { data } = useSWR(`/api/employee/find/${type}`);
   const [isImageLoading, setIsImageLoading] = useState(false);
   const askIfLoading = (state) => {
     setIsImageLoading(state);
@@ -58,12 +66,19 @@ const AddNewTeacherForm = ({
       subject: oldData?.subject || [],
       classNumber: oldData?.classNumber || [],
       division: oldData?.division || [],
+      TypeOfCertifcate: oldData?.TypeOfCertifcate || "",
+      typeOfDegree: oldData?.typeOfDegree || "",
+      DateOfGraduate: oldData?.DateOfGraduate || "",
     },
     administrators: {
       jobTitle: oldData?.jobTitle || "",
+      TypeOfCertifcate: oldData?.TypeOfCertifcate || "",
+      typeOfDegree: oldData?.typeOfDegree || "",
+      DateOfGraduate: oldData?.DateOfGraduate || "",
     },
     services: {
       jobTitle: oldData?.jobTitle || "",
+      TypeOfCertifcate: oldData?.TypeOfCertifcate || "",
     },
     students: {
       classNumber: oldData?.classNumber || "",
@@ -88,9 +103,6 @@ const AddNewTeacherForm = ({
     number2: oldData?.number2 || "",
     email: oldData?.email || "",
     dateOfStart: oldData?.dateOfStart || "",
-    TypeOfCertifcate: oldData?.TypeOfCertifcate || "",
-    typeOfDegree: oldData?.typeOfDegree || "",
-    DateOfGraduate: oldData?.DateOfGraduate || "",
     type,
     ...otherValues[type],
   };
@@ -114,6 +126,98 @@ const AddNewTeacherForm = ({
   const subjectValidation = object({
     // dateOfStart: date().required("الرجاء ادخال تاريخ بدأ العمل"),
   });
+
+  const handleEdit = async (values, helpers) => {
+    try {
+      const res = await axios.put(`/api/employee/${oldData._id}`, {
+        ...values,
+        image,
+        graduateImage,
+        contractImage,
+      });
+      trigger(`/api/employee/find/${type}`);
+      trigger("/api/employee");
+      if (res.status === 200) {
+        helpers.resetForm();
+        setdestroyOnClose(true);
+        message.success(words[type].edit);
+        setIsModalVisible(false);
+      }
+    } catch (error) {
+      console.log(error);
+
+      message.error(error.response.data.error);
+    }
+  };
+
+  const handleNew = async (values, helpers) => {
+    try {
+      mutate(
+        `/api/employee/find/${type}`,
+        [...data, { ...values, image, graduateImage, contractImage }],
+        false
+      );
+      const res = await axios.post("/api/employee", {
+        ...values,
+        image,
+        graduateImage,
+        contractImage,
+      });
+
+      trigger(`/api/employee/find/${type}`);
+      trigger("/api/employee");
+      if (res.status === 200) {
+        helpers.resetForm();
+        setdestroyOnClose(true);
+        message.success(words[type].create);
+        setIsModalVisible(false);
+      }
+    } catch (error) {
+      console.log(error);
+
+      message.error(error.response.data.error);
+    }
+  };
+  const handleNewStudent = async (values, helpers) => {
+    try {
+      mutate(`/api/student/`, [...data, { ...values, image }], false);
+      const res = await axios.post("/api/student/new", {
+        ...values,
+        image,
+      });
+      trigger(`/api/student/`);
+      if (res.status === 200) {
+        helpers.resetForm();
+        setdestroyOnClose(true);
+        message.success(words[type].create);
+        setIsModalVisible(false);
+      }
+    } catch (error) {
+      console.log(error);
+
+      message.error(error.response.data.error);
+    }
+  };
+  const handleEditStudent = async (values, helpers) => {
+    try {
+      const res = await axios.put(`/api/student/${oldData._id}`, {
+        ...values,
+        image,
+      });
+
+      trigger("/api/student/");
+      if (res.status === 200) {
+        helpers.resetForm();
+        setdestroyOnClose(true);
+        message.success(words[type].edit);
+        setIsModalVisible(false);
+      }
+    } catch (error) {
+      console.log(error);
+
+      message.error(error.response.data.error);
+    }
+  };
 
   const otherFormData = {
     teacher: {
@@ -200,6 +304,8 @@ const AddNewTeacherForm = ({
           </FormItem>
         </FormikStep>
       ),
+      submit: handleNew,
+      edit: handleEdit,
     },
     administrators: {
       form: (
@@ -255,6 +361,8 @@ const AddNewTeacherForm = ({
           </FormItem>
         </FormikStep>
       ),
+      submit: handleNew,
+      edit: handleEdit,
     },
     services: {
       form: (
@@ -294,6 +402,8 @@ const AddNewTeacherForm = ({
           </FormItem>
         </FormikStep>
       ),
+      submit: handleNew,
+      edit: handleEdit,
     },
     students: {
       form: (
@@ -330,6 +440,8 @@ const AddNewTeacherForm = ({
           </FormItem>
         </FormikStep>
       ),
+      submit: handleNewStudent,
+      edit: handleEditStudent,
     },
   };
 
@@ -356,63 +468,13 @@ const AddNewTeacherForm = ({
     },
   };
 
-  const handleEdit = async (values, helpers) => {
-    try {
-      const res = await axios.put(`/api/employee/${oldData._id}`, {
-        ...values,
-        image,
-        graduateImage,
-        contractImage,
-      });
-      trigger(`/api/employee/find/${type}`);
-      trigger("/api/employee");
-      if (res.status === 200) {
-        helpers.resetForm();
-        setdestroyOnClose(true);
-        message.success(words[type].edit);
-        setIsModalVisible(false);
-      }
-    } catch (error) {
-      console.log(error);
-
-      message.error(error.response.data.error);
-    }
-  };
-
-  const handleNew = async (values, helpers) => {
-    try {
-      mutate(
-        `/api/employee/find/${type}`,
-        [...data, { ...values, image, graduateImage, contractImage }],
-        false
-      );
-      const res = await axios.post("/api/employee", {
-        ...values,
-        image,
-        graduateImage,
-        contractImage,
-      });
-
-      trigger(`/api/employee/find/${type}`);
-      trigger("/api/employee");
-      if (res.status === 200) {
-        helpers.resetForm();
-        setdestroyOnClose(true);
-        message.success(words[type].create);
-        setIsModalVisible(false);
-      }
-    } catch (error) {
-      console.log(error);
-
-      message.error(error.response.data.error);
-    }
-  };
-
   return (
     <FormStyle>
       <FormStepper
         initialValues={initialValues}
-        onSubmit={edit ? handleEdit : handleNew}
+        onSubmit={
+          edit ? otherFormData[type]?.edit : otherFormData[type]?.submit
+        }
       >
         <FormikStep
           label="معلومات شخصية"
@@ -485,8 +547,19 @@ const AddNewTeacherForm = ({
         {otherFormData[type]?.form}
         {type === "students" && (
           <FormikStep label="الوضع الاجتماعي" loading={isImageLoading}>
-            oldData?.numberOfBrother || 0 
-            oldData?.healthSituation || "", sickType: oldData?.sickType || "",
+            <FormItem {...layout} name="healthSituation" label="الوضع الصحي">
+              <Select
+                allowClear
+                placeholder="الرجاء الاختيار"
+                name="healthSituation"
+              >
+                <Option value="معافاة">معافاة</Option>
+                <Option value="مريض">مريض</Option>
+              </Select>
+            </FormItem>
+            <FormItem {...layout} name="sickType" label="نوع المرض">
+              <Input name="sickType" />
+            </FormItem>
             <FormItem {...layout} name="familySituation" label="الوضع العائلي">
               <Select
                 allowClear
@@ -501,35 +574,37 @@ const AddNewTeacherForm = ({
               </Select>
             </FormItem>
             <FormItem {...layout} name="numberOfBrother" label="عدد الاخوة">
-              <InputNumber name="numberOfBrother" />
+              <InputNumber name="numberOfBrother" min={0} max={20} />
             </FormItem>
           </FormikStep>
         )}
         <FormikStep label="الملحقات" loading={isImageLoading}>
-          <FormItem name="image">
-            <ImageUpload
-              askIfLoading={askIfLoading}
-              setImage={setImage}
-              imageState={image}
-              title="الصورة الشخصية"
-            />
-          </FormItem>
-          <FormItem name="image">
-            <ImageUpload
-              askIfLoading={askIfLoading}
-              imageState={graduateImage}
-              setImage={setGraduateImage}
-              title="صورة الشهادة الدراسية"
-            />
-          </FormItem>
-          <FormItem name="image">
-            <ImageUpload
-              askIfLoading={askIfLoading}
-              imageState={contractImage}
-              setImage={setContractImage}
-              title="صورة عقد العمل"
-            />
-          </FormItem>
+          <div className="imagesContainer">
+            <FormItem name="image">
+              <ImageUpload
+                askIfLoading={askIfLoading}
+                setImage={setImage}
+                imageState={image}
+                title="الصورة الشخصية"
+              />
+            </FormItem>
+            <FormItem name="image">
+              <ImageUpload
+                askIfLoading={askIfLoading}
+                imageState={graduateImage}
+                setImage={setGraduateImage}
+                title="صورة الشهادة الدراسية"
+              />
+            </FormItem>
+            <FormItem name="image">
+              <ImageUpload
+                askIfLoading={askIfLoading}
+                imageState={contractImage}
+                setImage={setContractImage}
+                title="صورة عقد العمل"
+              />
+            </FormItem>
+          </div>
         </FormikStep>
       </FormStepper>
     </FormStyle>

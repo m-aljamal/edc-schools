@@ -11,14 +11,12 @@ handler.use(dbMiddleware);
 handler.use(auth);
 
 handler.get(async (req: Request, res: NextApiResponse) => {
-  let employees = await req.db
+  let students = await req.db
     .collection("students")
-    .find({
-      schoolId: req.userSchool._id,
-    })
+    .find({ schoolId: req.userSchool._id })
     .toArray();
 
-  res.json(employees);
+  res.json(students);
 });
 
 export default handler;

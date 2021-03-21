@@ -6,13 +6,18 @@ import {
   EyeOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
-import { mutate, trigger } from "swr";
+import useSWR, { mutate, trigger } from "swr";
 import React, { useState } from "react";
 import CustomModel from "../shared/CustomModel";
 import Add_Edit_teacher_form from "../add-new-employee/Add_Edit_teacher_form";
 import Link from "next/link";
 
 const DropdownMenu = ({ data, allData, type }) => {
+  const employeeUrl = `/api/employee/find/${type}`;
+  const studentsUrl = `/api/student/`;
+  const res = useSWR(type === "students" ? studentsUrl : employeeUrl, {
+    dedupingInterval: 60000,
+  });
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [destroyOnClose, setdestroyOnClose] = useState(false);
 
@@ -67,6 +72,7 @@ const DropdownMenu = ({ data, allData, type }) => {
         setIsModalVisible={setIsModalVisible}
         modelDate={
           <Add_Edit_teacher_form
+            data={res.data}
             edit={true}
             type={type}
             setIsModalVisible={setIsModalVisible}

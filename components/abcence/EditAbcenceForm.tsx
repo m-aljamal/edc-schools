@@ -4,7 +4,7 @@ import { Button, message, Tag } from "antd";
 import { object, string, date, array } from "yup";
 import { trigger } from "swr";
 import axios from "axios";
- 
+
 const layout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 18 },
@@ -22,7 +22,7 @@ const validation = object({
 const EditAbcenceForm = ({ names, displaySheetMonth, oldData, setIsEdit }) => {
   const initialValues = {
     date: oldData?.date,
-    absenceIds: oldData?.emplpyees?.map((emp) => emp._id),
+    absenceIds: oldData?.employees?.map((emp) => emp._id),
     reason: oldData?.reason,
   };
 

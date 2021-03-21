@@ -144,10 +144,10 @@ const AbcenceMonthTable = ({
         let abcence;
         for (abcence in absenceListByMonth) {
           let employee;
-          for (employee in absenceListByMonth[abcence].emplpyees) {
+          for (employee in absenceListByMonth[abcence].employees) {
             while (
               new Date(absenceListByMonth[abcence].date).getUTCDate() === i &&
-              row.name === absenceListByMonth[abcence].emplpyees[employee].name
+              row.name === absenceListByMonth[abcence].employees[employee].name
             ) {
               return (
                 <Tooltip

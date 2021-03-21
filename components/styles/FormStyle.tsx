@@ -30,6 +30,10 @@ const FormStyle = styled.div`
   .ant-input-group-wrapper {
     text-align: end;
   }
+  .imagesContainer {
+    display: flex;
+    justify-content: space-around;
+  }
 `;
 
 export default FormStyle;

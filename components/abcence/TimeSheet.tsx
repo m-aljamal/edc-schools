@@ -24,11 +24,12 @@ const TimeSheetStyle = styled.div`
   }
 `;
 
-const TimeSheet = ({ allEmployeeNames }) => {
+const TimeSheet = ({ allEmployeeNames, type }) => {
   const [displaySheetMonth, setdisplayMonthSheet] = useState(new Date());
   const [loading, setLoading] = useState(false);
-
-  const res = useSWR("/api/employee", {
+  const studentsUrl = "/api/student";
+  const employeesUrl = "/api/employee";
+  const res = useSWR(type === "students" ? studentsUrl : employeesUrl, {
     initialData: allEmployeeNames,
     dedupingInterval: 60000,
   });
@@ -62,7 +63,11 @@ const TimeSheet = ({ allEmployeeNames }) => {
   return (
     <TimeSheetStyle>
       <div className="addNew">
-        <AddNewAbcence names={res.data} displaySheetMonth={displaySheetMonth} />
+        <AddNewAbcence
+          
+          names={res.data}
+          displaySheetMonth={displaySheetMonth}
+        />
       </div>
 
       <div className="devider"></div>

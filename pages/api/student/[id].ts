@@ -3,30 +3,22 @@ import onError from "../../../middleware/error";
 import { NextApiResponse } from "next";
 import { Request } from "../../../types";
 import dbMissleware from "../../../middleware/db";
-import db from "../../../middleware/db";
 const handler = nc({
   onError,
 });
 handler.use(dbMissleware);
 
 handler.delete(async (req: Request, res: NextApiResponse) => {
-  await req.db.collection("employee").deleteOne({ _id: req.query.id });
+  await req.db.collection("students").deleteOne({ _id: req.query.id });
 
   res.json("delete");
 });
 
 handler.put(async (req: Request, res: NextApiResponse) => {
-  await req.db
-    .collection("absences")
-    .updateMany(
-      { employees: { $elemMatch: { _id: req.query.id } } },
-      { $set: { "employees.$": { _id: req.query.id, ...req.body } } }
-    );
-
-  const employee = await req.db
-    .collection("employee")
+  const student = await req.db
+    .collection("students")
     .updateOne({ _id: req.query.id }, { $set: req.body });
-  res.json(employee);
+  res.json(student);
 });
 
 export default handler;

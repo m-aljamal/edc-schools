@@ -51,6 +51,7 @@ const NamesList = ({ namesList, type }) => {
           modelTitle={`اضافة ${words[type].add} جديد`}
           modelData={
             <Add_Edit_teacher_form
+              data={data}
               type={type}
               oldData={undefined}
               edit={false}

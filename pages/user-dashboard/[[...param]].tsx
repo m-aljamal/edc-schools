@@ -15,7 +15,7 @@ import { connectToDB, user, school, employee, student } from "../../db";
 import DashbordLayout from "../../components/shared/DashbordLayout";
 import TimeSheet from "../../components/abcence/TimeSheet";
 import ProfilePage from "../../components/shared/ProfilePage";
-import StudentsList from "../../components/user-pages/StudentsList";
+import { useRouter } from "next/router";
 const NamesList = dynamic(
   () => import("../../components/user-pages/NamesList")
 );
@@ -30,7 +30,10 @@ const UserDashboard = ({
   serviceList,
   allEmployeeNames,
   studentsList,
+  stutimesheetList,
 }) => {
+  const router = useRouter();
+
   const PageCountent = () => {
     if (teachersList)
       return <NamesList type="teacher" namesList={teachersList || []} />;
@@ -42,9 +45,15 @@ const UserDashboard = ({
       return <NamesList type="services" namesList={serviceList || []} />;
     if (teacher) return <ProfilePage userInfo={teacher} />;
     if (allEmployeeNames)
-      return <TimeSheet allEmployeeNames={allEmployeeNames || []} />;
+      return (
+        <TimeSheet type="employees" allEmployeeNames={allEmployeeNames || []} />
+      );
     if (studentsList)
       return <NamesList type="students" namesList={studentsList || []} />;
+    if (stutimesheetList)
+      return (
+        <TimeSheet type="students" allEmployeeNames={stutimesheetList || []} />
+      );
   };
 
   return (
@@ -163,6 +172,11 @@ export async function getServerSideProps(ctx) {
       props.teacher = await employee.getEmployee(db, ctx.query.profileid);
     case "students":
       props.studentsList = await student.getStudentsBySchool(
+        db,
+        props.userSchool._id
+      );
+    case "stutimesheet":
+      props.stutimesheetList = await student.getStudentsBySchool(
         db,
         props.userSchool._id
       );
