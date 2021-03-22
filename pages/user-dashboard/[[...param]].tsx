@@ -16,6 +16,7 @@ import DashbordLayout from "../../components/shared/DashbordLayout";
 import TimeSheet from "../../components/abcence/TimeSheet";
 import ProfilePage from "../../components/shared/ProfilePage";
 import { useRouter } from "next/router";
+import Dashboard from "../../components/user-pages/Dashboard";
 const NamesList = dynamic(
   () => import("../../components/user-pages/NamesList")
 );
@@ -31,8 +32,10 @@ const UserDashboard = ({
   allEmployeeNames,
   studentsList,
   stutimesheetList,
+  totalNumbers,
 }) => {
   const router = useRouter();
+ 
 
   const PageCountent = () => {
     if (teachersList)
@@ -54,6 +57,7 @@ const UserDashboard = ({
       return (
         <TimeSheet type="students" allEmployeeNames={stutimesheetList || []} />
       );
+    // return <Dashboard totalNumbers={totalNumbers} />;
   };
 
   return (
@@ -180,6 +184,8 @@ export async function getServerSideProps(ctx) {
         db,
         props.userSchool._id
       );
+    // default:
+    //   props.totalNumbers = await school.getTotal(db, props.userSchool._id);
   }
 
   return {

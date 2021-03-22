@@ -95,6 +95,8 @@ const GlobalStyles = createGlobalStyle`
   .ant-dropdown-menu {
     direction: ltr;
   }
+ 
+  
   `;
 
 const Container: React.FC = ({ children }) => {
