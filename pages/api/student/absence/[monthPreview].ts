@@ -21,8 +21,7 @@ handler.get(async (req: Request, res: NextApiResponse) => {
       $and: [{ date: { $gte: firstDay } }, { date: { $lte: lastDay } }],
     })
     .toArray();
-  console.log("dsdsd", currentMonthTimeSheet);
-
+ 
   res.json(currentMonthTimeSheet);
 });
 

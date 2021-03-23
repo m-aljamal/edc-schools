@@ -37,5 +37,6 @@ export const getAllEmployees = async (db: Db, schoolId: string) => {
 };
 
 export const getEmployee = async (db: Db, id: string) => {
+   
   return db.collection("employee").findOne({ _id: id });
 };

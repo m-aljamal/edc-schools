@@ -35,7 +35,6 @@ const UserDashboard = ({
   totalNumbers,
 }) => {
   const router = useRouter();
- 
 
   const PageCountent = () => {
     if (teachersList)
@@ -57,7 +56,7 @@ const UserDashboard = ({
       return (
         <TimeSheet type="students" allEmployeeNames={stutimesheetList || []} />
       );
-    // return <Dashboard totalNumbers={totalNumbers} />;
+    if (totalNumbers) return <Dashboard totalNumbers={totalNumbers} />;
   };
 
   return (
@@ -68,7 +67,7 @@ const UserDashboard = ({
       menuData={
         <>
           <Menu.Item key="1" icon={<FundOutlined />}>
-            <Link href="/user-dashboard">الرئيسية</Link>
+            <Link href="/user-dashboard?page=home">الرئيسية</Link>
           </Menu.Item>
           <SubMenu key="sub1" icon={<TeamOutlined />} title="الموظفين">
             <Menu.Item key="2" icon={<LeftOutlined />}>
@@ -147,46 +146,45 @@ export async function getServerSideProps(ctx) {
     db,
     props.currentUser._id
   );
+  console.log(ctx.query.page);
 
-  switch (ctx.query.page) {
-    case "teachers":
-      props.teachersList = await employee.getEmployeesBySchool(
-        db,
-        props.userSchool._id,
-        "teacher"
-      );
-    case "mangers":
-      props.administratorsList = await employee.getEmployeesBySchool(
-        db,
-        props.userSchool._id,
-        "administrators"
-      );
-    case "services":
-      props.serviceList = await employee.getEmployeesBySchool(
-        db,
-        props.userSchool._id,
-        "services"
-      );
-    case "emptimesheet":
-      props.allEmployeeNames = await employee.getAllEmployees(
-        db,
-        props.userSchool._id
-      );
-    case "teacher":
-      props.teacher = await employee.getEmployee(db, ctx.query.profileid);
-    case "students":
-      props.studentsList = await student.getStudentsBySchool(
-        db,
-        props.userSchool._id
-      );
-    case "stutimesheet":
-      props.stutimesheetList = await student.getStudentsBySchool(
-        db,
-        props.userSchool._id
-      );
-    // default:
-    //   props.totalNumbers = await school.getTotal(db, props.userSchool._id);
-  }
+  if (ctx.query.page === "stutimesheet")
+    props.stutimesheetList = await student.getStudentsBySchool(
+      db,
+      props.userSchool._id
+    );
+  if (ctx.query.page === "students")
+    props.studentsList = await student.getStudentsBySchool(
+      db,
+      props.userSchool._id
+    );
+  if (ctx.query.page === "home")
+    props.totalNumbers = await school.getTotal(db, props.userSchool._id);
+  if (ctx.query.page === "teachers")
+    props.teachersList = await employee.getEmployeesBySchool(
+      db,
+      props.userSchool._id,
+      "teacher"
+    );
+  if (ctx.query.page === "mangers")
+    props.administratorsList = await employee.getEmployeesBySchool(
+      db,
+      props.userSchool._id,
+      "administrators"
+    );
+  if (ctx.query.page === "services")
+    props.serviceList = await employee.getEmployeesBySchool(
+      db,
+      props.userSchool._id,
+      "services"
+    );
+  if (ctx.query.page === "emptimesheet")
+    props.allEmployeeNames = await employee.getAllEmployees(
+      db,
+      props.userSchool._id
+    );
+  if (ctx.query.page === "teacher")
+    props.teacher = await employee.getEmployee(db, ctx.query.profileid);
 
   return {
     props,

@@ -29,21 +29,207 @@ export const getSchoolByDirector = async (db: Db, directorId: string) => {
 };
 
 export const getTotal = async (db: Db, schoolId: string) => {
-  console.log("dsdsd");
-  
-  const students = await db.collection("students").find({ schoolId }).count();
-  const teachers = await db
+  const totalEmployee = await db
     .collection("employee")
-    .find({ $and: [{ schoolId }, { type: "teacher" }] })
-    .count();
+    .aggregate([
+      {
+        $facet: {
+          employeeType: [
+            {
+              $match: {
+                schoolId: schoolId,
+              },
+            },
+            {
+              $group: {
+                _id: { type: "$type" },
+                total: { $sum: 1 },
+              },
+            },
+            { $sort: { total: -1 } },
+          ],
+          totalEmployee: [
+            {
+              $match: {
+                schoolId: schoolId,
+              },
+            },
+            {
+              $count: "totalEmployee",
+            },
+          ],
+          gender: [
+            {
+              $match: { schoolId: schoolId },
+            },
+            {
+              $group: {
+                _id: { sex: "$sex" },
+                total: { $sum: 1 },
+              },
+            },
+            { $sort: { total: -1 } },
+          ],
+          TypeOfCertifcate: [
+            {
+              $match: { schoolId: schoolId },
+            },
+            {
+              $group: {
+                _id: { TypeOfCertifcate: "$TypeOfCertifcate" },
+                total: { $sum: 1 },
+              },
+            },
+            { $sort: { total: -1 } },
+          ],
+          jobTitle: [
+            {
+              $match: { schoolId: schoolId },
+            },
+            {
+              $group: {
+                _id: { jobTitle: "$jobTitle" },
+                total: { $sum: 1 },
+              },
+            },
+            { $sort: { total: -1 } },
+          ],
+          subject: [
+            {
+              $match: { schoolId: schoolId, type: "teacher" },
+            },
+            { $project: { subject: 1 } },
+            { $unwind: "$subject" },
+            {
+              $group: {
+                _id: { subject: "$subject" },
+                total: { $sum: 1 },
+              },
+            },
+          ],
+          division: [
+            {
+              $match: { schoolId: schoolId, type: "teacher" },
+            },
+            { $project: { division: 1 } },
+            { $unwind: "$division" },
+            {
+              $group: {
+                _id: { division: "$division" },
+                total: { $sum: 1 },
+              },
+            },
+          ],
+          classNumber: [
+            {
+              $match: { schoolId: schoolId, type: "teacher" },
+            },
+            { $project: { classNumber: 1 } },
+            { $unwind: "$classNumber" },
+            {
+              $group: {
+                _id: { classNumber: "$classNumber" },
+                total: { $sum: 1 },
+              },
+            },
+          ],
 
-  const administrators = await db
-    .collection("employee")
-    .find({ $and: [{ schoolId }, { type: "administrators" }] })
-    .count();
-  const services = await db
-    .collection("employee")
-    .find({ $and: [{ schoolId }, { type: "services" }] })
-    .count();
-  return { students, teachers, administrators, services };
+          typeOfDegree: [
+            {
+              $match: { schoolId: schoolId },
+            },
+            {
+              $group: {
+                _id: { typeOfDegree: "$typeOfDegree" },
+                total: { $sum: 1 },
+              },
+            },
+            { $sort: { total: -1 } },
+          ],
+        },
+      },
+    ])
+    .toArray();
+  const totalStudents = await db
+    .collection("students")
+    .aggregate([
+      {
+        $facet: {
+          gender: [
+            {
+              $match: { schoolId: schoolId },
+            },
+            {
+              $group: {
+                _id: { sex: "$sex" },
+                total: { $sum: 1 },
+              },
+            },
+
+            { $sort: { total: -1 } },
+          ],
+          totalStudents: [
+            {
+              $match: { schoolId: schoolId },
+            },
+            {
+              $count: "totalStudents",
+            },
+          ],
+          familySituation: [
+            {
+              $match: { schoolId: schoolId },
+            },
+            {
+              $group: {
+                _id: { familySituation: "$familySituation" },
+                total: { $sum: 1 },
+              },
+            },
+            { $sort: { total: -1 } },
+          ],
+          classNumber: [
+            {
+              $match: { schoolId: schoolId },
+            },
+            {
+              $group: {
+                _id: { classNumber: "$classNumber" },
+                total: { $sum: 1 },
+              },
+            },
+            { $sort: { total: -1 } },
+          ],
+          division: [
+            {
+              $match: { schoolId: schoolId },
+            },
+            {
+              $group: {
+                _id: { division: "$division" },
+                total: { $sum: 1 },
+              },
+            },
+            { $sort: { total: -1 } },
+          ],
+          healthSituation: [
+            {
+              $match: { schoolId: schoolId },
+            },
+            {
+              $group: {
+                _id: { healthSituation: "$healthSituation" },
+                total: { $sum: 1 },
+              },
+            },
+            { $sort: { total: -1 } },
+          ],
+        },
+      },
+    ])
+    .toArray();
+  return {
+    totalEmployee,
+    totalStudents,
+  };
 };
