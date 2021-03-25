@@ -1,16 +1,23 @@
 import styled from "styled-components";
 import { Doughnut } from "react-chartjs-2";
-
+import React from "react";
+import { Devider } from "../styles/Devider";
+import Gender from "../Dashbord/Gender";
+import { TitleStyle } from "../styles/TitleStyle";
 const DashboaedStyle = styled.div`
+  position: relative;
   .totalInfo {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 50px;
   }
+  .students {
+    margin-top: 50px;
+  }
 `;
 
 const Dashboard = ({ totalNumbers }) => {
-  console.log({ totalNumbers });
+  console.log(totalNumbers?.totalStudents[0]);
 
   // const words = {
   //   students: {
@@ -34,25 +41,35 @@ const Dashboard = ({ totalNumbers }) => {
   //     icon: "/icons/cleaning-staff.svg",
   //   },
   // };
+  const femalTotal = totalNumbers?.totalStudents[0].gender[0].total;
+  const maleTotal = totalNumbers?.totalStudents[0].gender[1].total;
+  const gender = {
+    datasets: [
+      {
+        data: [
+          Math.round((femalTotal / (femalTotal + maleTotal)) * 100),
+          Math.round((maleTotal / (femalTotal + maleTotal)) * 100),
+        ],
 
-
-  // const d = {
-  //   labels: ["ذكور", "اناث"],
-  //   datasets: [
-  //     {
-  //       data: [totalNumbers.femalStudents, totalNumbers.maleStudents],
-  //       backgroundColor: ["#336699", "#999933"],
-  //     },
-  //   ],
-  // };
+        backgroundColor: [
+          "rgb(255, 99, 132)",
+          "rgb(54, 162, 235)",
+          "rgb(255, 205, 86)",
+        ],
+        hoverBackgroundColor: "rgb(255, 205, 86)",
+        borderWidth: 2,
+      },
+    ],
+    labels: ["ذكور", "اناث"],
+  };
   return (
     <DashboaedStyle>
-      <div className="totalInfo">
-        {/* {Object.keys(totalNumbers).map((key, i) => (
-          <SingleInfo data={words[key]} key={i} />
-        ))} */}
+      <div>
+        <TitleStyle>الموظفين:</TitleStyle>
+        <Gender data={gender} femalTotal={femalTotal} maleTotal={maleTotal} />
+        <Devider></Devider>
+        <TitleStyle className="students">الطلاب:</TitleStyle>
       </div>
-      {/* <Doughnut data={d} /> */}
     </DashboaedStyle>
   );
 };

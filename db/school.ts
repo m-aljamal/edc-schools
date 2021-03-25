@@ -204,9 +204,11 @@ export const getTotal = async (db: Db, schoolId: string) => {
             {
               $match: { schoolId: schoolId },
             },
+            { $project: { division: 1, classNumber: 1 } },
+
             {
               $group: {
-                _id: { division: "$division" },
+                _id: { classNumber: "$classNumber", division: "$division" },
                 total: { $sum: 1 },
               },
             },

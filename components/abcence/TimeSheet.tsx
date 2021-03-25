@@ -7,15 +7,10 @@ import MonthTable from "./AbcenceMonthTable";
 import useSWR from "swr";
 import AddNewAbcence from "./AddNewAbcence";
 import { Button } from "antd";
+import { Devider } from "../styles/Devider";
 const TimeSheetStyle = styled.div`
   position: relative;
-  .devider {
-    height: 30px;
-    background-color: var(--background);
-    position: absolute;
-    right: -25px;
-    left: -25px;
-  }
+
   .addNew {
     padding-bottom: 24px;
   }
@@ -74,7 +69,7 @@ const TimeSheet = ({ allEmployeeNames, type }) => {
         />
       </div>
 
-      <div className="devider"></div>
+      <Devider></Devider>
       <div className="table">
         <div className="head">
           <TitleStyle>جدول الغياب لتاريخ:</TitleStyle>
