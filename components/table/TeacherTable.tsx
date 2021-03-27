@@ -121,7 +121,7 @@ const TeacherTable = ({ allData, setTotal, total, type }) => {
         title: "المادة",
         dataIndex: "subject",
         filters: subjects,
-        onFilter: (value, record) => record.subject.includes(value),
+        onFilter: (value, record) => record.subject?.includes(value),
         render: (text) => (
           <>
             {text?.map((t, i) => (
@@ -134,7 +134,7 @@ const TeacherTable = ({ allData, setTotal, total, type }) => {
         title: "الصف",
         dataIndex: "classNumber",
         filters: classes,
-        onFilter: (value, record) => record.classNumber.includes(value),
+        onFilter: (value, record) => record.classNumber?.includes(value),
         render: (text) => (
           <>
             {text?.map((t, i) => (
@@ -148,7 +148,7 @@ const TeacherTable = ({ allData, setTotal, total, type }) => {
         title: "الشعبة",
         dataIndex: "division",
         filters: division,
-        onFilter: (value, record) => record.division.includes(value),
+        onFilter: (value, record) => record.division?.includes(value),
         render: (value, row, index) => (
           <>
             {value?.map((t, i) => (
@@ -161,7 +161,7 @@ const TeacherTable = ({ allData, setTotal, total, type }) => {
         title: "الاختصاص",
         dataIndex: "typeOfDegree",
         filters: subjects,
-        onFilter: (value, record) => record.typeOfDegree.indexOf(value) === 0,
+        onFilter: (value, record) => record.typeOfDegree?.indexOf(value) === 0,
       },
       {
         title: "التحصيل العلمي",
@@ -208,20 +208,20 @@ const TeacherTable = ({ allData, setTotal, total, type }) => {
         title: "الصف",
         dataIndex: "classNumber",
         filters: classes,
-        onFilter: (value, record) => record.classNumber.includes(value),
+        onFilter: (value, record) => record.classNumber?.includes(value),
       },
 
       {
         title: "الشعبة",
         dataIndex: "division",
         filters: division,
-        onFilter: (value, record) => record.division.includes(value),
+        onFilter: (value, record) => record.division?.includes(value),
       },
       {
         title: "الوضع العائلي",
         dataIndex: "familySituation",
         filters: familySituation,
-        onFilter: (value, record) => record.familySituation.includes(value),
+        onFilter: (value, record) => record.familySituation?.includes(value),
       },
       {
         title: "الوضع الصحي",
@@ -324,7 +324,7 @@ const TeacherTable = ({ allData, setTotal, total, type }) => {
           value: "انثى",
         },
       ],
-      onFilter: (value, record) => record.sex.indexOf(value) === 0,
+      onFilter: (value, record) => record.sex?.indexOf(value) === 0,
       sorter: (a, b) => a.sex.length - b.sex.length,
     },
 

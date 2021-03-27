@@ -114,7 +114,11 @@ const DashbordLayout = ({ pageContent, menuData, currentUser, userSchool }) => {
             </Breadcrumb>
             <div
               className="site-layout-background"
-              style={{ padding: 24, minHeight: "50vh" }}
+              style={{
+                padding: 24,
+                minHeight: "50vh",
+                backgroundColor: router.query.page === "home" && "#f0f2f5",
+              }}
             >
               {pageContent}
             </div>

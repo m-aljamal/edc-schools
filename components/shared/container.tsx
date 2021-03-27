@@ -33,9 +33,10 @@ const GlobalStyles = createGlobalStyle`
   --offWhite: #ededed;
   --maxWidth: 1000px;
   --tr: all 0.3s linear;
-  --bs: 0px 1px 12px -2px rgba(0,0,0,0.75);
+  --bs: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
    box-sizing: border-box;
   font-size: 10px;
+   
   }
   *, *:before, *:after{
       box-sizing: inherit;
@@ -95,7 +96,7 @@ const GlobalStyles = createGlobalStyle`
   .ant-dropdown-menu {
     direction: ltr;
   }
- 
+  
   
   `;
 

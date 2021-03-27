@@ -70,7 +70,7 @@ export const getTotal = async (db: Db, schoolId: string) => {
             },
             { $sort: { total: -1 } },
           ],
-          TypeOfCertifcate: [
+          typeOfCertifcate: [
             {
               $match: { schoolId: schoolId },
             },
@@ -84,7 +84,7 @@ export const getTotal = async (db: Db, schoolId: string) => {
           ],
           jobTitle: [
             {
-              $match: { schoolId: schoolId },
+              $match: { schoolId: schoolId, type: { $ne: "teacher" } },
             },
             {
               $group: {
@@ -106,16 +106,18 @@ export const getTotal = async (db: Db, schoolId: string) => {
                 total: { $sum: 1 },
               },
             },
+            { $sort: { total: -1 } },
           ],
           division: [
             {
               $match: { schoolId: schoolId, type: "teacher" },
             },
-            { $project: { division: 1 } },
+            { $project: { division: 1, classNumber: 1 } },
             { $unwind: "$division" },
+            { $unwind: "$classNumber" },
             {
               $group: {
-                _id: { division: "$division" },
+                _id: { classNumber: "$classNumber", division: "$division" },
                 total: { $sum: 1 },
               },
             },
@@ -132,11 +134,12 @@ export const getTotal = async (db: Db, schoolId: string) => {
                 total: { $sum: 1 },
               },
             },
+            { $sort: { total: -1 } },
           ],
 
           typeOfDegree: [
             {
-              $match: { schoolId: schoolId },
+              $match: { schoolId: schoolId, type: { $ne: "services" } },
             },
             {
               $group: {

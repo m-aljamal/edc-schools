@@ -1,102 +1,106 @@
 import styled from "styled-components";
-import { Doughnut } from "react-chartjs-2";
 import React from "react";
-import { Devider } from "../styles/Devider";
 import Gender from "../Dashbord/Gender";
-import { TitleStyle } from "../styles/TitleStyle";
+import TotalNumerCardInfo from "../Dashbord/TotalNumerCardInfo";
+import BarCart from "../Dashbord/BarCart";
+import { calculateAvrage } from "../../utils/calculateAvrage";
+import TotalTeachersByClassAndDivion from "../Dashbord/TotalTeachersByClassAndDivion";
+import LineCard from "../Dashbord/LineCard";
 const DashboaedStyle = styled.div`
   position: relative;
-  .totalInfo {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 50px;
+  .totalInfoCard {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
   }
-  .students {
+  .genderContainer {
     margin-top: 50px;
+
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12%;
   }
 `;
 
 const Dashboard = ({ totalNumbers }) => {
-  console.log(totalNumbers?.totalStudents[0]);
+  console.log(totalNumbers);
 
-  // const words = {
-  //   students: {
-  //     name: " طلاب",
-  //     count: totalNumbers.students,
-  //     icon: "/icons/student.svg",
-  //   },
-  //   teachers: {
-  //     name: "معلم",
-  //     count: totalNumbers.teachers,
-  //     icon: "/icons/classroom.svg",
-  //   },
-  //   administrators: {
-  //     name: " اداري",
-  //     count: totalNumbers.administrators,
-  //     icon: "/icons/manager.svg",
-  //   },
-  //   services: {
-  //     name: " خدمي",
-  //     count: totalNumbers.services,
-  //     icon: "/icons/cleaning-staff.svg",
-  //   },
-  // };
-  const femalTotal = totalNumbers?.totalStudents[0].gender[0].total;
-  const maleTotal = totalNumbers?.totalStudents[0].gender[1].total;
-  const gender = {
-    datasets: [
-      {
-        data: [
-          Math.round((femalTotal / (femalTotal + maleTotal)) * 100),
-          Math.round((maleTotal / (femalTotal + maleTotal)) * 100),
-        ],
+  const totalTecherByClassNumber = [
+    ...Array.from(
+      new Set(
+        totalNumbers.totalEmployee[0].division.map(
+          (d: { _id: { classNumber: string } }) => d._id.classNumber
+        )
+      )
+    ),
+  ];
 
-        backgroundColor: [
-          "rgb(255, 99, 132)",
-          "rgb(54, 162, 235)",
-          "rgb(255, 205, 86)",
-        ],
-        hoverBackgroundColor: "rgb(255, 205, 86)",
-        borderWidth: 2,
-      },
-    ],
-    labels: ["ذكور", "اناث"],
-  };
   return (
     <DashboaedStyle>
       <div>
-        <TitleStyle>الموظفين:</TitleStyle>
-        <Gender data={gender} femalTotal={femalTotal} maleTotal={maleTotal} />
-        <Devider></Devider>
-        <TitleStyle className="students">الطلاب:</TitleStyle>
+        <div className="totalInfoCard">
+          <TotalNumerCardInfo
+            data={{
+              total:
+                totalNumbers.totalStudents[0].totalStudents[0].totalStudents,
+              _id: { type: "students" },
+            }}
+          />
+          {totalNumbers?.totalEmployee[0].employeeType.map(
+            (em: any, i: string | number) => (
+              <TotalNumerCardInfo data={em} key={i} />
+            )
+          )}
+        </div>
+        <div className="genderContainer">
+          <Gender
+            data={totalNumbers?.totalEmployee[0].gender}
+            type="الموظفين"
+          />
+          <Gender data={totalNumbers.totalStudents[0].gender} type="الطلاب" />
+        </div>
+          <LineCard/>
+        <BarCart
+          dataArray={totalNumbers.totalEmployee[0].jobTitle}
+          title="اعداد الاداريين حسب المسمى الوظيفي "
+          type="jobTitle"
+        />
+
+        <BarCart
+          dataArray={totalNumbers.totalEmployee[0].subject}
+          title="اعداد المدرسين حسب المادة"
+          type="subject"
+        />
+        <BarCart
+          dataArray={totalNumbers.totalEmployee[0].classNumber}
+          title="اعداد المدرسين حسب الصفوف"
+          type="classNumber"
+        />
+        <BarCart
+          dataArray={totalNumbers.totalEmployee[0].typeOfCertifcate}
+          title="اعداد الموظفين حسب التحصيل العلمي"
+          type="TypeOfCertifcate"
+        />
+        <BarCart
+          dataArray={totalNumbers.totalEmployee[0].typeOfDegree}
+          title="اعداد الموظفين حسب الاختصاص "
+          type="typeOfDegree"
+        />
+
+        <p> اعداد المدرسين حسب توزيع الشعب:</p>
+        {totalTecherByClassNumber.map((clas, i) => (
+          <TotalTeachersByClassAndDivion
+            key={i}
+            classNumber={clas}
+            division={totalNumbers.totalEmployee[0].division}
+          />
+        ))}
       </div>
     </DashboaedStyle>
   );
 };
 
 export default Dashboard;
-
-const SingleInfoStyle = styled.div`
-  display: flex;
-  padding: 15px 0;
-  align-items: center;
-  box-shadow: var(--bs);
-  justify-content: space-evenly;
-  border-radius: 5px;
-  background-color: white;
-  .icon {
-    width: 50px;
-  }
-`;
-
-const SingleInfo = ({ data }) => {
-  return (
-    <SingleInfoStyle>
-      <div>
-        <p>{data?.count}</p>
-        <p>{data?.name}</p>
-      </div>
-      <img src={data?.icon} alt="icon" className="icon" />
-    </SingleInfoStyle>
-  );
-};
