@@ -62,7 +62,10 @@ const Dashboard = ({ totalNumbers }) => {
           />
           <Gender data={totalNumbers.totalStudents[0].gender} type="الطلاب" />
         </div>
-          <LineCard/>
+        <LineCard
+          data={totalNumbers.totalEmployee[0].jobTitle}
+          total={totalNumbers.totalEmployee[0].totalEmployee[0].totalEmployee}
+        />
         <BarCart
           dataArray={totalNumbers.totalEmployee[0].jobTitle}
           title="اعداد الاداريين حسب المسمى الوظيفي "

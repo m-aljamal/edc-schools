@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 const LinkCardStyle = styled.div`
   background-color: white;
+  padding: 10px 30px;
   .bar {
     display: flex;
   }
@@ -29,17 +30,19 @@ const LinkCardStyle = styled.div`
   }
   .dot {
     margin-left: 10px;
-    height: 15px;
-    width: 15px;
+    height: 10px;
+    width: 10px;
     background-color: #f30707;
     border-radius: 50%;
   }
 `;
-const LineCard = () => {
+const LineCard = ({ data, total }) => {
+  console.log(data);
+
   return (
     <LinkCardStyle>
       <p>اعداد الموظفين:</p>
-      <p>15</p>
+      <p>{total}</p>
       <div>
         <div className="bar">
           <div className="b1"></div>
@@ -48,21 +51,16 @@ const LineCard = () => {
         <div>
           <table className="table">
             <tbody>
-              <tr>
-                {/* <td className="dot"></td> */}
-                <td className="title">
-                  <p className="dot"></p>
-                  <p>مدير</p>
-                </td>
-                <td>2</td>
-                <td>1%</td>
-              </tr>
-              <tr>
-                {/* <td className="dot"></td> */}
-                <td>مدرس</td>
-                <td>10</td>
-                <td>3%</td>
-              </tr>
+              {data.map((d) => (
+                <tr>
+                  <td className="title">
+                    <p className="dot"></p>
+                    <p>{d._id.jobTitle}</p>
+                  </td>
+                  <td>{d.total}</td>
+                  <td>1%</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

@@ -13,7 +13,7 @@ handler.delete(async (req: Request, res: NextApiResponse) => {
 
   res.json("delete");
 });
-ث
+
 handler.put(async (req: Request, res: NextApiResponse) => {
   await req.db
     .collection("studentsAbcence")
