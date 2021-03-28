@@ -121,6 +121,7 @@ export const getTotal = async (db: Db, schoolId: string) => {
                 total: { $sum: 1 },
               },
             },
+            { $sort: { total: -1 } },
           ],
           classNumber: [
             {

@@ -3,9 +3,9 @@ import React from "react";
 import Gender from "../Dashbord/Gender";
 import TotalNumerCardInfo from "../Dashbord/TotalNumerCardInfo";
 import BarCart from "../Dashbord/BarCart";
-import { calculateAvrage } from "../../utils/calculateAvrage";
-import TotalTeachersByClassAndDivion from "../Dashbord/TotalTeachersByClassAndDivion";
 import LineCard from "../Dashbord/LineCard";
+import TotalByDivionContainer from "../Dashbord/TotalByDivionContainer";
+import Pie from "../Dashbord/Pie";
 const DashboaedStyle = styled.div`
   position: relative;
   .totalInfoCard {
@@ -19,25 +19,32 @@ const DashboaedStyle = styled.div`
     margin-top: 50px;
 
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     flex-wrap: wrap;
     gap: 12%;
   }
+  .barChartStyle {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+  }
+  .barContainer {
+    width: 50%;
+    background-color: white;
+    border-radius: 12px;
+  }
 `;
-
-const Dashboard = ({ totalNumbers }) => {
-  console.log(totalNumbers);
-
-  const totalTecherByClassNumber = [
+const getTotalByClassNumber = (division) => {
+  return [
     ...Array.from(
       new Set(
-        totalNumbers.totalEmployee[0].division.map(
-          (d: { _id: { classNumber: string } }) => d._id.classNumber
-        )
+        division.map((d: { _id: { classNumber: string } }) => d._id.classNumber)
       )
     ),
   ];
+};
 
+const Dashboard = ({ totalNumbers }) => {
   return (
     <DashboaedStyle>
       <div>
@@ -62,48 +69,87 @@ const Dashboard = ({ totalNumbers }) => {
           />
           <Gender data={totalNumbers.totalStudents[0].gender} type="الطلاب" />
         </div>
+
+        <div className="barChartStyle">
+          <div className="barContainer">
+            <BarCart
+              dataArray={totalNumbers.totalEmployee[0].jobTitle}
+              title="اعداد الاداريين حسب المسمى الوظيفي "
+              type="jobTitle"
+            />
+          </div>
+          <div className="barContainer">
+            <BarCart
+              dataArray={totalNumbers.totalEmployee[0].classNumber}
+              title="اعداد المدرسين حسب الصفوف"
+              type="classNumber"
+            />
+          </div>
+        </div>
+        <div className="barChartStyle">
+          <div className="barContainer">
+            <BarCart
+              dataArray={totalNumbers.totalEmployee[0].subject}
+              title="اعداد المدرسين حسب المادة"
+              type="subject"
+            />
+          </div>
+          <div className="barContainer">
+            <BarCart
+              dataArray={totalNumbers.totalEmployee[0].typeOfDegree}
+              title="اعداد الموظفين حسب الاختصاص "
+              type="typeOfDegree"
+            />
+          </div>
+        </div>
         <LineCard
-          data={totalNumbers.totalEmployee[0].jobTitle}
+          data={totalNumbers.totalEmployee[0].typeOfCertifcate}
           total={totalNumbers.totalEmployee[0].totalEmployee[0].totalEmployee}
-        />
-        <BarCart
-          dataArray={totalNumbers.totalEmployee[0].jobTitle}
-          title="اعداد الاداريين حسب المسمى الوظيفي "
-          type="jobTitle"
-        />
-
-        <BarCart
-          dataArray={totalNumbers.totalEmployee[0].subject}
-          title="اعداد المدرسين حسب المادة"
-          type="subject"
-        />
-        <BarCart
-          dataArray={totalNumbers.totalEmployee[0].classNumber}
-          title="اعداد المدرسين حسب الصفوف"
-          type="classNumber"
-        />
-        <BarCart
-          dataArray={totalNumbers.totalEmployee[0].typeOfCertifcate}
-          title="اعداد الموظفين حسب التحصيل العلمي"
           type="TypeOfCertifcate"
-        />
-        <BarCart
-          dataArray={totalNumbers.totalEmployee[0].typeOfDegree}
-          title="اعداد الموظفين حسب الاختصاص "
-          type="typeOfDegree"
+          text="اعداد الموظفين حسب التحصيل العلمي:"
         />
 
-        <p> اعداد المدرسين حسب توزيع الشعب:</p>
-        {totalTecherByClassNumber.map((clas, i) => (
-          <TotalTeachersByClassAndDivion
-            key={i}
-            classNumber={clas}
-            division={totalNumbers.totalEmployee[0].division}
+        <TotalByDivionContainer
+          totalClass={getTotalByClassNumber(
+            totalNumbers.totalEmployee[0].division
+          )}
+          division={totalNumbers.totalEmployee[0].division}
+          text="اعداد المدرسين حسب توزيع الشعب:"
+        />
+        <LineCard
+          data={totalNumbers.totalStudents[0].classNumber}
+          total={totalNumbers.totalStudents[0].totalStudents[0].totalStudents}
+          type="classNumber"
+          text="اعداد الطلاب حسب الصف :"
+        />
+        <TotalByDivionContainer
+          totalClass={getTotalByClassNumber(
+            totalNumbers.totalStudents[0].division
+          )}
+          division={totalNumbers.totalStudents[0].division}
+          text="اعداد الطلاب حسب توزيع الشعب:"
+        />
+
+        <div className="genderContainer">
+          <Pie
+            text="الوضع الاجتماعي للطلاب:"
+            total={totalNumbers.totalStudents[0].totalStudents[0].totalStudents}
+            pieData={totalNumbers.totalStudents[0].familySituation}
+            type="familySituation"
           />
-        ))}
+          <Pie
+            text="الوضع الصحي للطلاب:"
+            total={totalNumbers.totalStudents[0].totalStudents[0].totalStudents}
+            pieData={totalNumbers.totalStudents[0].healthSituation}
+            type="healthSituation"
+          />
+        </div>
       </div>
     </DashboaedStyle>
   );
 };
 
 export default Dashboard;
+
+// healthSituation: (3) [{…}, {…}, {…}]
+// totalStudents: [{…}]

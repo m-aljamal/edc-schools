@@ -57,5 +57,7 @@ export default BarCart;
 
 const BarStyle = styled.div`
   box-shadow: var(--bs);
-  padding: 20px;
+  padding: 20px  ;
+  border-radius:15px;
+  
 `;
