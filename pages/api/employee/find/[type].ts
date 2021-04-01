@@ -12,9 +12,10 @@ handler.use(dbMiddleware);
 handler.use(auth);
 handler.get(async (req: Request, res: NextApiResponse) => {
   let employees = await req.db
+
     .collection("employee")
     .find({
-      $and: [{ schoolId: req.userSchool._id }, { type: req.query.type }],
+      $and: [{ schoolId: req.userSchool }, { type: req.query.type }],
     })
     .toArray();
 

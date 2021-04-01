@@ -146,7 +146,6 @@ export async function getServerSideProps(ctx) {
     db,
     props.currentUser._id
   );
-  console.log(ctx.query.page);
 
   if (ctx.query.page === "stutimesheet")
     props.stutimesheetList = await student.getStudentsBySchool(

@@ -19,14 +19,14 @@ handler.post(async (req: Request, res: NextApiResponse) => {
 
   let newAbsence = await req.db
     .collection("studentsAbcence")
-    .findOne({ $and: [{ schoolId: req.userSchool._id }, { date: date }] });
+    .findOne({ $and: [{ schoolId: req.userSchool }, { date: date }] });
   if (newAbsence)
     return res
       .status(400)
       .json({ error: "تم تسجيل الغياب بهذا التاريخ مسبقا" });
   newAbsence = await absence.addStudentAbsences(req.db, {
     ...req.body,
-    schoolId: req.userSchool._id,
+    schoolId: req.userSchool,
   });
 
   res.json(newAbsence);

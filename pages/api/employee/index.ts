@@ -26,7 +26,7 @@ handler.post(async (req: Request, res: NextApiResponse) => {
 
   newEmployee = await employee.addEmployee(req.db, {
     ...req.body,
-    schoolId: req.userSchool._id,
+    schoolId: req.userSchool,
   });
 
   res.send({ data: newEmployee });

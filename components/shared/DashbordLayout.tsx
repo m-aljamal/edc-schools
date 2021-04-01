@@ -78,15 +78,7 @@ const DashbordLayout = ({ pageContent, menuData, currentUser, userSchool }) => {
               }
             />
           </div>
-          <Menu
-            theme="dark"
-            mode="inline"
-            defaultSelectedKeys={[`${router.query.key}`]}
-            defaultOpenKeys={[`sub${router.query.sub}`]}
-            className="menu"
-          >
-            {menuData}
-          </Menu>
+          {menuData}
         </Sider>
         <Layout className="site-layout">
           <Header className="site-layout-background">

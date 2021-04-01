@@ -13,7 +13,7 @@ handler.use(auth);
 handler.get(async (req: Request, res: NextApiResponse) => {
   let students = await req.db
     .collection("students")
-    .find({ schoolId: req.userSchool._id })
+    .find({ schoolId: req.userSchool })
     .toArray();
 
   res.json(students);

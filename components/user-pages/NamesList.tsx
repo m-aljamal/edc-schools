@@ -5,21 +5,27 @@ import AddNewButton from "../shared/AddNewButton";
 import Add_Edit_teacher_form from "../add-new-employee/Add_Edit_teacher_form";
 import { TitleStyle } from "../styles/TitleStyle";
 import useSWR from "swr";
-const NamesList = ({ namesList, type }) => {
+import axios from "axios";
+const NamesList = ({ type, schoolId }) => {
   const employeeUrl = `/api/employee/find/${type}`;
   const studentsUrl = `/api/student/`;
+  // const feacher = (url, schoolId) =>
+  //   axios.get(url, { headers: { schoolId: schoolId } }).then((res) => res.data);
+  const { data } = useSWR([
+    type === "students" ? studentsUrl : employeeUrl,
+    schoolId,
+  ]);
+  // const { data } = useSWR(type === "students" ? studentsUrl : employeeUrl, {
+  //   dedupingInterval: 60000,
+  // });
+  console.log(data);
 
-  const { data } = useSWR(type === "students" ? studentsUrl : employeeUrl, {
-    initialData: namesList,
-    dedupingInterval: 60000,
-  });
-
-  const [total, setTotal] = useState(data.length);
+  const [total, setTotal] = useState(data?.length);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [destroyOnClose, setdestroyOnClose] = useState(false);
 
   useEffect(() => {
-    setTotal(data.length);
+    setTotal(data?.length);
   }, [data]);
 
   const words = {

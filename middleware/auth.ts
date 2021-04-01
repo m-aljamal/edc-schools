@@ -7,9 +7,12 @@ export default async (req, res, next) => {
 
   if (foundUser) {
     const userSchool = await school.getSchoolByDirector(req.db, foundUser._id);
+
     // Signed in
     req.user = foundUser;
-    req.userSchool = userSchool;
+
+    req.userSchool = foundUser.isAdmin ? req.headers.schoolid : userSchool._id;
+
     next();
   } else {
     // Not Signed in

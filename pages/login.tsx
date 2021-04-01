@@ -39,7 +39,7 @@ const login = () => {
               try {
                 const { data } = await axios.post("/api/users/login", values);
                 setLoading(false);
-                if (data && data.data.isAdmin) Router.push("/admin-dashbord");
+                if (data && data.data.isAdmin) Router.push("/admin-dashboard");
                 if (data && !data.data.isAdmin) Router.push("/user-dashboard");
               } catch (error) {
                 setLoading(false);

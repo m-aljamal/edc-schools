@@ -12,7 +12,7 @@ handler.use(dbMissleware);
 handler.post(async (req: Request, res: NextApiResponse) => {
   const newAbsence = await req.db
     .collection("absences")
-    .insertOne({ ...req.body, schoolId: req.userSchool._id });
+    .insertOne({ ...req.body, schoolId: req.userSchool });
 
   res.json(newAbsence);
 });

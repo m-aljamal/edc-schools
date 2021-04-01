@@ -19,12 +19,11 @@ const TimeSheetStyle = styled.div`
   }
 `;
 
-const TimeSheet = ({ allEmployeeNames, type }) => {
+const TimeSheet = ({ type }) => {
   const [displaySheetMonth, setdisplayMonthSheet] = useState(new Date());
   const [loading, setLoading] = useState(false);
 
   const res = useSWR(type === "employees" ? "/api/employee" : "/api/student", {
-    initialData: allEmployeeNames,
     dedupingInterval: 60000,
   });
 
