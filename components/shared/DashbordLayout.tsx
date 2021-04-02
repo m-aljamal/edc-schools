@@ -18,8 +18,18 @@ const DashStyle = styled.div`
     background: #fff;
   }
   .sider,
-  .menu {
+  .userMenu {
     background-color: var(--slide);
+  }
+  .adminMenu {
+    background-color: white;
+    direction: rtl !important;
+    text-align: right;
+    .ant-menu-item,
+    .ant-menu-submenu-title,
+    .ant-menu {
+      direction: ltr;
+    }
   }
   .ant-layout-sider-trigger {
     background-color: #1890ff;

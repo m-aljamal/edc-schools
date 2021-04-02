@@ -9,11 +9,11 @@ const UserDashboard = ({ currentUser, userSchool }) => {
   const [currentContnet, setCurrentContent] = useState("home");
   const menuContent = {
     home: <div>Home</div>,
-    teachers: <NamesList type="teacher" />,
-    administrators: <NamesList type="administrators" />,
-    services: <NamesList type="services" />,
+    teachers: <NamesList type="teacher" schoolId={null} />,
+    administrators: <NamesList type="administrators" schoolId={null} />,
+    services: <NamesList type="services" schoolId={null} />,
     employees: <TimeSheet type="employees" />,
-    students: <NamesList type="students" />,
+    students: <NamesList type="students" schoolId={null} />,
     stutimesheet: <TimeSheet type="students" />,
   };
   const handleClick = (e) => {
@@ -25,7 +25,14 @@ const UserDashboard = ({ currentUser, userSchool }) => {
       currentUser={currentUser}
       userSchool={userSchool}
       pageContent={menuContent[currentContnet]}
-      menuData={<MenuList handleClick={handleClick} />}
+      menuData={
+        <MenuList
+          handleClick={handleClick}
+          theme="dark"
+          mode="inline"
+          className="userMenu"
+        />
+      }
     />
   );
 };

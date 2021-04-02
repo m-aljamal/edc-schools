@@ -10,14 +10,16 @@ const handler = nc({
   onError,
 });
 handler.use(dbMiddleware);
-
+handler.use(auth);
 handler.get(async (req: Request, res: NextApiResponse) => {
-  let employees = await req.db.collection("employee").find().toArray();
+  let employees = await req.db
+    .collection("employee")
+    .find({ schoolId: req.userSchool })
+    .toArray();
 
   res.json(employees);
 });
 
-handler.use(auth);
 handler.post(async (req: Request, res: NextApiResponse) => {
   let newEmployee = await req.db
     .collection("employee")

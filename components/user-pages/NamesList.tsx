@@ -9,16 +9,18 @@ import axios from "axios";
 const NamesList = ({ type, schoolId }) => {
   const employeeUrl = `/api/employee/find/${type}`;
   const studentsUrl = `/api/student/`;
-  // const feacher = (url, schoolId) =>
-  //   axios.get(url, { headers: { schoolId: schoolId } }).then((res) => res.data);
-  const { data } = useSWR([
-    type === "students" ? studentsUrl : employeeUrl,
-    schoolId,
-  ]);
-  // const { data } = useSWR(type === "students" ? studentsUrl : employeeUrl, {
-  //   dedupingInterval: 60000,
-  // });
-  console.log(data);
+
+  const feacher = (url, schoolId) =>
+    axios.get(url, { headers: { schoolId } }).then((res) => res.data);
+
+  const { data } = schoolId
+    ? useSWR(
+        [type === "students" ? studentsUrl : employeeUrl, schoolId],
+        feacher
+      )
+    : useSWR(type === "students" ? studentsUrl : employeeUrl, {
+        dedupingInterval: 60000,
+      });
 
   const [total, setTotal] = useState(data?.length);
   const [isModalVisible, setIsModalVisible] = useState(false);

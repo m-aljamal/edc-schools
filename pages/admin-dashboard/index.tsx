@@ -18,33 +18,35 @@ import {
 import SubMenu from "antd/lib/menu/SubMenu";
 import School from "../../components/admin/School";
 const UserDashboard = ({ currentUser, schools }) => {
-  console.log({ currentUser, schools });
-
-  const [currentContnet, setCurrentContent] = useState(null);
-
+  const [currentContnet, setCurrentContent] = useState("home");
+  const [schoolId, setSchoolId] = useState(null);
   const menuContent = {
     home: <div>Home</div>,
-    allSchools: <School schoolId={currentContnet?.keyPath[0]} />,
+    allSchools: <School schoolId={schoolId} />,
   };
   const handleClick = (e) => {
-    setCurrentContent(e);
+    if (e.keyPath.length === 2) {
+      setSchoolId(e.keyPath[0]);
+      setCurrentContent(e.keyPath[1]);
+    } else {
+      setCurrentContent(e.key);
+    }
   };
-  console.log(currentContnet?.keyPath[1]);
 
   return (
     <DashbordLayout
       currentUser={currentUser}
       userSchool={{ name: "حساب المشرف العام" }}
-      pageContent={menuContent[currentContnet?.keyPath[1]]}
+      pageContent={menuContent[currentContnet]}
       menuData={
         <Menu
           onClick={handleClick}
           theme="dark"
           mode="inline"
           defaultSelectedKeys={["home"]}
-          className="menu"
+          className="userMenu"
         >
-          <Menu.Item key="1" icon={<FundOutlined />}>
+          <Menu.Item key="home" icon={<FundOutlined />}>
             الرئيسية
           </Menu.Item>
 
