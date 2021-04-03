@@ -11,14 +11,14 @@ import {
 } from "@ant-design/icons";
 const { SubMenu } = Menu;
 
-const MenuList = ({ handleClick, theme, mode, className }) => {
+const MenuList = ({ handleClick, theme, mode, className, selectedKeys }) => {
   return (
     <Menu
       onClick={handleClick}
       theme={theme}
       mode={mode}
       defaultSelectedKeys={["home"]}
-      defaultOpenKeys={['sub1']}
+      selectedKeys={[selectedKeys]}
       className={className}
     >
       <Menu.Item key="home" icon={<FundOutlined />}>

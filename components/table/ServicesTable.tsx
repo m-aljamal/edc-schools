@@ -1,0 +1,29 @@
+import React, { useState } from "react";
+import { typeOfCertifcate, subjects } from "../../utils/SchoolSubjects";
+import {
+  NameAndImageShredColumns,
+  SharedTableItems,
+} from "../shared/SharedTableItems";
+import TableComponent from "./TableComponent";
+
+export const ServicesTable = ({ allData, type, isAdmin }) => {
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+
+  const columns = [
+    ...NameAndImageShredColumns(
+      searchText,
+      setSearchText,
+      searchedColumn,
+      setSearchedColumn
+    ),
+
+    {
+      title: "المسمى الوظيفي",
+      dataIndex: "jobTitle",
+    },
+    ...SharedTableItems(typeOfCertifcate, type, allData, isAdmin),
+  ];
+
+  return <TableComponent columns={columns} allData={allData} />;
+};

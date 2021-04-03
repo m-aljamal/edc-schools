@@ -96,7 +96,9 @@ const GlobalStyles = createGlobalStyle`
   .ant-dropdown-menu {
     direction: ltr;
   }
-  
+  .mt-2{
+    margin-top: 20px;
+  }
   
   `;
 

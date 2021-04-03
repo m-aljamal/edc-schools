@@ -8,6 +8,7 @@ import useSWR from "swr";
 import AddNewAbcence from "./AddNewAbcence";
 import { Button } from "antd";
 import { Devider } from "../styles/Devider";
+import axios from "axios";
 const TimeSheetStyle = styled.div`
   position: relative;
 
@@ -19,22 +20,33 @@ const TimeSheetStyle = styled.div`
   }
 `;
 
-const TimeSheet = ({ type }) => {
+const TimeSheet = ({ type, isAdmin, schoolId }) => {
   const [displaySheetMonth, setdisplayMonthSheet] = useState(new Date());
   const [loading, setLoading] = useState(false);
 
-  const res = useSWR(type === "employees" ? "/api/employee" : "/api/student", {
-    dedupingInterval: 60000,
-  });
+  const feacher = (url, schoolId) =>
+    axios.get(url, { headers: { schoolId } }).then((res) => res.data);
 
-  const { data } = useSWR(
-    type === "employees"
-      ? `/api/absence/${displaySheetMonth}`
-      : `/api/student/absence/${displaySheetMonth}`,
-    {
-      dedupingInterval: 60000,
-    }
-  );
+  const res = schoolId
+    ? useSWR(
+        [type === "employees" ? "/api/employee" : "/api/student", schoolId],
+        feacher
+      )
+    : useSWR(type === "employees" ? "/api/employee" : "/api/student", {
+        dedupingInterval: 60000,
+      });
+
+  const employeeAbs = `/api/absence/${displaySheetMonth}`;
+  const studentsAbs = `/api/student/absence/${displaySheetMonth}`;
+
+  const { data } = schoolId
+    ? useSWR(
+        [type === "employees" ? employeeAbs : studentsAbs, schoolId],
+        feacher
+      )
+    : useSWR(type === "employees" ? employeeAbs : studentsAbs, {
+        dedupingInterval: 60000,
+      });
 
   useEffect(() => {
     if (!data) {
@@ -60,15 +72,18 @@ const TimeSheet = ({ type }) => {
 
   return (
     <TimeSheetStyle>
-      <div className="addNew">
-        <AddNewAbcence
-          names={res.data}
-          displaySheetMonth={displaySheetMonth}
-          type={type}
-        />
-      </div>
-
-      <Devider></Devider>
+      {!isAdmin && (
+        <>
+          <div className="addNew">
+            <AddNewAbcence
+              names={res.data}
+              displaySheetMonth={displaySheetMonth}
+              type={type}
+            />
+          </div>
+          <Devider></Devider>
+        </>
+      )}
       <div className="table">
         <div className="head">
           <TitleStyle>جدول الغياب لتاريخ:</TitleStyle>

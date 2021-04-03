@@ -1,11 +1,14 @@
-import CustomTable from "../table/TeacherTable";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PageTitleStyle from "../styles/PageTitle";
 import AddNewButton from "../shared/AddNewButton";
 import Add_Edit_teacher_form from "../add-new-employee/Add_Edit_teacher_form";
 import { TitleStyle } from "../styles/TitleStyle";
 import useSWR from "swr";
 import axios from "axios";
+import { TeachersTable } from "../table/TeachersTable";
+import { AdministratorsTable } from "../table/AdministratorsTable";
+import { ServicesTable } from "../table/ServicesTable";
+import { StudentsTable } from "../table/StudentsTable";
 const NamesList = ({ type, schoolId }) => {
   const employeeUrl = `/api/employee/find/${type}`;
   const studentsUrl = `/api/student/`;
@@ -22,60 +25,58 @@ const NamesList = ({ type, schoolId }) => {
         dedupingInterval: 60000,
       });
 
-  const [total, setTotal] = useState(data?.length);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [destroyOnClose, setdestroyOnClose] = useState(false);
-
-  useEffect(() => {
-    setTotal(data?.length);
-  }, [data]);
 
   const words = {
     teacher: {
       add: "مدرس",
       all: "المدرسين",
+      table: <TeachersTable allData={data} type={type} isAdmin={schoolId} />,
     },
     administrators: {
       add: "اداري",
       all: "الاداريين",
+      table: (
+        <AdministratorsTable allData={data} type={type} isAdmin={schoolId} />
+      ),
     },
     services: {
       add: "مستخدم",
       all: "مستخدمين",
+      table: <ServicesTable allData={data} type={type} isAdmin={schoolId} />,
     },
     students: {
       add: "طالب",
       all: "طلاب",
+      table: <StudentsTable allData={data} type={type} isAdmin={schoolId} />,
     },
   };
 
   return (
     <div>
       <PageTitleStyle>
-        <AddNewButton
-          destroyOnClose={destroyOnClose}
-          isModalVisible={isModalVisible}
-          setIsModalVisible={setIsModalVisible}
-          modelTitle={`اضافة ${words[type].add} جديد`}
-          modelData={
-            <Add_Edit_teacher_form
-              data={data}
-              type={type}
-              oldData={undefined}
-              edit={false}
-              setIsModalVisible={setIsModalVisible}
-              setdestroyOnClose={setdestroyOnClose}
-            />
-          }
-        />
         <TitleStyle>جميع {words[type].all}:</TitleStyle>
+        {!schoolId && (
+          <AddNewButton
+            destroyOnClose={destroyOnClose}
+            isModalVisible={isModalVisible}
+            setIsModalVisible={setIsModalVisible}
+            modelTitle={`اضافة ${words[type].add} جديد`}
+            modelData={
+              <Add_Edit_teacher_form
+                data={data}
+                type={type}
+                oldData={undefined}
+                edit={false}
+                setIsModalVisible={setIsModalVisible}
+                setdestroyOnClose={setdestroyOnClose}
+              />
+            }
+          />
+        )}
       </PageTitleStyle>
-      <CustomTable
-        allData={data}
-        setTotal={setTotal}
-        total={total}
-        type={type}
-      />
+      {words[type].table}
     </div>
   );
 };

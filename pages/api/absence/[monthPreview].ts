@@ -4,11 +4,14 @@ import { NextApiResponse } from "next";
 import { Request } from "../../../types";
 import dbMissleware from "../../../middleware/db";
 import setDate from "../../../utils/setDate";
+import auth from "../../../middleware/auth";
 
 const handler = nc({
   onError,
 });
 handler.use(dbMissleware);
+handler.use(auth);
+
 handler.get(async (req: Request, res: NextApiResponse) => {
   const date = setDate(req.query.monthPreview.toString());
   const y = date.getFullYear();

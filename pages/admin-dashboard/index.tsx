@@ -1,20 +1,9 @@
 import React, { useState } from "react";
 import DashbordLayout from "../../components/shared/DashbordLayout";
 import { connectToDB, school, user } from "../../db";
-import NamesList from "../../components/user-pages/NamesList";
-import TimeSheet from "../../components/abcence/TimeSheet";
-import MenuList from "../../components/shared/MenuList";
+
 import { Menu } from "antd";
-import {
-  TeamOutlined,
-  FundOutlined,
-  BarcodeOutlined,
-  BookOutlined,
-  CalculatorOutlined,
-  FileDoneOutlined,
-  SmileOutlined,
-  LeftOutlined,
-} from "@ant-design/icons";
+import { TeamOutlined, FundOutlined, LeftOutlined } from "@ant-design/icons";
 import SubMenu from "antd/lib/menu/SubMenu";
 import School from "../../components/admin/School";
 const UserDashboard = ({ currentUser, schools }) => {
@@ -24,6 +13,7 @@ const UserDashboard = ({ currentUser, schools }) => {
     home: <div>Home</div>,
     allSchools: <School schoolId={schoolId} />,
   };
+
   const handleClick = (e) => {
     if (e.keyPath.length === 2) {
       setSchoolId(e.keyPath[0]);

@@ -20,8 +20,8 @@ const ProfileStyle = styled.div`
     }
   }
 `;
-const ProfilePage = ({ userInfo }) => {
-  if (!userInfo) return <SkeletonLoading />;
+const ProfilePage = ({ data }) => {
+  if (!data) return <SkeletonLoading />;
   const {
     image,
     name,
@@ -32,7 +32,7 @@ const ProfilePage = ({ userInfo }) => {
     dateOfBirth,
     email,
     graduateImage,
-  } = userInfo;
+  } = data;
   return (
     <ProfileStyle>
       <div className="info">
@@ -65,8 +65,8 @@ const ProfilePage = ({ userInfo }) => {
           {email}
         </h3>
         <div>
-          <a href={graduateImage.url} target="_blank" download>
-            <img src={graduateImage.url} width="100" height="100" />
+          <a href={graduateImage?.url} target="_blank" download>
+            <img src={graduateImage?.url} width="100" height="100" />
           </a>
         </div>
       </div>
