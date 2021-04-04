@@ -19,8 +19,8 @@ const DoughnutStyle = styled.div`
 `;
 
 const Gender = ({ data, type }) => {
-  const maleTotal = data[0].total;
-  const femalTotal = data[1].total;
+  const maleTotal = data[0]?.total;
+  const femalTotal = data[1]?.total;
   const gender = {
     datasets: [
       {

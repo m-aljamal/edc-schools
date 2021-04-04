@@ -1,55 +1,14 @@
-import { DatePicker, message } from "antd";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { NewAbcenceStyle } from "../styles/NewAbcenceStyle";
-import AddNewAbcenceForm from "./AddNewAbcenceForm";
 import EditAbcenceForm from "./EditAbcenceForm";
+import { FindAbcenseBySelectDate } from "./FindAbcenseBySelectDate";
 
 const EditAbcence = ({ names, displaySheetMonth, setIsEdit, type }) => {
   const [abcenceData, setAbcenceData] = useState(null);
-  const [date, setDate] = useState("");
-
-  useEffect(() => {
-    let isMounted = true;
-    (async () => {
-      setAbcenceData(null);
-      if (isMounted) {
-        if (date) {
-          try {
-            const res = await axios.get(
-              type === "employees"
-                ? `/api/absence/find/${date}`
-                : `/api/student/absence/find/${date}`
-            );
-            if (!res.data) {
-              setAbcenceData(null);
-              return message.info(`لايوجد غياب في هذا التاريخ`);
-            }
-            if (res.status === 200) setAbcenceData(res.data);
-          } catch (error) {
-            setAbcenceData(null);
-            console.log(error);
-            message.error(error.response?.data?.error);
-          }
-        }
-      }
-    })();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [date]);
 
   return (
     <div>
-      <div style={{ display: "flex" }}>
-        <p style={{ marginLeft: "10px" }}>اختر تاريخ الغياب:</p>
-        <DatePicker
-          onChange={(date, dateString) => setDate(dateString)}
-          style={{ marginBottom: "20px" }}
-          placeholder="اختر التاريخ"
-        />
-      </div>
+      <FindAbcenseBySelectDate setAbcenceData={setAbcenceData} type={type} />
       {abcenceData && (
         <NewAbcenceStyle>
           <EditAbcenceForm

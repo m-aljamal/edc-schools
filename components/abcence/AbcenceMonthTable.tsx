@@ -6,7 +6,7 @@ import {
   CloseOutlined,
   PauseOutlined,
 } from "@ant-design/icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import setDate from "../../utils/setDate";
 
@@ -15,7 +15,7 @@ const TableStyle = styled.div`
     background-color: rgba(34, 41, 56, 0.1);
     .total {
       color: var(--blue);
-
+      margin-right: 10px;
       font-weight: bold;
     }
   }
@@ -25,6 +25,7 @@ const AbcenceMonthTable = ({
   absenceListByMonth,
   displaySheetMonth,
 }) => {
+  const [todayAbcenseTotal, settodayAbcenseTotal] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const date = new Date(displaySheetMonth);
@@ -144,6 +145,7 @@ const AbcenceMonthTable = ({
         let abcence;
         for (abcence in absenceListByMonth) {
           let employee;
+
           for (employee in absenceListByMonth[abcence].names) {
             while (
               new Date(absenceListByMonth[abcence].date).getUTCDate() === i &&
@@ -173,6 +175,21 @@ const AbcenceMonthTable = ({
       },
     });
   }
+
+  useEffect(() => {
+    settodayAbcenseTotal("");
+    if (absenceListByMonth) {
+      const todayAbsence = absenceListByMonth.find(
+        (a) =>
+          setDate(new Date(a.date)).toISOString() ===
+          setDate(new Date()).toISOString()
+      );
+      if (todayAbsence) {
+        settodayAbcenseTotal(todayAbsence.names.length);
+      }
+    }
+  }, [absenceListByMonth]);
+
   return (
     <TableStyle>
       <Table
@@ -184,6 +201,14 @@ const AbcenceMonthTable = ({
         scroll={{ x: 1800, y: 520 }}
         showSorterTooltip={false}
         pagination={{ position: ["bottomRight"] }}
+        footer={() => (
+          <p style={{ textAlign: "start" }}>
+            العدد الاجمالي للغياب اليوم:
+            <span className="total">
+              {todayAbcenseTotal && todayAbcenseTotal}
+            </span>
+          </p>
+        )}
       />
     </TableStyle>
   );

@@ -4,6 +4,7 @@ import { Button, message, Tag } from "antd";
 import { object, string, date, array } from "yup";
 import { trigger } from "swr";
 import axios from "axios";
+import setDate from "../../utils/setDate";
 
 const layout = {
   labelCol: { span: 4 },
@@ -28,7 +29,11 @@ const AddNewAbcenceForm = ({ names, displaySheetMonth, type }) => {
 
   const handleTimeSheet = async (values, helpers) => {
     try {
-      let res = await axios.post("/api/absence/new", values);
+      let res = await axios.post("/api/absence/new", {
+        date: setDate(values.date),
+        absenceIds: values.absenceIds,
+        reason: values.reason,
+      });
       trigger(`/api/absence/${displaySheetMonth}`);
       if (res.status === 200) {
         helpers.resetForm();

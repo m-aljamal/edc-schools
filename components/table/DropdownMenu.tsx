@@ -118,7 +118,7 @@ const DropdownMenu = ({ data, allData, type, isAdmin }) => {
         setIsModalVisible={setIsModalVisible}
         modelDate={
           showProfile ? (
-            <ProfilePage data={data} />
+            <ProfilePage data={data} type={type} />
           ) : (
             <Add_Edit_teacher_form
               data={res.data}

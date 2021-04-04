@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import SkeletonLoading from "./SkeletonLoading";
 const ProfileStyle = styled.div`
+  line-height: 2;
   display: flex;
   .image {
     display: inline-flex;
@@ -16,11 +17,20 @@ const ProfileStyle = styled.div`
     margin-right: 30px;
     span {
       color: var(--blue);
-      padding: 0 0 25px 25px;
+      padding-left: 20px;
     }
   }
+  .array {
+    display: flex;
+  }
+  .arrayContent {
+    display: flex;
+  }
+  .element {
+    margin-left: 20px;
+  }
 `;
-const ProfilePage = ({ data }) => {
+const ProfilePage = ({ data, type }) => {
   if (!data) return <SkeletonLoading />;
   const {
     image,
@@ -32,7 +42,142 @@ const ProfilePage = ({ data }) => {
     dateOfBirth,
     email,
     graduateImage,
+    plaseOfBirth,
+    typeOfDegree,
+    DateOfGraduate,
+    city,
+    region,
+    street,
+    number1,
+    number2,
+    contractImage,
+    dateOfStart,
+    subject,
+    division,
+    classNumber,
+    jobTitle,
+    familySituation,
+    numberOfBrother,
+    healthSituation,
+    sickType,
   } = data;
+  console.log(classNumber);
+
+  const showData = {
+    students: (
+      <>
+        <h3>
+          <span> الصف :</span>
+          {classNumber}
+        </h3>
+        <h3>
+          <span> الشعبة :</span>
+          {division}
+        </h3>
+        <h3>
+          <span> الوضع الاجتماعي :</span>
+          {familySituation}
+        </h3>
+        <h3>
+          <span>عدد الاخوة :</span>
+          {numberOfBrother}
+        </h3>
+        <h3>
+          <span>الوضع الصحي :</span>
+          {healthSituation}
+        </h3>
+        {healthSituation !== "معافاة" && (
+          <h3>
+            <span>نوع المرض :</span>
+            {sickType}
+          </h3>
+        )}
+      </>
+    ),
+    services: (
+      <>
+        <h3>
+          <span>التحصيل العلمي:</span>
+          {TypeOfCertifcate}
+        </h3>
+        <h3>
+          <span> المسمى الوظيفي :</span>
+          {jobTitle}
+        </h3>
+      </>
+    ),
+    teacher: (
+      <>
+        <h3>
+          <span>التحصيل العلمي:</span>
+          {TypeOfCertifcate}
+        </h3>
+        <h3>
+          <span> الأختصاص:</span>
+          {typeOfDegree}
+        </h3>
+        <h3>
+          <span> تاريخ التخرج:</span>
+          {new Date(DateOfGraduate).toLocaleDateString()}
+        </h3>
+        <h3 className="arrayContent">
+          <span> مدرس لمادة :</span>
+          <p className="array">
+            {subject?.map((s) => (
+              <p className="element" key={s}>
+                {s}
+              </p>
+            ))}
+          </p>
+        </h3>
+        {type === "teacher" && (
+          <>
+            <h3 className="arrayContent">
+              <span> الصف :</span>
+              <p className="array">
+                {classNumber?.map((s) => (
+                  <p className="element" key={s}>
+                    {s}
+                  </p>
+                ))}
+              </p>
+            </h3>
+            <h3 className="arrayContent">
+              <span> الشعبة :</span>
+              <p className="array">
+                {division?.map((s) => (
+                  <p className="element" key={s}>
+                    {s}
+                  </p>
+                ))}
+              </p>
+            </h3>
+          </>
+        )}
+      </>
+    ),
+    administrators: (
+      <>
+        <h3>
+          <span>التحصيل العلمي:</span>
+          {TypeOfCertifcate}
+        </h3>
+        <h3>
+          <span> الأختصاص:</span>
+          {typeOfDegree}
+        </h3>
+        <h3>
+          <span> تاريخ التخرج:</span>
+          {new Date(DateOfGraduate).toLocaleDateString()}
+        </h3>
+        <h3>
+          <span> المسمى الوظيفي :</span>
+          {jobTitle}
+        </h3>
+      </>
+    ),
+  };
+
   return (
     <ProfileStyle>
       <div className="info">
@@ -54,21 +199,44 @@ const ProfilePage = ({ data }) => {
         </h3>
         <h3>
           <span>تاريخ الميلاد:</span>
-          {dateOfBirth}
+          {new Date(dateOfBirth).toLocaleDateString()}
         </h3>
         <h3>
-          <span>التحصيل العلمي:</span>
-          {TypeOfCertifcate}
+          <span>مكان الولادة:</span>
+          {plaseOfBirth}
         </h3>
+
         <h3>
           <span>الايميل:</span>
           {email}
         </h3>
-        <div>
-          <a href={graduateImage?.url} target="_blank" download>
-            <img src={graduateImage?.url} width="100" height="100" />
-          </a>
-        </div>
+        <h3>
+          <span>عنوان الاقامة:</span>
+          {city} - {region} - {street}
+        </h3>
+        <h3>
+          <span> رقم الهاتف:</span>
+          {number1}
+        </h3>
+        <h3>
+          <span> رقم الهاتف :</span>
+          {number2}
+        </h3>
+        <h3>
+          <span> تاريخ البدء :</span>
+          {new Date(dateOfStart).toLocaleDateString()}
+        </h3>
+        {showData[type]}
+        {type !== "students" && (
+          <div className="imageLink">
+            <a href={graduateImage?.url} target="_blank" download>
+              <img src={graduateImage?.url} width="100" height="100" />
+            </a>
+            <a href={contractImage?.url} target="_blank" download>
+              <img src={contractImage?.url} width="100" height="100" />
+            </a>
+          </div>
+        )}
       </div>
       <div className="image">
         <img
@@ -87,28 +255,3 @@ const ProfilePage = ({ data }) => {
 };
 
 export default ProfilePage;
-
-// DateOfGraduate: "2021-03-22T12:37:37.805Z"
-
-// city: "دمشق"
-// classNumber: ["الرابع"]
-// contractImage: {public_id: "jWZLN2Pi6ds6DH_QUmNtd", url: "https://res.cloudinary.com/dqoung1wz/image/upload/v1615120681/jWZLN2Pi6ds6DH_QUmNtd.jpg"}
-// dateOfBirth: "2021-03-01T12:37:14.152Z"
-// dateOfStart: "2021-03-28T12:37:39.113Z"
-// division: ["الخامسة"]
-// email: "m@m.com"
-
-// graduateImage: {public_id: "uMnY_zb2fNEcB8Lrj3u5n", url: "https://res.cloudinary.com/dqoung1wz/image/upload/v1615120675/uMnY_zb2fNEcB8Lrj3u5n.jpg"}
-// image: {public_id: "71naFrxFqiFq2wqFgRCM6", url: "https://res.cloudinary.com/dqoung1wz/image/upload/v1615130629/71naFrxFqiFq2wqFgRCM6.jpg"}
-
-// number1: "333"
-// number2: "44"
-// plaseOfBirth: "دمشق"
-// region: "دمشق"
-// schoolId: "3l-FKqSDBZBwuBgramn2j"
-
-// street: "دمشق"
-// subject: ["علوم"]
-
-// typeOfDegree: "رياضيات"
-// _id: "Xd8sJOYWj4SX7R

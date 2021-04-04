@@ -6,11 +6,12 @@ import { Menu } from "antd";
 import { TeamOutlined, FundOutlined, LeftOutlined } from "@ant-design/icons";
 import SubMenu from "antd/lib/menu/SubMenu";
 import School from "../../components/admin/School";
+import { AllSchools } from "../../components/statistics/AllSchools";
 const UserDashboard = ({ currentUser, schools }) => {
   const [currentContnet, setCurrentContent] = useState("home");
   const [schoolId, setSchoolId] = useState(null);
   const menuContent = {
-    home: <div>Home</div>,
+    home: <AllSchools />,
     allSchools: <School schoolId={schoolId} />,
   };
 
