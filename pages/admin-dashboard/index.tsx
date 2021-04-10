@@ -12,6 +12,7 @@ const UserDashboard = ({ currentUser, schools }) => {
   const [schoolId, setSchoolId] = useState(null);
   const menuContent = {
     home: <AllSchools />,
+    schoolsUsers: <p>new school</p>,
     allSchools: <School schoolId={schoolId} />,
   };
 
@@ -39,6 +40,9 @@ const UserDashboard = ({ currentUser, schools }) => {
         >
           <Menu.Item key="home" icon={<FundOutlined />}>
             الرئيسية
+          </Menu.Item>
+          <Menu.Item key="schoolsUsers" icon={<FundOutlined />}>
+            مشرفي المدارس
           </Menu.Item>
 
           <SubMenu key="allSchools" icon={<TeamOutlined />} title="المدارس">

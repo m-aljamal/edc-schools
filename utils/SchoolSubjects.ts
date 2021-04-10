@@ -240,3 +240,18 @@ export const familySituation = [
     value: "ابوين",
   },
 ];
+
+export const abcenseResons = [
+  {
+    text: "غير مبرر",
+  },
+  {
+    text: "اجازة مرضية",
+  },
+  {
+    text: " اجازة حمل  ",
+  },
+  {
+    text: " اذن ",
+  },
+];

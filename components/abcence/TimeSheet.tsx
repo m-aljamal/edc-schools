@@ -44,7 +44,7 @@ const TimeSheet = ({ type, isAdmin, schoolId }) => {
         [type === "employees" ? employeeAbs : studentsAbs, schoolId],
         feacher
       )
-    : useSWR(type === "employees" ? employeeAbs : studentsAbs, {
+    : useSWR(`/api/absence/${type}/${displaySheetMonth}`, {
         dedupingInterval: 60000,
       });
 

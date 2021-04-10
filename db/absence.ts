@@ -36,23 +36,23 @@ export const addAbsences = async (
   absenceList: {
     schoolId: string;
     date: Date;
-    reason: string;
-    absenceIds: [];
+
+    names: [];
   }
 ) => {
-  const absenceUsers = await db
-    .collection("employee")
-    .find({ _id: { $in: absenceList.absenceIds } })
-    .project({ name: 1, dateOfStart: 1 })
-    .toArray();
+  // const absenceUsers = await db
+  //   .collection("employee")
+  //   .find({ _id: { $in: absenceList.absenceIds } })
+  //   .project({ name: 1, dateOfStart: 1 })
+  //   .toArray();
 
   const newAbsence = await db
     .collection("absences")
     .insertOne({
       _id: nanoid(),
-      names: absenceUsers,
+      names: absenceList.names,
       date: setDate(absenceList.date),
-      reason: absenceList.reason,
+
       schoolId: absenceList.schoolId,
     })
     .then(({ ops }) => ops[0]);

@@ -1,6 +1,7 @@
 import { Button, Input, Space } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
+import { useEffect } from "react";
 
 export const getColumnSearchProps = (
   dataIndex: string,

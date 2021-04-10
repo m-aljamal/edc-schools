@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import React, { useState } from "react";
 import { TitleStyle } from "../styles/TitleStyle";
 import { Dropdown, Menu } from "antd";
 import {
@@ -8,8 +8,9 @@ import {
   CloseOutlined,
 } from "@ant-design/icons";
 import { NewAbcenceStyle } from "../styles/NewAbcenceStyle";
-const AddNewAbcenceForm = dynamic(() => import("./AddNewAbcenceForm"));
-const EditAbcenceForm = dynamic(() => import("./EditAbcence"));
+import StudentsAbcenceForm from "./StudentsAbcenceForm";
+import EmployeesAbcenceForm from "./EmployeesAbcenceForm";
+ const EditAbcenceForm = dynamic(() => import("./EditAbcence"));
 
 const AddNewAbcence = ({ names, displaySheetMonth, type }) => {
   const [isEdit, setIsEdit] = useState(false);
@@ -48,9 +49,13 @@ const AddNewAbcence = ({ names, displaySheetMonth, type }) => {
           names={names}
           displaySheetMonth={displaySheetMonth}
         />
+      ) : type === "students" ? (
+        <StudentsAbcenceForm
+          names={names}
+          displaySheetMonth={displaySheetMonth}
+        />
       ) : (
-        <AddNewAbcenceForm
-          type={type}
+        <EmployeesAbcenceForm
           names={names}
           displaySheetMonth={displaySheetMonth}
         />

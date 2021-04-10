@@ -1,109 +1,162 @@
-import { Formik } from "formik";
-import { FormItem, Input, DatePicker, Form, Transfer } from "formik-antd";
-import { Button, message, Tag } from "antd";
-import { object, string, date, array } from "yup";
+import { DatePicker, message, Select, Table, Button } from "antd";
 import { trigger } from "swr";
 import axios from "axios";
 import setDate from "../../utils/setDate";
+import { useState } from "react";
+import { NameAndImageShredColumns } from "../shared/SharedTableItems";
+import { abcenseResons } from "../../utils/SchoolSubjects";
+import moment from "moment";
 
-const layout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 18 },
-};
-
-const validation = object({
-  date: date().required("الرجاء اختيار التاريخ"),
-  absenceIds: array()
-    .of(string())
-    .min(1)
-    .required("الرجاء اختيار اسماء الغياب"),
-  reason: string().required("الرجاء كتابة سبب الغياب"),
-});
+const { Option } = Select;
 
 const AddNewAbcenceForm = ({ names, displaySheetMonth, type }) => {
-  const initialValues = {
-    date: "",
-    absenceIds: [],
-    reason: "",
+  const [absenceData, setAbsenceData] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const [date, setAbcenceDate] = useState("");
+  const [loading, setLoading] = useState(false);
+  const hanldeReason = (event, userInfo) => {
+    const findIndex = absenceData.findIndex((a) => a._id === userInfo._id);
+    if (findIndex > -1) {
+      let newArray = [...absenceData];
+      if (!event) {
+        newArray.splice(findIndex, 1);
+        setAbsenceData(newArray);
+      } else {
+        newArray[findIndex] = { ...newArray[findIndex], reason: event };
+        setAbsenceData(newArray);
+      }
+    }
+    if (event && findIndex === -1) {
+      setAbsenceData([
+        ...absenceData,
+        { reason: event, name: userInfo.name, _id: userInfo._id },
+      ]);
+    }
   };
 
-  const handleTimeSheet = async (values, helpers) => {
+  const handleTimeSheet = async () => {
     try {
-      let res = await axios.post("/api/absence/new", {
-        date: setDate(values.date),
-        absenceIds: values.absenceIds,
-        reason: values.reason,
+      setLoading(true);
+      let res = await axios.post(`/api/absence/add/${type}`, {
+        date: setDate(date),
+        names: absenceData,
       });
-      trigger(`/api/absence/${displaySheetMonth}`);
+
+      trigger(`/api/absence/${type}/${displaySheetMonth}`);
       if (res.status === 200) {
-        helpers.resetForm();
+        setLoading(false);
+        setAbsenceData([]);
+        setAbcenceDate("");
         message.success("تم تسجيل الغياب بنجاح");
       }
     } catch (error) {
+      setLoading(false);
       message.error(error.response?.data?.error);
       console.log(error);
     }
+  };
+  const emColumns = [
+    ...NameAndImageShredColumns(
+      searchText,
+      setSearchText,
+      searchedColumn,
+      setSearchedColumn
+    ),
+    {
+      title: "اسم الاب",
+      dataIndex: "fatherName",
+    },
+
+    {
+      title: "سبب الغياب",
+
+      render: (value, row, index) => (
+        <div>
+          <Select
+            allowClear
+            placeholder="الرجاء الاختيار"
+            onChange={(e) => hanldeReason(e, row)}
+            value={absenceData.find((a) => a._id === row._id)?.reason}
+          >
+            {abcenseResons.map((r, i) => (
+              <Option key={i} value={r.text}>
+                {r.text}
+              </Option>
+            ))}
+          </Select>
+        </div>
+      ),
+    },
+  ];
+
+  const stuColumns = [
+    ...NameAndImageShredColumns(
+      searchText,
+      setSearchText,
+      searchedColumn,
+      setSearchedColumn
+    ),
+    {
+      title: "اسم الاب",
+      dataIndex: "fatherName",
+    },
+    {
+      title: "الصف",
+      dataIndex: "classNumber",
+    },
+
+    {
+      title: "سبب الغياب",
+
+      render: (value, row, index) => (
+        <div>
+          <Select
+            allowClear
+            placeholder="الرجاء الاختيار"
+            onChange={(e) => hanldeReason(e, row)}
+            value={absenceData.find((a) => a._id === row._id)?.reason}
+          >
+            {abcenseResons.map((r, i) => (
+              <Option key={i} value={r.text}>
+                {r.text}
+              </Option>
+            ))}
+          </Select>
+        </div>
+      ),
+    },
+  ];
+
+  const handleDateChange = (date, dateText) => {
+    setAbcenceDate(dateText);
   };
 
-  const handleStudentsTimeSheet = async (values, helpers) => {
-    try {
-      let res = await axios.post("/api/student/absence/new", values);
-      trigger(`/api/student/absence/${displaySheetMonth}`);
-      if (res.status === 200) {
-        helpers.resetForm();
-        message.success("تم تسجيل الغياب بنجاح");
-      }
-    } catch (error) {
-      message.error(error.response?.data?.error);
-      console.log(error);
-    }
-  };
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={
-        type === "employees" ? handleTimeSheet : handleStudentsTimeSheet
-      }
-      validationSchema={validation}
-    >
-      {(isSubmitting, values) => (
-        <Form {...layout}>
-          <FormItem name="date" label="التاريخ">
-            <DatePicker name="date" placeholder="تاريخ الغياب" />
-          </FormItem>
-          <FormItem name="absenceIds" label="الاسماء">
-            <Transfer
-              name="absenceIds"
-              style={{ justifyContent: " center", marginTop: "15px" }}
-              dataSource={names}
-              titles={[
-                <Tag color="geekblue">اسماء الموظفين</Tag>,
-                <Tag color="geekblue">اسماء الغياب</Tag>,
-              ]}
-              render={(item) => item.name}
-              oneWay
-              rowKey={(record) => record._id}
-              pagination
-              showSearch
-              operations={["اختيار الاسماء"]}
-            />
-          </FormItem>
-          <FormItem name="reason" label="اسباب الغياب">
-            <Input.TextArea name="reason" rows={4} placeholder="سبب الغياب" />
-          </FormItem>
-          <div className="submitButton">
-            <Button
-              htmlType="submit"
-              // loading={isSubmitting}
-              type="primary"
-              block
-            >
-              حفظ الغياب
-            </Button>
-          </div>
-        </Form>
-      )}
-    </Formik>
+    <div>
+      <DatePicker
+        placeholder="تاريخ الغياب"
+        onChange={handleDateChange}
+        value={date !== "" ? moment(date) : null}
+      />
+      <div>
+        <span style={{ marginLeft: 8 }}></span>
+      </div>
+      <Table
+        rowKey="_id"
+        columns={type === "students" ? stuColumns : emColumns}
+        dataSource={names}
+      />
+      <Button
+        disabled={absenceData.length === 0 || !date}
+        loading={loading}
+        block
+        onClick={handleTimeSheet}
+        type="primary"
+      >
+        حفظ
+      </Button>
+    </div>
   );
 };
 

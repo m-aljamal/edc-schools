@@ -154,7 +154,7 @@ const AbcenceMonthTable = ({
               return (
                 <Tooltip
                   placement="topLeft"
-                  title={absenceListByMonth[abcence].reason}
+                  title={absenceListByMonth[abcence].names[employee].reason}
                 >
                   <CloseOutlined style={{ color: "red" }} />
                 </Tooltip>
