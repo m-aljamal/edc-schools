@@ -69,7 +69,7 @@ const TimeSheet = ({ type, isAdmin, schoolId }) => {
       return prev;
     });
   };
-
+  if (!res.data) return <p>الرجاء الانتظار</p>;
   return (
     <TimeSheetStyle>
       {!isAdmin && (

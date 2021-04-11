@@ -1,8 +1,8 @@
-import { Button, message, Table, Tag, DatePicker, Select } from "antd";
+import { DatePicker, message, Select, Table, Button } from "antd";
 import { trigger } from "swr";
 import axios from "axios";
-import React, { useState } from "react";
 import setDate from "../../utils/setDate";
+import { useState } from "react";
 import { NameAndImageShredColumns } from "../shared/SharedTableItems";
 import {
   classes,
@@ -10,21 +10,24 @@ import {
   studentsAbcenseResons,
 } from "../../utils/SchoolSubjects";
 import moment from "moment";
-
 const { Option } = Select;
 
-const EditAbcenceForm = ({
-  names,
-  displaySheetMonth,
-  oldData,
-  setIsEdit,
+export const AbcenceForm = ({
+  date,
   type,
+  names,
+  absenceData,
+  loading,
+  searchText,
+  searchedColumn,
+  displaySheetMonth,
+  setAbsenceData,
+  setLoading,
+  setAbcenceDate,
+  setSearchText,
+  setSearchedColumn,
+  handleTimeSheet,
 }) => {
-  const [absenceData, setAbsenceData] = useState(oldData.names);
-  const [searchText, setSearchText] = useState("");
-  const [searchedColumn, setSearchedColumn] = useState("");
-  const [date, setAbcenceDate] = useState(oldData.date);
-  const [loading, setLoading] = useState(false);
   const hanldeReason = (event, userInfo) => {
     const findIndex = absenceData.findIndex((a) => a._id === userInfo._id);
     if (findIndex > -1) {
@@ -101,25 +104,6 @@ const EditAbcenceForm = ({
   const handleDateChange = (date, dateText) => {
     setAbcenceDate(dateText);
   };
-
-  const handleTimeSheet = async () => {
-    try {
-      let res = await axios.put(`/api/absence/${type}/edit/${oldData._id}`, {
-        date: setDate(date),
-        names: absenceData,
-      });
-      trigger(`/api/absence/${displaySheetMonth}`);
-      if (res.status === 200) {
-        setIsEdit(false);
-
-        message.success("تم تعديل الغياب بنجاح");
-      }
-    } catch (error) {
-      message.error(error.response?.data?.error);
-      console.log(error);
-    }
-  };
-
   return (
     <div>
       <DatePicker
@@ -147,5 +131,3 @@ const EditAbcenceForm = ({
     </div>
   );
 };
-
-export default EditAbcenceForm;

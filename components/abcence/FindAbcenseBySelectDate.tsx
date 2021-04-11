@@ -37,7 +37,7 @@ export const FindAbcenseBySelectDate = ({ setAbcenceData, type }) => {
   }, [date]);
   return (
     <div style={{ display: "flex" }}>
-      <p style={{ marginLeft: "10px" }}>اختر تاريخ الغياب:</p>
+      <p style={{ marginLeft: "10px" }}> اختر تاريخ الغياب:</p>
       <DatePicker
         onChange={(date, dateString) => setDate(dateString)}
         style={{ marginBottom: "20px" }}

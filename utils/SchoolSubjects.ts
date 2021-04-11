@@ -241,7 +241,7 @@ export const familySituation = [
   },
 ];
 
-export const abcenseResons = [
+export const employeesAbcenseResons = [
   {
     text: "غير مبرر",
   },
@@ -253,5 +253,19 @@ export const abcenseResons = [
   },
   {
     text: " اذن ",
+  },
+];
+export const studentsAbcenseResons = [
+  {
+    text: "غير مبرر",
+  },
+  {
+    text: "متسرب",
+  },
+  {
+    text: "اجازة مرضية",
+  },
+  {
+    text: "اذن",
   },
 ];
