@@ -40,7 +40,7 @@ const AbcenceMonthTable = ({
       confirm,
       clearFilters,
     }) => (
-      <div style={{ padding: 8 }}>
+      <div className="p-4">
         <Input
           dir="rtl"
           autoFocus
@@ -137,7 +137,7 @@ const AbcenceMonthTable = ({
         if (weekend.getDay() == 4 || weekend.getDay() == 5) {
           return (
             <Tooltip placement="topLeft" title="عطلة اسبوعية">
-              <PauseOutlined style={{ color: "blue" }} />
+              <PauseOutlined className="text-blue-500" />
             </Tooltip>
           );
         }
@@ -156,7 +156,7 @@ const AbcenceMonthTable = ({
                   placement="topLeft"
                   title={absenceListByMonth[abcence].names[employee].reason}
                 >
-                  <CloseOutlined style={{ color: "red" }} />
+                  <CloseOutlined className="text-red-500" />
                 </Tooltip>
               );
             }
@@ -164,7 +164,7 @@ const AbcenceMonthTable = ({
         }
 
         if (setDate(row.dateOfStart) <= setDate(new Date(y, m - 1, i))) {
-          return <CheckOutlined style={{ color: "green" }} />;
+          return <CheckOutlined className="text-green-600" />;
         }
 
         return (
@@ -191,7 +191,7 @@ const AbcenceMonthTable = ({
   }, [absenceListByMonth]);
 
   return (
-    <TableStyle>
+    <div className="mt-10">
       <Table
         columns={teachersColumns}
         dataSource={names}
@@ -202,15 +202,15 @@ const AbcenceMonthTable = ({
         showSorterTooltip={false}
         pagination={{ position: ["bottomRight"] }}
         footer={() => (
-          <p style={{ textAlign: "start" }}>
-            العدد الاجمالي للغياب اليوم:
-            <span className="total">
+          <p className="font-bold">
+            {todayAbcenseTotal ? `  العدد الاجمالي للغياب اليوم:` : ``}
+            <span className="mr-2 text-pink-900">
               {todayAbcenseTotal && todayAbcenseTotal}
             </span>
           </p>
         )}
       />
-    </TableStyle>
+    </div>
   );
 };
 

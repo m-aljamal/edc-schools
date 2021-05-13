@@ -34,8 +34,11 @@ const MenuList = ({ handleClick, theme, mode, className, selectedKeys }) => {
         <Menu.Item key="services" icon={<LeftOutlined />}>
           الخدميين
         </Menu.Item>
-        <Menu.Item key="employees" icon={<LeftOutlined />}>
-          سجل الدوام
+        <Menu.Item key="employeesTimeSheet" icon={<LeftOutlined />}>
+          تسجيل الغياب
+        </Menu.Item>
+        <Menu.Item key="monthlyEmployeesTimeSheet" icon={<LeftOutlined />}>
+          الغياب الشهري
         </Menu.Item>
       </SubMenu>
       <SubMenu key="sub2" icon={<SmileOutlined />} title="الطلاب">
@@ -43,7 +46,10 @@ const MenuList = ({ handleClick, theme, mode, className, selectedKeys }) => {
           جميع الطلاب
         </Menu.Item>
         <Menu.Item key="stutimesheet" icon={<LeftOutlined />}>
-          سجل الدوام
+          تسجيل الغياب
+        </Menu.Item>
+        <Menu.Item key="monthlyStudentTimeSheet" icon={<LeftOutlined />}>
+          الغياب الشهري
         </Menu.Item>
       </SubMenu>
       <Menu.Item key="9" icon={<BarcodeOutlined />}>

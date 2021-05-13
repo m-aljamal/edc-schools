@@ -72,7 +72,7 @@ export async function getServerSideProps(ctx) {
       ctx.res.end();
     }
   } else {
-    ctx.res.writeHead(302, { Location: "/login" });
+    ctx.res.writeHead(302, { Location: "/" });
     ctx.res.end();
   }
   props.schools = await school.getSchools(db);

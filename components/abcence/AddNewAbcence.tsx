@@ -1,16 +1,14 @@
 import dynamic from "next/dynamic";
 import React, { useState } from "react";
-import { TitleStyle } from "../styles/TitleStyle";
 import { Dropdown, Menu } from "antd";
 import {
   EditOutlined,
   EllipsisOutlined,
   CloseOutlined,
 } from "@ant-design/icons";
-import { NewAbcenceStyle } from "../styles/NewAbcenceStyle";
 import StudentsAbcenceForm from "./StudentsAbcenceForm";
 import EmployeesAbcenceForm from "./EmployeesAbcenceForm";
- const EditAbcenceForm = dynamic(() => import("./EditAbcence"));
+const EditAbcenceForm = dynamic(() => import("./EditAbcence"));
 
 const AddNewAbcence = ({ names, displaySheetMonth, type }) => {
   const [isEdit, setIsEdit] = useState(false);
@@ -26,14 +24,14 @@ const AddNewAbcence = ({ names, displaySheetMonth, type }) => {
   );
 
   return (
-    <NewAbcenceStyle>
-      <div className="head">
-        <TitleStyle>
+    <div className="container mt-8">
+      <div className="flex justify-between items-center">
+        <div className="mb-8 font-bold">
           {isEdit ? "تعديل غياب سابق" : "تسجيل غياب جديد:"}
-        </TitleStyle>
+        </div>
         {isEdit ? (
           <CloseOutlined
-            style={{ color: "red" }}
+            className="text-red-800"
             onClick={() => setIsEdit(false)}
           />
         ) : (
@@ -60,7 +58,7 @@ const AddNewAbcence = ({ names, displaySheetMonth, type }) => {
           displaySheetMonth={displaySheetMonth}
         />
       )}
-    </NewAbcenceStyle>
+    </div>
   );
 };
 

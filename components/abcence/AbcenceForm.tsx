@@ -111,13 +111,13 @@ export const AbcenceForm = ({
         onChange={handleDateChange}
         value={date !== "" ? moment(date) : null}
       />
-      <div>
-        <span style={{ marginLeft: 8 }}></span>
-      </div>
+
       <Table
+        className="mt-8"
         rowKey="_id"
         columns={type === "students" ? stuColumns : emColumns}
         dataSource={names}
+        scroll={{ x: 600, y: 520 }}
       />
       <Button
         disabled={absenceData.length === 0 || !date}

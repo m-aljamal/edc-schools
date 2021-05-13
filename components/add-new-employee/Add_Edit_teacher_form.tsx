@@ -13,7 +13,6 @@ import React, { useState } from "react";
 import { Steps, Button, message } from "antd";
 import ImageUpload from "../shared/ImageUpload";
 import axios from "axios";
-import useSWR from "swr";
 import { mutate, trigger } from "swr";
 
 import FormStyle from "../styles/FormStyle";
@@ -129,14 +128,13 @@ const AddNewTeacherForm = ({
 
   const handleEdit = async (values, helpers) => {
     try {
-      const res = await axios.put(`/api/employee/${oldData._id}`, {
+      const res = await axios.put(`/api/names/${type}/${oldData._id}`, {
         ...values,
         image,
         graduateImage,
         contractImage,
       });
-      trigger(`/api/employee/find/${type}`);
-      trigger("/api/employee");
+      trigger(`/api/names/${type}`);
       if (res.status === 200) {
         helpers.resetForm();
         setdestroyOnClose(true);
@@ -151,65 +149,25 @@ const AddNewTeacherForm = ({
   };
 
   const handleNew = async (values, helpers) => {
+    const url = `/api/names/${type}`;
     try {
       mutate(
-        `/api/employee/find/${type}`,
+        url,
         [...data, { ...values, image, graduateImage, contractImage }],
         false
       );
-      const res = await axios.post("/api/employee", {
+      const res = await axios.post(url, {
         ...values,
         image,
         graduateImage,
         contractImage,
       });
 
-      trigger(`/api/employee/find/${type}`);
-      trigger("/api/employee");
+      trigger(url);
       if (res.status === 200) {
         helpers.resetForm();
         setdestroyOnClose(true);
         message.success(words[type].create);
-        setIsModalVisible(false);
-      }
-    } catch (error) {
-      console.log(error);
-
-      message.error(error.response.data.error);
-    }
-  };
-  const handleNewStudent = async (values, helpers) => {
-    try {
-      mutate(`/api/student/`, [...data, { ...values, image }], false);
-      const res = await axios.post("/api/student/new", {
-        ...values,
-        image,
-      });
-      trigger(`/api/student/`);
-      if (res.status === 200) {
-        helpers.resetForm();
-        setdestroyOnClose(true);
-        message.success(words[type].create);
-        setIsModalVisible(false);
-      }
-    } catch (error) {
-      console.log(error);
-
-      message.error(error.response.data.error);
-    }
-  };
-  const handleEditStudent = async (values, helpers) => {
-    try {
-      const res = await axios.put(`/api/student/${oldData._id}`, {
-        ...values,
-        image,
-      });
-
-      trigger("/api/student/");
-      if (res.status === 200) {
-        helpers.resetForm();
-        setdestroyOnClose(true);
-        message.success(words[type].edit);
         setIsModalVisible(false);
       }
     } catch (error) {
@@ -304,8 +262,6 @@ const AddNewTeacherForm = ({
           </FormItem>
         </FormikStep>
       ),
-      submit: handleNew,
-      edit: handleEdit,
     },
     administrators: {
       form: (
@@ -361,8 +317,6 @@ const AddNewTeacherForm = ({
           </FormItem>
         </FormikStep>
       ),
-      submit: handleNew,
-      edit: handleEdit,
     },
     services: {
       form: (
@@ -402,8 +356,6 @@ const AddNewTeacherForm = ({
           </FormItem>
         </FormikStep>
       ),
-      submit: handleNew,
-      edit: handleEdit,
     },
     students: {
       form: (
@@ -440,8 +392,6 @@ const AddNewTeacherForm = ({
           </FormItem>
         </FormikStep>
       ),
-      submit: handleNewStudent,
-      edit: handleEditStudent,
     },
   };
 
@@ -472,9 +422,7 @@ const AddNewTeacherForm = ({
     <FormStyle>
       <FormStepper
         initialValues={initialValues}
-        onSubmit={
-          edit ? otherFormData[type]?.edit : otherFormData[type]?.submit
-        }
+        onSubmit={edit ? handleEdit : handleNew}
       >
         <FormikStep
           label="معلومات شخصية"

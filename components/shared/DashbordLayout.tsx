@@ -3,6 +3,7 @@ import { Layout, Menu, Breadcrumb, Avatar, Dropdown } from "antd";
 import styled from "styled-components";
 import { PoweroffOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
+import axios from "axios";
 const { Header, Content, Sider } = Layout;
 
 const DashStyle = styled.div`
@@ -59,13 +60,22 @@ const DashStyle = styled.div`
 `;
 const DashbordLayout = ({ pageContent, menuData, currentUser, userSchool }) => {
   const router = useRouter();
-
+  const handleLogout = async () => {
+    try {
+      await axios.post("/api/users/logout");
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const [collapsed, setCollapsed] = useState(false);
 
   const menu = (
     <Menu>
       <Menu.Item>الصفحة الشخصية</Menu.Item>
-      <Menu.Item icon={<PoweroffOutlined />}>تسجيل الخروج</Menu.Item>
+      <Menu.Item icon={<PoweroffOutlined />} onClick={handleLogout}>
+        تسجيل الخروج
+      </Menu.Item>
     </Menu>
   );
 

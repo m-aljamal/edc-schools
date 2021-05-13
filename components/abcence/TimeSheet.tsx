@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
-import { TitleStyle } from "../styles/TitleStyle";
+import { TitleStyle } from "../../for delete/TitleStyle";
 import { RightOutlined, LeftOutlined } from "@ant-design/icons";
 import React from "react";
 import MonthTable from "./AbcenceMonthTable";
@@ -9,16 +8,6 @@ import AddNewAbcence from "./AddNewAbcence";
 import { Button } from "antd";
 import { Devider } from "../styles/Devider";
 import axios from "axios";
-const TimeSheetStyle = styled.div`
-  position: relative;
-
-  .addNew {
-    padding-bottom: 24px;
-  }
-  .table {
-    margin: 50px 0;
-  }
-`;
 
 const TimeSheet = ({ type, isAdmin, schoolId }) => {
   const [displaySheetMonth, setdisplayMonthSheet] = useState(new Date());
@@ -71,16 +60,15 @@ const TimeSheet = ({ type, isAdmin, schoolId }) => {
   };
   if (!res.data) return <p>الرجاء الانتظار</p>;
   return (
-    <TimeSheetStyle>
+    <div>
       {!isAdmin && (
         <>
-          <div className="addNew">
-            <AddNewAbcence
-              names={res.data}
-              displaySheetMonth={displaySheetMonth}
-              type={type}
-            />
-          </div>
+          <AddNewAbcence
+            names={res.data}
+            displaySheetMonth={displaySheetMonth}
+            type={type}
+          />
+
           <Devider></Devider>
         </>
       )}
@@ -118,7 +106,7 @@ const TimeSheet = ({ type, isAdmin, schoolId }) => {
         </div>
       </div>
       <div className="devider"></div>
-    </TimeSheetStyle>
+    </div>
   );
 };
 

@@ -108,7 +108,7 @@ const EditAbcenceForm = ({
         date: setDate(date),
         names: absenceData,
       });
-      trigger(`/api/absence/${displaySheetMonth}`);
+      trigger(`/api/absence/${type}/${displaySheetMonth}`);
       if (res.status === 200) {
         setIsEdit(false);
 

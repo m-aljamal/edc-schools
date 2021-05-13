@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import MenuList from "../shared/MenuList";
-import ContentMenu from "../shared/ContentMenu";
+import ContentMenu from "../layout/ContentMenu";
 
 const School = ({ schoolId }) => {
   const [showContent, setShowContent] = useState("home");

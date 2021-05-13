@@ -3,7 +3,6 @@ import {
   classes,
   typeOfCertifcate,
   division,
-  subjects,
   familySituation,
 } from "../../utils/SchoolSubjects";
 import {

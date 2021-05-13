@@ -3,9 +3,12 @@ import Router from "next/router";
 import { SWRConfig } from "swr";
 import axios from "axios";
 import Container from "../components/shared/container";
-import { connectToDB, school, user } from "../db";
 import NProgress from "nprogress";
 import "../components/styles/nprogress.css";
+import "../components/styles/globals.css";
+import "tailwindcss/tailwind.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
 function MyApp({ Component, pageProps, currentUser }) {
   Router.events.on("routeChangeStart", () => NProgress.start());
   Router.events.on("routeChangeComplete", () => NProgress.done());

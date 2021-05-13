@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ant-menu {
+  direction: ltr;
+}
+.ant-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

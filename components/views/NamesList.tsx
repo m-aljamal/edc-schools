@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-import PageTitleStyle from "../styles/PageTitle";
+import { useState } from "react";
 import AddNewButton from "../shared/AddNewButton";
 import Add_Edit_teacher_form from "../add-new-employee/Add_Edit_teacher_form";
-import { TitleStyle } from "../styles/TitleStyle";
 import useSWR from "swr";
 import axios from "axios";
 import { TeachersTable } from "../table/TeachersTable";
@@ -10,18 +8,14 @@ import { AdministratorsTable } from "../table/AdministratorsTable";
 import { ServicesTable } from "../table/ServicesTable";
 import { StudentsTable } from "../table/StudentsTable";
 const NamesList = ({ type, schoolId }) => {
-  const employeeUrl = `/api/employee/find/${type}`;
-  const studentsUrl = `/api/student/`;
+  const apiUrl = `/api/names/${type}`;
 
   const feacher = (url, schoolId) =>
     axios.get(url, { headers: { schoolId } }).then((res) => res.data);
 
   const { data } = schoolId
-    ? useSWR(
-        [type === "students" ? studentsUrl : employeeUrl, schoolId],
-        feacher
-      )
-    : useSWR(type === "students" ? studentsUrl : employeeUrl, {
+    ? useSWR([apiUrl, schoolId], feacher)
+    : useSWR(apiUrl, {
         dedupingInterval: 60000,
       });
 
@@ -54,9 +48,9 @@ const NamesList = ({ type, schoolId }) => {
   };
 
   return (
-    <div>
-      <PageTitleStyle>
-        <TitleStyle>جميع {words[type].all}:</TitleStyle>
+    <div className=" container pt-12">
+      <div className="flex justify-between mb-10">
+        <div className="font-bold">جميع {words[type].all}:</div>
         {!schoolId && (
           <AddNewButton
             destroyOnClose={destroyOnClose}
@@ -75,7 +69,7 @@ const NamesList = ({ type, schoolId }) => {
             }
           />
         )}
-      </PageTitleStyle>
+      </div>
       {words[type].table}
     </div>
   );
