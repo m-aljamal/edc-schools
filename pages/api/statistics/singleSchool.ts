@@ -29,6 +29,7 @@ handler.get(async (req: Request, res: NextApiResponse) => {
                 total: { $sum: 1 },
               },
             },
+
             { $sort: { total: -1 } },
           ],
           totalEmployee: [
@@ -47,10 +48,11 @@ handler.get(async (req: Request, res: NextApiResponse) => {
             },
             {
               $group: {
-                _id: { sex: "$sex" },
+                _id: { sex: "$sex", type: "$type" },
                 total: { $sum: 1 },
               },
             },
+
             { $sort: { total: -1 } },
           ],
           typeOfCertifcate: [

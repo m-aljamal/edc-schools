@@ -47,7 +47,7 @@ export default function AbcenceMonthPreview({ schoolId, type }) {
   return (
     <div className="container mt-10">
       <div className="flex justify-between items-center">
-        <h2 className="font-bold text-2xl">
+        <h2 className="font-bold md:text-lg text-base">
           جدول الغياب لتاريخ:
           <span className="mr-4 text-pink-900">
             {displaySheetMonth.toLocaleDateString("ar-SY", {

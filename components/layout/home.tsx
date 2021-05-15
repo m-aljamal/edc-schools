@@ -2,13 +2,23 @@ import React from "react";
 import LineChart from "./lineChart";
 import BarChart from "./barChart";
 import Card from "./cards";
+import TotalNumerCardInfo from "../Dashbord/TotalNumerCardInfo";
 
-export default function home() {
+export default function home({ totalNumbers, schoolId, isAdmin }) {
   return (
     <>
-      <div className="relative bg-pink-600 md:pt-32 pb-32 pt-12">
+      <div className="relative bg-pink-600 md:pt-15 pb-32 pt-12">
         <div className="px-4 md:px-10 mx-auto w-full">
-          <Card />
+          <Card
+            students={{
+              total:
+                totalNumbers?.totalStudents[0]?.totalStudents[0]?.totalStudents,
+              _id: { type: "students" },
+            }}
+            employees={totalNumbers?.totalEmployee[0]?.employeeType}
+            employeeGender={totalNumbers?.totalEmployee[0]?.gender}
+            studentsGender={totalNumbers?.totalStudents[0]?.gender}
+          />
         </div>
       </div>
       <div className="px-4 md:px-10 mx-auto w-full -m-24">

@@ -1,9 +1,9 @@
 import Home from "./home";
 import School from "./School";
-
+import {AllSchools} from "../statistics/AllSchools";
 export default function adminContentMenu({ showContent, schoolId }) {
   const menuContent = {
-    home: <Home />,
+    home: <AllSchools />,
     schoolsUsers: <p>schoolsUsers</p>,
     allSchools: <School schoolId={schoolId} />,
     // allSchools: <School schoolId={schoolId} />,

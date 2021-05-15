@@ -25,7 +25,7 @@ const AddNewAbcence = ({ names, displaySheetMonth, type }) => {
   return (
     <div className="container mt-8">
       <div className="flex justify-between items-center">
-        <div className="mb-8 font-bold">
+        <div className="mb-8 font-bold md:text-lg text-base">
           {isEdit ? "تعديل غياب سابق" : "تسجيل غياب جديد:"}
         </div>
         {isEdit ? (

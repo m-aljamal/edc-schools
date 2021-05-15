@@ -9,12 +9,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  font-weight: bold;
 }
 
 .adminMenu {
   direction: inherit !important;
   text-align: right;
 }
+
 .ant-menu-item,
 .ant-menu-submenu-title,
 .ant-dropdown-menu {
@@ -51,4 +53,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.ant-menu-submenu {
+  font-weight: bold;
 }

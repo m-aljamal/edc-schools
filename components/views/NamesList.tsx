@@ -48,9 +48,11 @@ const NamesList = ({ type, schoolId }) => {
   };
 
   return (
-    <div className=" container pt-12">
+    <div className=" container pt-8">
       <div className="flex justify-between mb-10">
-        <div className="font-bold">جميع {words[type].all}:</div>
+        <div className="font-bold md:text-lg text-base">
+          جميع {words[type].all}:
+        </div>
         {!schoolId && (
           <AddNewButton
             destroyOnClose={destroyOnClose}
