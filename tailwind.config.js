@@ -13,7 +13,11 @@ module.exports = {
         "2xl": "4rem",
       },
     },
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["Tajawal", "sans-serif"],
+      },
+    },
   },
   variants: {
     extend: {},

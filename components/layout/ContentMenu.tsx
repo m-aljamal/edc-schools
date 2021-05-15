@@ -4,11 +4,9 @@ const AddAbcence = dynamic(() => import("../views/AddAbcence"));
 const AbcenceMonthPreview = dynamic(
   () => import("../views/AbcenceMonthPreview")
 );
-const TimeSheet = dynamic(() => import("../abcence/TimeSheet"));
-const SingleSchool = dynamic(() => import("../statistics/SingleSchool"));
 
 import Home from "./home";
-const ContentMenu = ({ schoolId, showContent, isAdmin }) => {
+const ContentMenu = ({ schoolId, showContent }) => {
   const menuContent = {
     home: <Home />,
     // home: <SingleSchool schoolId={schoolId} />,

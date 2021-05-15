@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@300&display=swap");
 .ant-menu {
   direction: ltr;
 }
@@ -9,4 +9,46 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.adminMenu {
+  direction: inherit !important;
+  text-align: right;
+}
+.ant-menu-item,
+.ant-menu-submenu-title,
+.ant-dropdown-menu {
+  direction: ltr !important;
+}
+
+.ant-modal-header {
+  background-color: #424141;
+  text-align: center;
+}
+.ant-modal-title,
+.ant-modal-close-x {
+  color: white;
+  font-weight: bold;
+}
+
+.ant-table-cell {
+  text-align-last: right;
+}
+
+.ant-empty {
+  text-align-last: center;
+}
+
+.ant-pagination {
+  direction: initial;
+}
+
+body {
+  direction: rtl;
+}
+
+.ant-menu-submenu-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

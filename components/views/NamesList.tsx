@@ -1,12 +1,12 @@
-import { useState } from "react";
-import AddNewButton from "../shared/AddNewButton";
-import Add_Edit_teacher_form from "../add-new-employee/Add_Edit_teacher_form";
 import useSWR from "swr";
 import axios from "axios";
-import { TeachersTable } from "../table/TeachersTable";
-import { AdministratorsTable } from "../table/AdministratorsTable";
-import { ServicesTable } from "../table/ServicesTable";
-import { StudentsTable } from "../table/StudentsTable";
+import { useState } from "react";
+import AddNewButton from "../shared/AddNewButton";
+import Add_Edit_teacher_form from "../persons/Add_Edit_teacher_form";
+import { TeachersTable } from "../tabels/TeachersTable";
+import { AdministratorsTable } from "../tabels/AdministratorsTable";
+import { ServicesTable } from "../tabels/ServicesTable";
+import { StudentsTable } from "../tabels/StudentsTable";
 const NamesList = ({ type, schoolId }) => {
   const apiUrl = `/api/names/${type}`;
 
@@ -59,7 +59,6 @@ const NamesList = ({ type, schoolId }) => {
             modelTitle={`اضافة ${words[type].add} جديد`}
             modelData={
               <Add_Edit_teacher_form
-                data={data}
                 type={type}
                 oldData={undefined}
                 edit={false}

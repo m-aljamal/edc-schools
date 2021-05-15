@@ -3,7 +3,7 @@ import { trigger } from "swr";
 import axios from "axios";
 import React, { useState } from "react";
 import setDate from "../../utils/setDate";
-import { NameAndImageShredColumns } from "../shared/SharedTableItems";
+import { NameAndImageShredColumns } from "../tabels/SharedTableItems";
 import {
   classes,
   employeesAbcenseResons,
@@ -104,11 +104,11 @@ const EditAbcenceForm = ({
 
   const handleTimeSheet = async () => {
     try {
-      let res = await axios.put(`/api/absence/${type}/edit/${oldData._id}`, {
+      let res = await axios.put(`/api/absence-api/${type}/${oldData._id}`, {
         date: setDate(date),
         names: absenceData,
       });
-      trigger(`/api/absence/${type}/${displaySheetMonth}`);
+      trigger(`/api/absence-api/${type}/month/${displaySheetMonth}`);
       if (res.status === 200) {
         setIsEdit(false);
 
@@ -128,7 +128,7 @@ const EditAbcenceForm = ({
         value={date !== "" ? moment(date) : null}
       />
       <div>
-        <span style={{ marginLeft: 8 }}></span>
+        <span className="ml-4"></span>
       </div>
       <Table
         rowKey="_id"
@@ -141,6 +141,7 @@ const EditAbcenceForm = ({
         block
         onClick={handleTimeSheet}
         type="primary"
+        className="mb-8"
       >
         حفظ
       </Button>

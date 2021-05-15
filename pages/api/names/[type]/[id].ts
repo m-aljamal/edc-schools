@@ -19,12 +19,9 @@ handler.delete(async (req: Request, res: NextApiResponse) => {
 });
 
 handler.put(async (req: Request, res: NextApiResponse) => {
-  console.log(req.query.type);
-
   const absenceCollection =
     databaseCollections[req.query.type.toString()].abcence;
   const namesCollection = databaseCollections[req.query.type.toString()].names;
-console.log("absenceCollection",{absenceCollection,namesCollection});
 
   await req.db
     .collection(absenceCollection)

@@ -1,13 +1,12 @@
 import dynamic from "next/dynamic";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Dropdown, Menu } from "antd";
 import {
   EditOutlined,
   EllipsisOutlined,
   CloseOutlined,
 } from "@ant-design/icons";
-import StudentsAbcenceForm from "./StudentsAbcenceForm";
-import EmployeesAbcenceForm from "./EmployeesAbcenceForm";
+import AddNewAbcenceForm from "./AddNewAbcenceForm";
 const EditAbcenceForm = dynamic(() => import("./EditAbcence"));
 
 const AddNewAbcence = ({ names, displaySheetMonth, type }) => {
@@ -17,7 +16,7 @@ const AddNewAbcence = ({ names, displaySheetMonth, type }) => {
     <Menu style={{ boxShadow: "var(--bs)", borderRadius: "10px" }}>
       <Menu.Item>
         <p onClick={() => setIsEdit(true)}>
-          <EditOutlined style={{ color: "#488853" }} /> تعديل
+          <EditOutlined className="text-green-700" /> تعديل
         </p>
       </Menu.Item>
     </Menu>
@@ -47,13 +46,9 @@ const AddNewAbcence = ({ names, displaySheetMonth, type }) => {
           names={names}
           displaySheetMonth={displaySheetMonth}
         />
-      ) : type === "students" ? (
-        <StudentsAbcenceForm
-          names={names}
-          displaySheetMonth={displaySheetMonth}
-        />
       ) : (
-        <EmployeesAbcenceForm
+        <AddNewAbcenceForm
+          type={type}
           names={names}
           displaySheetMonth={displaySheetMonth}
         />

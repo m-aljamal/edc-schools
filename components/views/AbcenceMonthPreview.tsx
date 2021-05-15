@@ -1,7 +1,7 @@
 import { Button } from "antd";
 import { RightOutlined, LeftOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import MonthTable from "../../components/abcence/AbcenceMonthTable";
+import MonthTable from "../abcence/AbcenceMonthTable";
 import axios from "axios";
 import useSWR from "swr";
 
@@ -10,25 +10,18 @@ export default function AbcenceMonthPreview({ schoolId, type }) {
   const [loading, setLoading] = useState(false);
   const feacher = (url, schoolId) =>
     axios.get(url, { headers: { schoolId } }).then((res) => res.data);
-
+  const apiurl = `/api/names/${type}`;
   const res = schoolId
-    ? useSWR(
-        [type === "employees" ? "/api/employee" : "/api/student", schoolId],
-        feacher
-      )
-    : useSWR(type === "employees" ? "/api/employee" : "/api/student", {
+    ? useSWR([apiurl, schoolId], feacher)
+    : useSWR(apiurl, {
         dedupingInterval: 60000,
       });
 
-  const employeeAbs = `/api/absence/${displaySheetMonth}`;
-  const studentsAbs = `/api/student/absence/${displaySheetMonth}`;
+  const monthAbsenceUrl = `/api/absence-api/${type}/month/${displaySheetMonth}`;
 
   const { data } = schoolId
-    ? useSWR(
-        [type === "employees" ? employeeAbs : studentsAbs, schoolId],
-        feacher
-      )
-    : useSWR(`/api/absence/${type}/${displaySheetMonth}`, {
+    ? useSWR([monthAbsenceUrl, schoolId], feacher)
+    : useSWR(monthAbsenceUrl, {
         dedupingInterval: 60000,
       });
   const handleLastMonth = () => {

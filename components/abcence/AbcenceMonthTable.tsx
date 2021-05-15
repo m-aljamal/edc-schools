@@ -7,19 +7,8 @@ import {
   PauseOutlined,
 } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import setDate from "../../utils/setDate";
 
-const TableStyle = styled.div`
-  .ant-table-footer {
-    background-color: rgba(34, 41, 56, 0.1);
-    .total {
-      color: var(--blue);
-      margin-right: 10px;
-      font-weight: bold;
-    }
-  }
-`;
 const AbcenceMonthTable = ({
   names,
   absenceListByMonth,

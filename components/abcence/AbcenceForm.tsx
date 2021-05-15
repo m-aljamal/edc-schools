@@ -1,9 +1,6 @@
-import { DatePicker, message, Select, Table, Button } from "antd";
-import { trigger } from "swr";
-import axios from "axios";
-import setDate from "../../utils/setDate";
-import { useState } from "react";
-import { NameAndImageShredColumns } from "../shared/SharedTableItems";
+import { DatePicker, Select, Table, Button } from "antd";
+
+import { NameAndImageShredColumns } from "../tabels/SharedTableItems";
 import {
   classes,
   employeesAbcenseResons,
@@ -20,7 +17,7 @@ export const AbcenceForm = ({
   loading,
   searchText,
   searchedColumn,
-  displaySheetMonth,
+
   setAbsenceData,
   setLoading,
   setAbcenceDate,

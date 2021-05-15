@@ -1,9 +1,14 @@
-import React from "react";
 import { connectToDB, school, user } from "../../db";
 import Dashboard from "../../components/layout/dashboard";
 
 const UserDashboard = ({ currentUser, userSchool }) => {
-  return <Dashboard currentUser={currentUser} userSchool={userSchool} />;
+  return (
+    <Dashboard
+      schools={null}
+      currentUser={currentUser}
+      userSchool={userSchool}
+    />
+  );
 };
 
 export default UserDashboard;

@@ -15,12 +15,12 @@ const AddNewAbcenceForm = ({ names, displaySheetMonth, type }) => {
   const handleTimeSheet = async () => {
     try {
       setLoading(true);
-      let res = await axios.post(`/api/absence/add/${type}`, {
+      let res = await axios.post(`/api/absence-api/${type}/add`, {
         date: setDate(date),
         names: absenceData,
       });
 
-      trigger(`/api/absence/${type}/${displaySheetMonth}`);
+      trigger(`/api/absence-api/${type}/month/${displaySheetMonth}`);
       if (res.status === 200) {
         setLoading(false);
         setAbsenceData([]);
