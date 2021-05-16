@@ -52,3 +52,15 @@ const TotalTeacherStyle = styled.div`
     margin: 20px auto;
   }
 `;
+
+
+
+// const findClicked = totalClass.filter((t) => t.text === clickedKey);
+// const findSub = totalClass[4].dataArray.filter(
+//   (t) => t._id.classNumber === clickedKey
+// );
+// const labels = findClicked.length
+//   ? findClicked.dataArray.map((l) => l._id[findClicked.value])
+//   : findSub.dataArray.map((l) => l._id[findClicked.value]);
+
+// const data = findClicked.dataArray.map((d) => d.total);

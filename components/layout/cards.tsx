@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function cards({
   students,
   employees,
@@ -99,7 +97,7 @@ const GenderComponent = ({ total, sex }) => {
   return (
     <div
       className={`flex ml-4 items-center
-    ${sex !== "ذكر" ? "text-pink-500" : "text-blue-500"}
+    ${sex !== "ذكر" ? "text-pink-700" : "text-blue-700"}
     `}
     >
       <p className="ml-2">{total}</p>
