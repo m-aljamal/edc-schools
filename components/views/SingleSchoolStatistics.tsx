@@ -3,13 +3,7 @@ import Bar_chart from "../statistics/Bar_chart";
 import Bar_chart_division from "../statistics/Bar_chart_division";
 import TableSummary from "../statistics/TableSummary";
 import Footer from "../layout/Footer";
-export default function SingleSchoolStatistics({
-  totalNumbers,
-  schoolId,
-  isAdmin,
-}) {
-  const employees = totalNumbers?.totalEmployee[0];
-  const students = totalNumbers?.totalStudents[0];
+export default function SingleSchoolStatistics({ employees, students }) {
   const getTotalByClassNumber = (division) => {
     return [
       ...Array.from(

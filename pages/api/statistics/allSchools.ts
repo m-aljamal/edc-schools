@@ -33,7 +33,7 @@ handler.get(async (req: Request, res: NextApiResponse) => {
           gender: [
             {
               $group: {
-                _id: { sex: "$sex" },
+                _id: { sex: "$sex", type: "$type" },
                 total: { $sum: 1 },
               },
             },

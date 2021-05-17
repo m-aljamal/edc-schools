@@ -37,7 +37,7 @@ handler.post(async (req: Request, res: NextApiResponse) => {
 
   let newEmployee = await req.db
     .collection(collection)
-    .findOne({ name: req.body.name });
+    .findOne({ name: req.body.name, schoolId: req.userSchool });
   if (newEmployee) return res.status(400).json({ error: "الاسم مسجل  مسبقا" });
 
   newEmployee = await req.db

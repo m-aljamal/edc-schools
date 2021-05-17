@@ -12,14 +12,9 @@ const SingleSchool = ({ schoolId }) => {
 
   if (error) return <p>يوجد خطا في السيرفر الرجاء اعادة المحاولة</p>;
   if (!data) return <p>الرجاء الانتظار.....</p>;
-
-  return (
-    <SingleSchoolStatistics
-      totalNumbers={data}
-      schoolId={schoolId}
-      isAdmin={false}
-    />
-  );
+  const employees = data?.totalEmployee[0];
+  const students = data?.totalStudents[0];
+  return <SingleSchoolStatistics employees={employees} students={students} />;
 };
 
 export default SingleSchool;
