@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { Menu, Dropdown } from "antd";
-
+import SingleBar from "./SingleBar";
 export default function Bar_chart({
   jobTitle,
   classNumber,
@@ -98,67 +98,12 @@ export default function Bar_chart({
               </div>
             </div>
           </div>
-          <div className="p-4 flex-auto">
-            <div className="relative" style={{ height: "350px" }}>
-              <Bar
-                data={barData}
-                options={{
-                  maintainAspectRatio: false,
-                  responsive: true,
-                  title: {
-                    display: false,
-                  },
-                  legend: {
-                    display: false,
-                  },
-                  tooltips: {
-                    mode: "index",
-                    intersect: false,
-                  },
-                  hover: {
-                    mode: "nearest",
-                    intersect: true,
-                  },
-                  scales: {
-                    xAxes: [
-                      {
-                        ticks: {
-                          fontColor: "#ffffff",
-                          fontFamily: "Tajawal",
-                          fontSize: 13,
-                        },
-                        display: true,
-                        gridLines: {
-                          display: false,
-                        },
-                      },
-                    ],
-                    yAxes: [
-                      {
-                        ticks: {
-                          fontColor: "rgba(255,255,255,.7)",
-                          precision: 0,
-                        },
-                        display: true,
-                        scaleLabel: {
-                          display: false,
-                        },
-                        gridLines: {
-                          borderDash: [3],
-                          borderDashOffset: [3],
-                          drawBorder: false,
-                          color: "rgba(255, 255, 255, 0.4)",
-                          zeroLineColor: "rgba(255, 255, 255, 0.4)",
-                          zeroLineBorderDash: [3],
-                          zeroLineBorderDashOffset: [3],
-                        },
-                      },
-                    ],
-                  },
-                }}
-              />
-            </div>
-          </div>
+          <SingleBar
+            barData={barData}
+            linsColor="rgba(255, 255, 255, 0.4)"
+            fontColor="rgba(255,255,255,.7)"
+            ticksColor="#ffffff"
+          />
         </div>
       </div>
     </>

@@ -4,12 +4,10 @@ const AddAbcence = dynamic(() => import("../views/AddAbcence"));
 const AbcenceMonthPreview = dynamic(
   () => import("../views/AbcenceMonthPreview")
 );
-import SingleSchool from "../statistics/SingleSchool";
-import Home from "./home";
+const SingleSchool = dynamic(() => import("../views/SingleSchool"));
 const ContentMenu = ({ schoolId, showContent }) => {
   const menuContent = {
     home: <SingleSchool schoolId={schoolId} />,
-    // home: <SingleSchool schoolId={schoolId} />,
     teachers: <NamesList type="teacher" schoolId={schoolId} />,
     administrators: <NamesList type="administrators" schoolId={schoolId} />,
     services: <NamesList type="services" schoolId={schoolId} />,

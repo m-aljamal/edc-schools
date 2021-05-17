@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { Menu, Dropdown } from "antd";
-
+import SingleBar from "./SingleBar";
 export default function Bar_chart_division({
   empDivision,
   empTotalClass,
@@ -105,7 +105,13 @@ export default function Bar_chart_division({
               </div>
             </div>
           </div>
-          <div className="p-4 flex-auto">
+          <SingleBar
+            barData={barData}
+            linsColor="rgba(33, 37, 41, 0.3)"
+            fontColor="#363535"
+            ticksColor="#363535"
+          />
+          {/* <div className="p-4 flex-auto">
             <div className="relative" style={{ height: "350px" }}>
               <Bar
                 data={barData}
@@ -165,7 +171,7 @@ export default function Bar_chart_division({
                 }}
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
