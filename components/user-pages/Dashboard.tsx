@@ -65,7 +65,7 @@ const Dashboard = ({ totalNumbers, schoolId, isAdmin }) => {
   }, [schoolId]);
   return (
     <DashboaedStyle>
-      <div>
+      {/* <div>
         <div className="totalInfoCard">
           <TotalNumerCardInfo
             data={{
@@ -200,7 +200,7 @@ const Dashboard = ({ totalNumbers, schoolId, isAdmin }) => {
             type="healthSituation"
           />
         </div>
-      </div>
+      </div> */}
     </DashboaedStyle>
   );
 };

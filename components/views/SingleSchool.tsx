@@ -14,7 +14,15 @@ const SingleSchool = ({ schoolId }) => {
   if (!data) return <p>الرجاء الانتظار.....</p>;
   const employees = data?.totalEmployee[0];
   const students = data?.totalStudents[0];
-  return <SingleSchoolStatistics employees={employees} students={students} />;
+  const empAbcense = data?.empAbcenseByYear[0];
+
+  return (
+    <SingleSchoolStatistics
+      employees={employees}
+      students={students}
+      empAbcense={empAbcense}
+    />
+  );
 };
 
 export default SingleSchool;

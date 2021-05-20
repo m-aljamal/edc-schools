@@ -12,11 +12,7 @@ export const FindAbcenseBySelectDate = ({ setAbcenceData, type }) => {
       if (isMounted) {
         if (date) {
           try {
-            const res = await axios.get(
-              type === "employees"
-                ? `/api/absence/find/${date}`
-                : `/api/student/absence/find/${date}`
-            );
+            const res = await axios.get(`/api/absence-api/${type}/${date}`);
             if (!res.data) {
               setAbcenceData(null);
               return message.info(`لايوجد غياب في هذا التاريخ`);

@@ -6,6 +6,8 @@ import { NextApiResponse } from "next";
 import { employee } from "../../../db";
 
 import auth from "../../../middleware/auth";
+import setDate from "../../../utils/setDate";
+import db from "../../../middleware/db";
 const handler = nc({
   onError,
 });
@@ -221,7 +223,99 @@ handler.get(async (req: Request, res: NextApiResponse) => {
     ])
     .toArray();
 
-  res.json({ totalEmployee, totalStudents });
+  const empAbcenseByYear = await req.db
+    .collection("absences")
+    .aggregate([
+      {
+        $facet: {
+          absenceOfYear: [
+            {
+              $match: {
+                schoolId: req.userSchool,
+                $and: [
+                  { date: { $gte: new Date(new Date().getFullYear(), 0, 1) } },
+                  {
+                    date: { $lte: new Date(new Date().getFullYear(), 11, 31) },
+                  },
+                ],
+              },
+            },
+            { $unwind: "$names" },
+            {
+              $group: {
+                _id: { name: "$names.name" },
+                total: { $sum: 1 },
+              },
+            },
+
+            { $sort: { total: -1 } },
+          ],
+          absenceByReason: [
+            {
+              $match: {
+                schoolId: req.userSchool,
+                $and: [
+                  { date: { $gte: new Date(new Date().getFullYear(), 0, 1) } },
+                  {
+                    date: { $lte: new Date(new Date().getFullYear(), 11, 31) },
+                  },
+                ],
+              },
+            },
+            { $unwind: "$names" },
+            {
+              $group: {
+                _id: { name: "$names.reason" },
+                total: { $sum: 1 },
+              },
+            },
+
+            { $sort: { total: -1 } },
+          ],
+          absenceByNameAndReson: [
+            {
+              $match: {
+                schoolId: req.userSchool,
+                $and: [
+                  { date: { $gte: new Date(new Date().getFullYear(), 0, 1) } },
+                  {
+                    date: { $lte: new Date(new Date().getFullYear(), 11, 31) },
+                  },
+                ],
+              },
+            },
+            { $unwind: "$names" },
+            {
+              $group: {
+                _id: { name: "$names.name", reason: "$names.reason" },
+                total: { $sum: 1 },
+              },
+            },
+
+            { $sort: { total: -1 } },
+          ],
+          totalEmployeeAbsence: [
+            {
+              $match: {
+                schoolId: req.userSchool,
+                $and: [
+                  { date: { $gte: new Date(new Date().getFullYear(), 0, 1) } },
+                  {
+                    date: { $lte: new Date(new Date().getFullYear(), 11, 31) },
+                  },
+                ],
+              },
+            },
+            {
+              $count: "totalEmployee",
+            },
+          ],
+        },
+      },
+    ])
+    .toArray();
+
+  res.json({ totalEmployee, totalStudents, empAbcenseByYear });
 });
 
 export default handler;

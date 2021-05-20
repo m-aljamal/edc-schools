@@ -40,7 +40,12 @@ export const AbcenceForm = ({
     if (event && findIndex === -1) {
       setAbsenceData([
         ...absenceData,
-        { reason: event, name: userInfo.name, _id: userInfo._id },
+        {
+          reason: event,
+          name: userInfo.name,
+          _id: userInfo._id,
+          dateOfStart: userInfo.dateOfStart,
+        },
       ]);
     }
   };

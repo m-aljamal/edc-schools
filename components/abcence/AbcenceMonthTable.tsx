@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import setDate from "../../utils/setDate";
+import { checkWeekDays } from "../../utils/weekendDays";
 
 const AbcenceMonthTable = ({
   names,
@@ -122,8 +123,8 @@ const AbcenceMonthTable = ({
       title: i,
       width: 25,
       render: (value, row, index) => {
-        const weekend = new Date(date.getFullYear(), date.getMonth(), i);
-        if (weekend.getDay() == 4 || weekend.getDay() == 5) {
+        const weekend = checkWeekDays(date, i);
+        if (weekend) {
           return (
             <Tooltip placement="topLeft" title="عطلة اسبوعية">
               <PauseOutlined className="text-blue-500" />
@@ -178,6 +179,7 @@ const AbcenceMonthTable = ({
       }
     }
   }, [absenceListByMonth]);
+  console.log({ absenceListByMonth, displaySheetMonth });
 
   return (
     <div className="mt-10">

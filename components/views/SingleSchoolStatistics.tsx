@@ -3,7 +3,12 @@ import Bar_chart from "../statistics/Bar_chart";
 import Bar_chart_division from "../statistics/Bar_chart_division";
 import TableSummary from "../statistics/TableSummary";
 import Footer from "../layout/Footer";
-export default function SingleSchoolStatistics({ employees, students }) {
+import AbsenceTableSummary from "../statistics/AbsenceTableSummary";
+export default function SingleSchoolStatistics({
+  employees,
+  students,
+  empAbcense,
+}) {
   const getTotalByClassNumber = (division) => {
     return [
       ...Array.from(
@@ -15,6 +20,8 @@ export default function SingleSchoolStatistics({ employees, students }) {
       ),
     ];
   };
+  console.log(empAbcense);
+
   return (
     <>
       <div className="relative bg-pink-600 md:pt-15 pb-32 pt-12">
@@ -57,6 +64,7 @@ export default function SingleSchoolStatistics({ employees, students }) {
             stuHelthData={students.healthSituation}
             stuHelthTotal={students.totalStudents[0]?.totalStudents}
           />
+          <AbsenceTableSummary empAbcense={empAbcense} />
         </div>
         <Footer />
       </div>
