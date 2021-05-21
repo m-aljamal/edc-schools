@@ -7,6 +7,7 @@ export const AllSchools = () => {
   console.log(data);
   const employees = data?.totalEmployee[0];
   const students = data?.totalStudents[0];
+  
   return (
     <SingleSchoolStatistics
       employees={employees}

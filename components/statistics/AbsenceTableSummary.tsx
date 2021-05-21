@@ -24,7 +24,12 @@ const AbsenceTableSummary = ({ empAbcense }) => {
                 <tr key={i}>
                   <TableRow data={d._id.name} />
                   <TableRow data={d.total} />
-                  <TableRow data={`% ${calculateAvrage(d.total, empAbcense.absenceOfYear.length)} `} />
+                  <TableRow
+                    data={`% ${calculateAvrage(
+                      d.total,
+                      empAbcense.totalEmployeeAbsence[0].totalAbsence
+                    )} `}
+                  />
                 </tr>
               ))}
             </tbody>
@@ -33,7 +38,9 @@ const AbsenceTableSummary = ({ empAbcense }) => {
         <hr />
         <div className="bg-gray-800 text-white text-base pr-4 font-semibold py-1 flex items-center">
           <h3 className="text-white ml-3">العدد الاجمالي</h3>
-          <em className="text-lg">{empAbcense.absenceOfYear.length}</em>
+          <em className="text-lg">
+            {empAbcense.totalEmployeeAbsence[0].totalAbsence}
+          </em>
         </div>
       </div>
     </div>

@@ -306,8 +306,9 @@ handler.get(async (req: Request, res: NextApiResponse) => {
                 ],
               },
             },
+            { $unwind: "$names" },
             {
-              $count: "totalEmployee",
+              $count: "totalAbsence",
             },
           ],
         },
