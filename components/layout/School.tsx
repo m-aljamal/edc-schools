@@ -23,11 +23,7 @@ const School = ({ schoolId }) => {
         selectedKeys={showContent}
       />
       <div className="mt-2">
-        <ContentMenu
-          schoolId={schoolId}
-          showContent={showContent}
-          
-        />
+        <ContentMenu schoolId={schoolId} showContent={showContent} />
       </div>
     </>
   );

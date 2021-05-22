@@ -1,10 +1,11 @@
 import { user } from "../db";
 
 export default async (req, res, next) => {
-  const foundUser = await user.getLogedUser(req.db, req.cookies.auth_token);
+  // if (!req.cookies.auth_token)
+  //   return res.status(401).json({ error: "You need to login first" });
+  // const foundUser = await user.getLogedUser(req.db, req.cookies.auth_token);
 
-  if (!foundUser.isAdmin) {
-    return res.status(400).json({ error: "Only admin can access" });
-  }
+  console.log("req.cookies.auth_token",req.cookies.auth_token);
+
   next();
 };

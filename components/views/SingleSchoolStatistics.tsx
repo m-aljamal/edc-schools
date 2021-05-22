@@ -1,9 +1,9 @@
 import Card from "../statistics/cards";
 import Bar_chart from "../statistics/Bar_chart";
 import Bar_chart_division from "../statistics/Bar_chart_division";
-import TableSummary from "../statistics/TableSummary";
 import Footer from "../layout/Footer";
 import AbsenceTableSummary from "../statistics/AbsenceTableSummary";
+import EmpStuTableSummary from "../statistics/EmpStuTableSummary";
 export default function SingleSchoolStatistics({
   employees,
   students,
@@ -20,7 +20,6 @@ export default function SingleSchoolStatistics({
       ),
     ];
   };
-  console.log(empAbcense);
 
   return (
     <>
@@ -54,17 +53,21 @@ export default function SingleSchoolStatistics({
           />
         </div>
         <div className="flex flex-wrap mt-4">
-          <TableSummary
-            empData={employees.typeOfCertifcate}
-            emptotal={employees.totalEmployee[0]?.totalEmployee}
-            stuData={students.classNumber}
-            stuTotal={students.totalStudents[0]?.totalStudents}
-            stuSocialData={students.familySituation}
-            stuSocialTotal={students.totalStudents[0]?.totalStudents}
-            stuHelthData={students.healthSituation}
-            stuHelthTotal={students.totalStudents[0]?.totalStudents}
+          <EmpStuTableSummary
+            empData={employees?.typeOfCertifcate}
+            emptotal={employees?.totalEmployee[0]?.totalEmployee}
+            stuData={students?.classNumber}
+            stuTotal={students?.totalStudents[0]?.totalStudents}
+            stuSocialData={students?.familySituation}
+            stuHelthData={students?.healthSituation}
           />
-          <AbsenceTableSummary empAbcense={empAbcense} />
+
+          <AbsenceTableSummary
+            totalAbsence={empAbcense?.totalEmployeeAbsence[0]?.totalAbsence}
+            absenceOfYear={empAbcense?.absenceOfYear}
+            absenceByReason={empAbcense?.absenceByReason}
+            absenceByNameAndReson={empAbcense?.absenceByNameAndReson}
+          />
         </div>
         <Footer />
       </div>

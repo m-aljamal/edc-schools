@@ -184,7 +184,96 @@ handler.get(async (req: Request, res: NextApiResponse) => {
     ])
     .toArray();
 
-  res.json({ totalEmployee, totalStudents });
+  const empAbcenseByYear = await req.db
+    .collection("absences")
+    .aggregate([
+      {
+        $facet: {
+          absenceOfYear: [
+            {
+              $match: {
+                $and: [
+                  { date: { $gte: new Date(new Date().getFullYear(), 0, 1) } },
+                  {
+                    date: { $lte: new Date(new Date().getFullYear(), 11, 31) },
+                  },
+                ],
+              },
+            },
+            { $unwind: "$names" },
+            {
+              $group: {
+                _id: { name: "$names.name" },
+                total: { $sum: 1 },
+              },
+            },
+
+            { $sort: { total: -1 } },
+          ],
+          absenceByReason: [
+            {
+              $match: {
+                $and: [
+                  { date: { $gte: new Date(new Date().getFullYear(), 0, 1) } },
+                  {
+                    date: { $lte: new Date(new Date().getFullYear(), 11, 31) },
+                  },
+                ],
+              },
+            },
+            { $unwind: "$names" },
+            {
+              $group: {
+                _id: { name: "$names.reason" },
+                total: { $sum: 1 },
+              },
+            },
+
+            { $sort: { total: -1 } },
+          ],
+          absenceByNameAndReson: [
+            {
+              $match: {
+                $and: [
+                  { date: { $gte: new Date(new Date().getFullYear(), 0, 1) } },
+                  {
+                    date: { $lte: new Date(new Date().getFullYear(), 11, 31) },
+                  },
+                ],
+              },
+            },
+            { $unwind: "$names" },
+            {
+              $group: {
+                _id: { name: "$names.name", reason: "$names.reason" },
+                total: { $sum: 1 },
+              },
+            },
+
+            { $sort: { total: -1 } },
+          ],
+          totalEmployeeAbsence: [
+            {
+              $match: {
+                $and: [
+                  { date: { $gte: new Date(new Date().getFullYear(), 0, 1) } },
+                  {
+                    date: { $lte: new Date(new Date().getFullYear(), 11, 31) },
+                  },
+                ],
+              },
+            },
+            { $unwind: "$names" },
+            {
+              $count: "totalAbsence",
+            },
+          ],
+        },
+      },
+    ])
+    .toArray();
+
+  res.json({ totalEmployee, totalStudents, empAbcenseByYear });
 });
 
 export default handler;
