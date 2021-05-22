@@ -15,6 +15,9 @@ handler.post(async (req: Request, res: NextApiResponse) => {
   const { name, email, password, isAdmin } = req.body;
   let newUser = await req.db.collection("users").findOne({ email });
   if (newUser) return res.status(400).json({ error: "المستخدم مسجل مسبقا" });
+  if (!isAdmin && !req.body.schoolName) {
+    return res.status(400).json({ error: "الرجاء ادخال اسم المدرسة" });
+  }
   newUser = await req.db
     .collection("users")
     .insertOne({

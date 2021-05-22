@@ -1,7 +1,7 @@
 import axios from "axios";
 import Resizer from "react-image-file-resizer";
 import { useEffect, useState } from "react";
-import { Spin, message } from "antd";
+import { Spin, message, Tooltip } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { UploadImageStyle } from "../styles/UploadImageStyle";
 const ImageUpload = ({ setImage, title, imageState, askIfLoading }) => {
@@ -71,9 +71,8 @@ const ImageUpload = ({ setImage, title, imageState, askIfLoading }) => {
       ) : (
         <>
           <label
-            className="input-wrapper"
+            className="input-wrapper bg-gray-600"
             style={{
-              backgroundColor: "#1890ff",
               padding: "5px 10px",
               cursor: "pointer",
               color: "white",
@@ -91,19 +90,21 @@ const ImageUpload = ({ setImage, title, imageState, askIfLoading }) => {
             />
           </label>
 
-          <div className="imageContainer">
-            {imageState && (
-              <div className="imageHoler">
-                <span
-                  className="removeImage"
-                  onClick={() => handleRemove(imageState.public_id)}
-                >
-                  X
-                </span>
-                <img src={imageState.url} />
+          {imageState && (
+            <div className={`${imageState.url && "imageContainer"} `}>
+              <div className="imageHoler ">
+                <Tooltip placement="bottomRight" title="خذف الصورة">
+                  <i
+                    className="fas fa-times mt-2 text-red-500
+                  cursor-pointer
+                  "
+                    onClick={() => handleRemove(imageState.public_id)}
+                  ></i>
+                </Tooltip>
+                <img src={imageState.url} className="pb-2" />
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </>
       )}
     </UploadImageStyle>

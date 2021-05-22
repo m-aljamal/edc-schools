@@ -52,10 +52,10 @@ const MenuList = ({ handleClick, theme, mode, className, selectedKeys }) => {
           الغياب الشهري
         </Menu.Item>
       </SubMenu>
-      <Menu.Item key="9" icon={<BarcodeOutlined />}>
+      <Menu.Item key="assets" icon={<BarcodeOutlined />}>
         موجودات المدرسة
       </Menu.Item>
-      <Menu.Item key="10" icon={<BookOutlined />}>
+      <Menu.Item key="library" icon={<BookOutlined />}>
         مكتبة المدرسة
       </Menu.Item>
       <Menu.Item key="11" icon={<CalculatorOutlined />}>
@@ -69,4 +69,3 @@ const MenuList = ({ handleClick, theme, mode, className, selectedKeys }) => {
 };
 
 export default MenuList;
-

@@ -269,3 +269,43 @@ export const studentsAbcenseResons = [
     text: "اذن",
   },
 ];
+
+export const schoolAssets = [
+  {
+    text: "اجهزة الكترونية",
+  },
+  {
+    text: "اثاث خشبي",
+  },
+  {
+    text: "عدة مطبخ",
+  },
+];
+export const booksTypes = [
+  {
+    text: "قصص",
+  },
+  {
+    text: "منهاج دراسي",
+  },
+  {
+    text: "مجلات متنوعة",
+  },
+  {
+    text: "كتب دينية",
+  },
+];
+export const booksLevel = [
+  {
+    text: "كتب اطفال 4 - 6 سنوات",
+  },
+  {
+    text: "كتب اطفال 6 - 8 سنوات",
+  },
+  {
+    text: "كتب متوسطة",
+  },
+  {
+    text: "كتب متقدمة",
+  },
+];

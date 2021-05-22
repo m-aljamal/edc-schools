@@ -1,10 +1,12 @@
 import dynamic from "next/dynamic";
+import Assets from "../views/Assets";
 const NamesList = dynamic(() => import("../views/NamesList"));
 const AddAbcence = dynamic(() => import("../views/AddAbcence"));
 const AbcenceMonthPreview = dynamic(
   () => import("../views/AbcenceMonthPreview")
 );
 const SingleSchool = dynamic(() => import("../views/SingleSchool"));
+const SchoolLibrary = dynamic(() => import("../views/SchoolLibrary"));
 const ContentMenu = ({ schoolId, showContent }) => {
   const menuContent = {
     home: <SingleSchool schoolId={schoolId} />,
@@ -21,6 +23,8 @@ const ContentMenu = ({ schoolId, showContent }) => {
 
     students: <NamesList type="students" schoolId={schoolId} />,
     stutimesheet: <AddAbcence type="students" />,
+    assets: <Assets schoolId={schoolId} />,
+    library: <SchoolLibrary schoolId={schoolId} />,
   };
   return <div>{menuContent[showContent]}</div>;
 };
