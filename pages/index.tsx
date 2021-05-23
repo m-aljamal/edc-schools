@@ -8,7 +8,7 @@ import { Button, message } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { connectToDB, user } from "../db";
 
-const login = () => {
+const login = ({ currentUser }) => {
   const [loading, setLoading] = useState(false);
   const initialValues = {
     email: "",
@@ -18,6 +18,8 @@ const login = () => {
     email: string().required("يجب عليك ادخال اﻹيميل"),
     password: string().required("يجب عليك ادخال كلمة السر"),
   });
+  console.log(currentUser);
+
   return (
     <section className="absolute w-full h-full">
       <div
@@ -51,15 +53,16 @@ const login = () => {
                   onSubmit={async (values, formikHelpers) => {
                     setLoading(true);
                     try {
-                      const { data } = await axios.post(
-                        "/api/users/login",
-                        values
-                      );
-                      setLoading(false);
-                      if (data && data.data.isAdmin)
-                        Router.push("/admin-dashboard");
-                      if (data && !data.data.isAdmin)
-                        Router.push("/user-dashboard");
+                      const res = await axios.post("/api/users/login", values);
+                      if (res.status === 200) {
+                        const googleRes = await axios.get("/api/users/login");
+                        Router.push(googleRes.data);
+                      }
+                      // setLoading(false);
+                      // if (data && data.data.isAdmin)
+                      //   Router.push("/admin-dashboard");
+                      // if (data && !data.data.isAdmin)
+                      //   Router.push("/user-dashboard");
                     } catch (error) {
                       setLoading(false);
                       message.error(error.response.data.error);
@@ -107,12 +110,12 @@ const login = () => {
 export default login;
 export const getServerSideProps = async (ctx) => {
   const { db } = await connectToDB();
-
+  let currentUser = null;
   if (
     ctx.req?.cookies?.auth_token &&
     ctx.req?.cookies?.auth_token !== "logout"
   ) {
-    const currentUser = await user.getLogedUser(db, ctx.req.cookies.auth_token);
+    currentUser = await user.getLogedUser(db, ctx.req.cookies.auth_token);
     if (currentUser.isAdmin) {
       ctx.res.writeHead(302, { Location: "/admin-dashboard" });
       ctx.res.end();
@@ -121,5 +124,5 @@ export const getServerSideProps = async (ctx) => {
       ctx.res.end();
     }
   }
-  return { props: {} };
+  return { props: { currentUser } };
 };

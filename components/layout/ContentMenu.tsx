@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import AdministrativeDocs from "../views/AdministrativeDocs";
 import Assets from "../views/Assets";
 const NamesList = dynamic(() => import("../views/NamesList"));
 const AddAbcence = dynamic(() => import("../views/AddAbcence"));
@@ -25,6 +26,7 @@ const ContentMenu = ({ schoolId, showContent }) => {
     stutimesheet: <AddAbcence type="students" />,
     assets: <Assets schoolId={schoolId} />,
     library: <SchoolLibrary schoolId={schoolId} />,
+    administativeDocs: <AdministrativeDocs schoolId={schoolId} />,
   };
   return <div>{menuContent[showContent]}</div>;
 };

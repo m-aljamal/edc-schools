@@ -64,6 +64,9 @@ const MenuList = ({ handleClick, theme, mode, className, selectedKeys }) => {
       <Menu.Item key="12" icon={<FileDoneOutlined />}>
         نتائج الامتحانات
       </Menu.Item>
+      <Menu.Item key="administativeDocs" icon={<FileDoneOutlined />}>
+        الملفات الادارية
+      </Menu.Item>
     </Menu>
   );
 };
