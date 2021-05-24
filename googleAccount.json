@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "edc-schools-manger-app",
+  "private_key_id": "4fd5af6ebb496362ad88d9c3c403222b4cbc323d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC6vuahCAOPlBKz\ndg7kIg8DIZbpIErHDIQxDaAWgcH7piy9wIv65w1moaM1RWhtdKQdyeY/tA7HBQau\nidkq8q9SvxInVqhoap59ShPgGPwMRlw9c33REvyCF5TAkUe1jgSoGDvjoLbcRk1K\nk3Gtim63fchiM8LUcLTJLwrBe9GZG/ysq3HOQh/zqUxDmICC5hsnGGsKBfyrj1TC\nSimv2NVyLbdM/qo5Rv19TZlDMe9y16d0Y+T0KU1Y5VIehNwXEWw/3bJnATgRy72N\nbAmLd7jNOleYLcUZ33cYaAV+1O6hP8PEYVQkwb42ES8XoN2vaFcNJ7O/2PXp05hG\ni7Fek8IDAgMBAAECggEAXEko6h1uvQ6c60kFdOIL7y0zScPmkFV0IlWsblLzjSwC\n4kb8JiL2sWhholrJj4Xb8Mis24Bc6SdntOt0gc/qqoa4Lu6ZTPibmCj6h31xWZOP\n0+J2I9MxLA0BOuTQvj0Pug430nbCxzqKybbxr6RAsLcdRsJzns6P2PhBZXqOCw48\nJpFYbjiHZsxwuNCqzW/rR1OVByRbiPe7U+JSroMQfxuSCPbP/FTWlB+WYa7N0jod\nBjGBN6SlPK2AqVkqFBACuZ0zLc8FCU0BNLhLjei1cU+BYJjhaXRwAPlMDYpx6bYj\nOLhikjz+1mhoBacR0X/CbfATPuGU/4ghdu4AsusruQKBgQDn37IOuB+KjGQrzli3\nxJQocJtAGmmbgBHTOUG56CxcnE2UaNMoNLJahveXmzBn0EPGbIklc3xUkSdvuY/4\nVANDDpWA9t/bmGfQptedmesUVx8Sa4D4krTiapOXpBryWHsscIbC3d5kqU4dWJbm\n2an7kQ0CyoNvtzbnHZ13aOEIbwKBgQDOLSar4a6IuuRZWhYnmHHD/OsVZg4qgiLh\nMIWtb4aaGIhpfT1vex3ReNoqBZ3Lw01qy010G/d6zBlgC0I/KqxopuyC9MG8JYY1\n8IkNjjBdFZwlZ+iYf6Bwk4uW/X56P2SVsUVqvO2R0XECoe8mEzgwRBDhY5QEdDGk\nhzXsHCFhrQKBgB8y2BBm8ceAkFHcl89SIeU3EYyUgTUtDDjxcUiEVsO3PDEF0bON\nM5o+or3BYcf2G8hs/h8N5OK0DSxZOWfeVfoF0lPh48j2PrGyYTyRYzH/buzZjibk\nBnaYhHdY209UXG5kTZ2WoL/Gj/4e118EVnzEzY1clkbHzhlWwMM6V1z9AoGBAIxA\nvrvSLE6rBEecNtH8q/dtB+ZopF5aZKvXvDf9VA1jfvhzz+UUVXZ3xcEsTOmeE/4A\nCtJfa/zG9sQVJJ2fw+T1GJMFOP1qcWAkHrdv8IqB9tSjWODUgSnT1PODwhQbJ6uF\nCfnQR7QYS85EplC6ZlC/HNSWTsyw1kxcBlx1zmeJAoGAIymWshYulKQ0K75HbHYB\nLibzsbHspQJOlbIcT10J/RxG0rhD6t77DoS/yAEyeoZHX1XECXti/t35Qea5RZkV\nwJED5OeYOcM1Ks4viBrdC6rbIF+DJQZVLsAaRI4mr951uxLNOz8gpPSP98R8XYwG\nVRQtC0kCcGOZdCmpAVZfE8A=\n-----END PRIVATE KEY-----\n",
+  "client_email": "edc-schools-manger@edc-schools-manger-app.iam.gserviceaccount.com",
+  "client_id": "112102812443430036494",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/edc-schools-manger%40edc-schools-manger-app.iam.gserviceaccount.com"
+}

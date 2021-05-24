@@ -24,7 +24,7 @@ export const oauth2Client = new google.auth.OAuth2(
 );
 
 const SCOPES =
-  " https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.install https://www.googleapis.com/auth/drive";
+  "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.install https://www.googleapis.com/auth/drive";
 
 handler.use(dbMissleware);
 handler.post(async (req: Request, res: NextApiResponse) => {
