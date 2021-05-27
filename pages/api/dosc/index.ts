@@ -193,7 +193,7 @@ handler.get(async (req: Request, res: NextApiResponse) => {
   //   );
   // }
 
-  allFiles();
+  // allFiles();
 
   searchForFile();
 
