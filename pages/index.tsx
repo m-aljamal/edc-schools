@@ -55,14 +55,12 @@ const login = ({ currentUser }) => {
                     try {
                       const res = await axios.post("/api/users/login", values);
                       if (res.status === 200) {
-                        const googleRes = await axios.get("/api/users/login");
-                        Router.push(googleRes.data);
+                        setLoading(false);
+                        if (res.data && res.data.data.isAdmin)
+                          Router.push("/admin-dashboard");
+                        if (res.data && !res.data.data.isAdmin)
+                          Router.push("/user-dashboard");
                       }
-                      // setLoading(false);
-                      // if (data && data.data.isAdmin)
-                      //   Router.push("/admin-dashboard");
-                      // if (data && !data.data.isAdmin)
-                      //   Router.push("/user-dashboard");
                     } catch (error) {
                       setLoading(false);
                       message.error(error.response.data.error);

@@ -47,9 +47,14 @@ export const subjects = [
     text: "تاريخ",
     value: "تاريخ",
   },
+
   {
-    text: "اسلامية",
-    value: "اسلامية",
+    text: "رياضة",
+    value: "رياضة",
+  },
+  {
+    text: "التربية الدينية",
+    value: "التربية الدينية",
   },
   {
     text: "لايوجد",
@@ -94,22 +99,6 @@ export const classes = [
     text: "التاسع",
     value: "التاسع",
   },
-  {
-    text: "العاشر",
-    value: "العاشر",
-  },
-  {
-    text: "الحادي عشر",
-    value: "الحادي عشر",
-  },
-  {
-    text: "الثاني عشر",
-    value: "الثاني عشر",
-  },
-  {
-    text: "بكالوريا",
-    value: "بكالوريا",
-  },
 ];
 
 export const division = [
@@ -129,30 +118,6 @@ export const division = [
     text: "الرابعة",
     value: "الرابعة",
   },
-  {
-    text: "الخامسة",
-    value: "الخامسة",
-  },
-  {
-    text: "السادسة",
-    value: "السادسة",
-  },
-  {
-    text: "السابعة",
-    value: "السابعة",
-  },
-  {
-    text: "الثامنة",
-    value: "الثامنة",
-  },
-  {
-    text: "التاسعة",
-    value: "التاسعة",
-  },
-  {
-    text: "العاشرة",
-    value: "العاشرة",
-  },
 ];
 
 export const typeOfCertifcate = [
@@ -161,8 +126,8 @@ export const typeOfCertifcate = [
     value: "ماجستير",
   },
   {
-    text: "بكلوريوس",
-    value: "بكلوريوس",
+    text: "إجازة جامعية",
+    value: "إجازة جامعية",
   },
   {
     text: "غير متخرج",
@@ -192,22 +157,22 @@ export const typeOfCertifcate = [
 
 export const jopTitle = [
   {
-    text: "مدير المدرسة",
+    text: "مشرف المدرسة",
   },
   {
-    text: "معاون مدير",
+    text: "مدير المدرسة",
   },
   {
     text: "امين سر",
   },
   {
-    text: "مشرف طابق",
+    text: "موجه (مشرف طابق)",
   },
   {
-    text: "مدخل بيانات",
+    text: "مرشد",
   },
   {
-    text: "اعلامي",
+    text: "إعلامي",
   },
 ];
 
@@ -215,11 +180,9 @@ export const serviceJopTitle = [
   {
     text: "حارس",
   },
+
   {
-    text: "طباخ",
-  },
-  {
-    text: "تنظيف",
+    text: "مستخدم",
   },
 ];
 export const familySituation = [
@@ -236,8 +199,8 @@ export const familySituation = [
     value: "يتيم الاب و الام",
   },
   {
-    text: "ابوين",
-    value: "ابوين",
+    text: "غير يتيم",
+    value: "غير يتيم",
   },
 ];
 
@@ -249,24 +212,15 @@ export const employeesAbcenseResons = [
     text: "اجازة مرضية",
   },
   {
-    text: " اجازة حمل  ",
+    text: "امومة",
   },
   {
-    text: " اذن ",
+    text: "إجازة وفاة",
   },
 ];
 export const studentsAbcenseResons = [
   {
     text: "غير مبرر",
-  },
-  {
-    text: "متسرب",
-  },
-  {
-    text: "اجازة مرضية",
-  },
-  {
-    text: "اذن",
   },
 ];
 
@@ -275,10 +229,34 @@ export const schoolAssets = [
     text: "اجهزة الكترونية",
   },
   {
-    text: "اثاث خشبي",
+    text: "اثاث مكتبي",
   },
   {
-    text: "عدة مطبخ",
+    text: "مقعد مدرسي",
+  },
+  {
+    text: "مكتب إداري",
+  },
+  {
+    text: "طاولة معلم",
+  },
+  {
+    text: "خزانة إداري",
+  },
+  {
+    text: "خزانة صف",
+  },
+  {
+    text: "كراسي",
+  },
+  {
+    text: "سبورات عادية",
+  },
+  {
+    text: "طاولات مطعم",
+  },
+  {
+    text: "ادوات عامة",
   },
 ];
 export const booksTypes = [

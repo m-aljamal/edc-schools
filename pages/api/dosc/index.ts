@@ -1,16 +1,16 @@
 import { google } from "googleapis";
 import path from "path";
 import fs from "fs";
-import { oauth2Client } from "../users/login";
 import nc from "next-connect";
 import onError from "../../../middleware/error";
 import { NextApiResponse } from "next";
+import { getDrive } from "../../../utils/googleDrive";
 
 const handler = nc({
   onError,
 });
 
-const credentials = {
+export const credentials = {
   // type: process.env.type,
   // project_id: process.env.project_id,
   // private_key_id: process.env.private_key_id,
@@ -122,8 +122,8 @@ handler.get(async (req: Request, res: NextApiResponse) => {
 
       await drive.permissions.create({
         fileId: fileID,
-        
-        supportsTeamDrives:true,
+
+        supportsTeamDrives: true,
         requestBody: {
           role: "reader",
           type: "anyone",
@@ -140,7 +140,7 @@ handler.get(async (req: Request, res: NextApiResponse) => {
     }
   }
 
-  createUrl();
+  // createUrl();
 
   // async function folder() {
   //   var fileMetadata = {
@@ -195,23 +195,7 @@ handler.get(async (req: Request, res: NextApiResponse) => {
 
   // allFiles();
 
-  async function searchForFile() {
-    try {
-      const res = await drive.files.list({
-        q: "mimeType: 'application/vnd.google-apps.folder'",
-        // q: "parents in '12F83Qzqe3jKUr5tpd13oXjE6XO3OeNiI'",
-        // fields: "nextPageToken, files(id, name)",
-        includeItemsFromAllDrives: true,
-        driveId: "0AKK2FEcg3f53Uk9PVA",
-        supportsAllDrives: true,
-        corpora: "drive",
-      });
-      console.log(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  // searchForFile();
+  searchForFile();
 
   async function download() {
     try {

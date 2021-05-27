@@ -26,10 +26,10 @@ const FormStyle = styled.div`
     background: #f0f0f0;
     content: "";
   }
-  .ant-form-item-explain,
+  /* .ant-form-item-explain,
   .ant-input-group-wrapper {
     text-align: end;
-  }
+  } */
   .imagesContainer {
     display: flex;
     justify-content: space-around;

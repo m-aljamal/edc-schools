@@ -5,10 +5,7 @@ import {
   division,
   subjects,
 } from "../../utils/SchoolSubjects";
-import {
-  NameAndImageShredColumns,
-  SharedTableItems,
-} from "./SharedTableItems";
+import { NameAndImageShredColumns, SharedTableItems } from "./SharedTableItems";
 import TableComponent from "./TableComponent";
 
 export const TeachersTable = ({ allData, type, isAdmin }) => {

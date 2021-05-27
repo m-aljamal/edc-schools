@@ -7,6 +7,7 @@ import {
   Form,
   Select,
   InputNumber,
+  TreeSelect,
 } from "formik-antd";
 import { object, string, date } from "yup";
 import React, { useState } from "react";
@@ -28,6 +29,8 @@ import {
 import styled from "styled-components";
 const { Step } = Steps;
 const { Option } = Select;
+const { TreeNode } = TreeSelect;
+
 const layout = {
   labelCol: { span: 5 },
   wrapperCol: { span: 16 },
@@ -122,7 +125,7 @@ const AddNewTeacherForm = ({
   });
 
   const subjectValidation = object({
-    // dateOfStart: date().required("الرجاء ادخال تاريخ بدأ العمل"),
+    dateOfStart: date().required("الرجاء ادخال تاريخ بدأ العمل"),
   });
 
   const handleEdit = async (values, helpers) => {
@@ -193,35 +196,7 @@ const AddNewTeacherForm = ({
               ))}
             </Select>
           </FormItem>
-          <FormItem {...layout} name="classNumber" label="الصف">
-            <Select
-              dropdownClassName="style"
-              mode="multiple"
-              allowClear
-              placeholder="الرجاء الاختيار"
-              name="classNumber"
-            >
-              {classes?.map((c) => (
-                <Option value={c.text} key={c.text}>
-                  {c.text}
-                </Option>
-              ))}
-            </Select>
-          </FormItem>
-          <FormItem {...layout} name="division" label="الشعبة">
-            <Select
-              mode="multiple"
-              allowClear
-              placeholder="الرجاء الاختيار"
-              name="division"
-            >
-              {division?.map((d) => (
-                <Option value={d.text} key={d.text}>
-                  {d.text}
-                </Option>
-              ))}
-            </Select>
-          </FormItem>
+
           <FormItem {...layout} name="typeOfDegree" label="الاختصاص">
             <Select
               allowClear
@@ -520,6 +495,47 @@ const AddNewTeacherForm = ({
             </FormItem>
           </FormikStep>
         )}
+        {type === "teacher" && (
+          <FormikStep label="الصف" loading={isImageLoading}>
+            <FormItem {...layout} name="classNumber" label="الصف">
+              <Select
+                mode="multiple"
+                dropdownClassName="style"
+                allowClear
+                placeholder="الرجاء الاختيار"
+                name="classNumber"
+              >
+                {classes?.map((c) => (
+                  <Option value={c.text} key={c.text}>
+                    {c.text}
+                  </Option>
+                ))}
+              </Select>
+            </FormItem>
+            <FormItem {...layout} name="division" label="الشعبة">
+              <TreeSelect
+                showSearch
+                style={{ width: "100%" }}
+                name="division"
+                dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
+                placeholder="اختار الشعبة"
+                allowClear
+                multiple
+                treeCheckable
+                showCheckedStrategy="SHOW_CHILD"
+              >
+                {classes.map((c) => (
+                  <TreeNode value={c.value} title={`الصف ${c.text}`}>
+                    <TreeNode value={` ${c.value} /اولى`} title="شعبة اولى" />
+                    <TreeNode value={` ${c.value}/ثانية`} title="شعبة ثانية" />
+                    <TreeNode value={` ${c.value}/ثالثة`} title="شعبة ثالثة" />
+                    <TreeNode value={` ${c.value}/رابعة`} title="شعبة رابعة" />
+                  </TreeNode>
+                ))}
+              </TreeSelect>
+            </FormItem>
+          </FormikStep>
+        )}
         <FormikStep label="الملحقات" loading={isImageLoading}>
           <div className="imagesContainer">
             <FormItem name="image">
@@ -530,22 +546,26 @@ const AddNewTeacherForm = ({
                 title="الصورة الشخصية"
               />
             </FormItem>
-            <FormItem name="image">
-              <ImageUpload
-                askIfLoading={askIfLoading}
-                imageState={graduateImage}
-                setImage={setGraduateImage}
-                title="صورة الشهادة الدراسية"
-              />
-            </FormItem>
-            <FormItem name="image">
-              <ImageUpload
-                askIfLoading={askIfLoading}
-                imageState={contractImage}
-                setImage={setContractImage}
-                title="صورة عقد العمل"
-              />
-            </FormItem>
+            {type !== "students" && (
+              <>
+                <FormItem name="image">
+                  <ImageUpload
+                    askIfLoading={askIfLoading}
+                    imageState={graduateImage}
+                    setImage={setGraduateImage}
+                    title="صورة الشهادة الدراسية"
+                  />
+                </FormItem>
+                <FormItem name="image">
+                  <ImageUpload
+                    askIfLoading={askIfLoading}
+                    imageState={contractImage}
+                    setImage={setContractImage}
+                    title="صورة عقد العمل"
+                  />
+                </FormItem>
+              </>
+            )}
           </div>
         </FormikStep>
       </FormStepper>
