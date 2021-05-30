@@ -15,7 +15,7 @@ export default function AdministrativeDocs({ schoolId }) {
           destroyOnClose={destroyOnClose}
           isModalVisible={isModalVisible}
           setIsModalVisible={setIsModalVisible}
-          modelTitle={`اضافة ملف جديد`}
+          modelTitle={`رفع ملف جديد`}
           modelData={
             <AddDoc
               setIsModalVisible={setIsModalVisible}

@@ -83,7 +83,7 @@ handler.get(async (req: Request, res: NextApiResponse) => {
     }
   }
 
-  uploadFile();
+  // uploadFile();
 
   async function searchForFile() {
     try {
