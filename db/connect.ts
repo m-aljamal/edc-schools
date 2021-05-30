@@ -1,6 +1,7 @@
-import { Db, MongoClient } from 'mongodb'
+import { Db, MongoClient } from "mongodb";
+import { google } from "googleapis";
 
-global.mongo = global.mongo || {}
+global.mongo = global.mongo || {};
 
 export const connectToDB = async () => {
   if (!global.mongo.client) {
@@ -17,3 +18,20 @@ export const connectToDB = async () => {
   const db: Db = global.mongo.client.db("edc-schools");
   return { db, dbClient: global.mongo.client };
 };
+
+const credentials = {
+  private_key: process.env.private_key,
+  client_email: process.env.client_email,
+};
+
+export async function googleDrive() {
+  const client = await google.auth.getClient({
+    credentials,
+    scopes: "https://www.googleapis.com/auth/drive.file",
+  });
+
+  return google.drive({
+    version: "v3",
+    auth: client,
+  });
+}

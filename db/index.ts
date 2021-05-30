@@ -5,3 +5,4 @@ import * as employee from "./employee";
 import * as absence from "./absence";
 export { connectToDB } from "./connect";
 export { user, school, student, employee, absence };
+export { googleDrive } from "./connect";

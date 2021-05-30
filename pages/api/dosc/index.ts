@@ -4,7 +4,7 @@ import fs from "fs";
 import nc from "next-connect";
 import onError from "../../../middleware/error";
 import { NextApiResponse } from "next";
-import { getDrive } from "../../../utils/googleDrive";
+import { googleDrive } from "../../../db";
 
 const handler = nc({
   onError,
@@ -23,9 +23,7 @@ export const credentials = {
   // client_x509_cert_url: process.env.client_x509_cert_url,
 };
 
-const ImagefilePath = path.join(process.cwd(), "test", "t1.jpg");
-
-const filePath = path.join(process.cwd(), "googleAccount.json");
+export const ImagefilePath = path.join(process.cwd(), "test", "wo.docx");
 
 handler.get(async (req: Request, res: NextApiResponse) => {
   const client = await google.auth.getClient({
@@ -33,10 +31,10 @@ handler.get(async (req: Request, res: NextApiResponse) => {
     scopes: ["https://www.googleapis.com/auth/drive"],
   });
 
-  const drive = google.drive({
-    version: "v3",
-    auth: client,
-  });
+  // const drive = google.drive({
+  //   version: "v3",
+  //   auth: client,
+  // });
 
   //   async function createFileInFolder() {
   //   try {
@@ -64,15 +62,16 @@ handler.get(async (req: Request, res: NextApiResponse) => {
 
   async function uploadFile() {
     try {
+      const drive = await googleDrive();
       const res = await drive.files.create({
         requestBody: {
-          name: "t1",
-          mimeType: "image/jpg",
+          name: "word",
+          mimeType: "application/msword/doc",
           driveId: "0AKK2FEcg3f53Uk9PVA",
-          parents: ["0AKK2FEcg3f53Uk9PVA"],
+          parents: ["1xhlyamLDEfXJhFybrYG63CIi7rqNvc2d"],
         },
         media: {
-          mimeType: "image/jpg",
+          mimeType: "application/msword/doc",
           body: fs.createReadStream(ImagefilePath),
         },
         supportsAllDrives: true,
@@ -84,14 +83,16 @@ handler.get(async (req: Request, res: NextApiResponse) => {
     }
   }
 
-  // uploadFile();
+  uploadFile();
 
   async function searchForFile() {
     try {
+      const drive = await googleDrive();
       const res = await drive.files.list({
         // q: "mimeType: 'application/vnd.google-apps.folder'",
-        q: "parents in '0AKK2FEcg3f53Uk9PVA'",
+        q: "parents in '1B696wdMVA5O0Fkor_L0RJ_k6lunS5jK2'",
         // fields: "nextPageToken, files(id, name)",
+
         includeItemsFromAllDrives: true,
         driveId: "0AKK2FEcg3f53Uk9PVA",
         supportsAllDrives: true,
@@ -104,21 +105,22 @@ handler.get(async (req: Request, res: NextApiResponse) => {
   }
   // searchForFile();
 
-  async function deleteFile() {
-    try {
-      const res = await drive.files.delete({
-        fileId: "1qkasq11YuENcSWYkbrtb8s2Pf_cP",
-      });
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // async function deleteFile() {
+  //   try {
+  //     const res = await drive.files.delete({
+  //       fileId: "1qkasq11YuENcSWYkbrtb8s2Pf_cP",
+  //     });
+  //     console.log(res);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
   // deleteFile();
 
   async function createUrl() {
+    const drive = await googleDrive();
     try {
-      const fileID = "17MwVy0su-T24B593LysHTN6Uwtfs17GJ";
+      const fileID = "1UajvzXkm4D9MEowlojJQ3mSco_TYkfuS";
 
       await drive.permissions.create({
         fileId: fileID,
@@ -142,28 +144,29 @@ handler.get(async (req: Request, res: NextApiResponse) => {
 
   // createUrl();
 
-  // async function folder() {
-  //   var fileMetadata = {
-  //     name: "المدرس احمد",
-  //     mimeType: "application/vnd.google-apps.folder",
-  //     driveId: "0AKK2FEcg3f53Uk9PVA",
-  //     parents: ["0AKK2FEcg3f53Uk9PVA"],
-  //   };
-  //   drive.files.create(
-  //     {
-  //       requestBody: fileMetadata,
-  //       supportsAllDrives: true,
-  //     },
-  //     function (err, file) {
-  //       if (err) {
-  //         // Handle error
-  //         console.error(err);
-  //       } else {
-  //         console.log("Folder Id: ", file.data.id);
-  //       }
-  //     }
-  //   );
-  // }
+  async function folder() {
+    var fileMetadata = {
+      name: "زاهر مصطفى",
+      mimeType: "application/vnd.google-apps.folder",
+      driveId: "0AKK2FEcg3f53Uk9PVA",
+      parents: ["1xzIEmPtC13forz9yqDrkejmrkjVqm0LY"],
+    };
+    const drive = await googleDrive();
+    drive.files.create(
+      {
+        requestBody: fileMetadata,
+        supportsAllDrives: true,
+      },
+      function (err, file) {
+        if (err) {
+          // Handle error
+          console.error(err);
+        } else {
+          console.log("Folder Id: ", file.data.id);
+        }
+      }
+    );
+  }
 
   // folder();
 
@@ -195,29 +198,29 @@ handler.get(async (req: Request, res: NextApiResponse) => {
 
   // allFiles();
 
-  searchForFile();
+  // searchForFile();
 
-  async function download() {
-    try {
-      const fileId = "1vHQlKDqOHmHCyLX2ZmPThwtLRhSTQcW6";
-      var dest = fs.createWriteStream("/tmp/t1.jpg");
+  // async function download() {
+  //   try {
+  //     const fileId = "1vHQlKDqOHmHCyLX2ZmPThwtLRhSTQcW6";
+  //     var dest = fs.createWriteStream("/tmp/t1.jpg");
 
-      const res = await drive.files.get({
-        fileId: fileId,
-        alt: "media",
-        // q: "parents in '12F83Qzqe3jKUr5tpd13oXjE6XO3OeNiI'",
-        // fields: "nextPageToken, files(id, name)",
-        // includeItemsFromAllDrives: true,
-        // driveId: "0AKK2FEcg3f53Uk9PVA",
-        // supportsAllDrives: true,
-        // corpora: "drive",
-      });
+  //     const res = await drive.files.get({
+  //       fileId: fileId,
+  //       alt: "media",
+  //       // q: "parents in '12F83Qzqe3jKUr5tpd13oXjE6XO3OeNiI'",
+  //       // fields: "nextPageToken, files(id, name)",
+  //       // includeItemsFromAllDrives: true,
+  //       // driveId: "0AKK2FEcg3f53Uk9PVA",
+  //       // supportsAllDrives: true,
+  //       // corpora: "drive",
+  //     });
 
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  //     console.log(res);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   // download();
 
