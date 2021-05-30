@@ -44,25 +44,25 @@ const AddNewFolder = ({ setIsModalVisible, setdestroyOnClose, folders }) => {
   const [files, setFile] = useState([]);
   console.log(files);
 
-  const handleCreateNewFolder = async (values, helpers) => {
+  const handleCreateNewFolder = async (e) => {
+    e.preventDefault();
     try {
-      //   const res = await axios.post("/api/drive", values);
-      // let formData = new FormData();
-      // formData.append("name", values.name);
-      // // formData.append("", values.name);
-      // for (let file of files) {
-      //   formData.append("files", file);
-      // }
-      // const res = await axios.post("/api/drive/upload", formData);
-      // console.log(res);
-      // if (res.status === 200) {
-      //   // setLoading(false);
-      //   // trigger("/api/drive");
-      //   // helpers.resetForm();
-      //   // setdestroyOnClose(true);
-      //   // message.success(`تم انشاء المجلد بنجاح`);
-      //   // setIsModalVisible(false);
-      // }
+      let formData = new FormData();
+      formData.append("name", folder.name);
+      formData.append("folderId", folder.id);
+      for (let file of files) {
+        formData.append("files", file);
+      }
+      const res = await axios.post("/api/drive/upload", formData);
+      console.log(res);
+      if (res.status === 200) {
+        // setLoading(false);
+        // trigger("/api/drive");
+        // helpers.resetForm();
+        // setdestroyOnClose(true);
+        // message.success(`تم انشاء المجلد بنجاح`);
+        // setIsModalVisible(false);
+      }
     } catch (error) {
       console.log(error);
 
@@ -78,7 +78,7 @@ const AddNewFolder = ({ setIsModalVisible, setdestroyOnClose, folders }) => {
   };
 
   return (
-    <form>
+    <form onSubmit={handleCreateNewFolder}>
       <div>
         <AutoComplete
           className="w-full mb-4"
@@ -91,6 +91,7 @@ const AddNewFolder = ({ setIsModalVisible, setdestroyOnClose, folders }) => {
           }
         />
       </div>
+      <input type="file" onChange={handleChange} multiple />
       <Button
         className="text-base bg-blue-400 hover:bg-blue-500"
         htmlType="submit"

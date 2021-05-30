@@ -14,35 +14,39 @@ export const config = {
   },
 };
 const uploadFile = async (type: string, name: string, path: string, res) => {
-  fileCheck(type, res);
-  const drive = await googleDrive();
-  return await drive.files.create({
-    requestBody: {
-      name: name,
-      mimeType: type,
-      driveId: "0AKK2FEcg3f53Uk9PVA",
-      parents: ["1xhlyamLDEfXJhFybrYG63CIi7rqNvc2d"],
-    },
-    media: {
-      mimeType: type,
-      body: fs.createReadStream(path),
-    },
-    supportsAllDrives: true,
-    supportsTeamDrives: true,
-    fields: "id",
-  });
+  const check = fileCheck(type, res);
+  if (check === "error") {
+    return res.status(400).json({ error: "صيغة الملف غير مدعومة" });
+  } else {
+    const drive = await googleDrive();
+    return await drive.files.create({
+      requestBody: {
+        name: name,
+        mimeType: type,
+        driveId: "0AKK2FEcg3f53Uk9PVA",
+        parents: ["1xhlyamLDEfXJhFybrYG63CIi7rqNvc2d"],
+      },
+      media: {
+        mimeType: type,
+        body: fs.createReadStream(path),
+      },
+      supportsAllDrives: true,
+      supportsTeamDrives: true,
+      fields: "id",
+    });
+  }
 };
 
 const fileCheck = (type, res) => {
   const fileType = type.split("/").pop();
   if (fileType !== "pdf") {
-    return res.status(400).json({ error: "صيغة الملف غير مدعومة" });
+    return "error";
   }
 };
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   const form = new formidable.IncomingForm();
-  form.uploadDir = "./";
-  form.keepExtensions = true;
+  // form.uploadDir = "./";
+  // form.keepExtensions = true;
   form.multiples = true;
   form.parse(req, async (err, fields, files) => {
     if (err) {
