@@ -1,23 +1,9 @@
 import { useState } from "react";
 import FormStepper, { FormikStep } from "./FormStepper";
-import {
-  FormItem,
-  Input,
-  Radio,
-  DatePicker,
-  Select,
-  TreeSelect,
-} from "formik-antd";
-import { object, string, date } from "yup";
-import { Steps } from "antd";
-import ImageUpload from "../persons/ImageUpload";
+import { FormItem, Input, Select, TreeSelect } from "formik-antd";
 
 import FormStyle from "../styles/FormStyle";
-import {
-  classes,
-  subjects,
-  typeOfCertifcate,
-} from "../../utils/SchoolSubjects";
+import { classes, subjects } from "../../utils/SchoolSubjects";
 import { sharedInitialValues } from "./shredInitialValues";
 import {
   PersonalFormStep,
@@ -25,6 +11,12 @@ import {
   JobFormStep,
   ImagesFormStep,
 } from "./SharedFormStep";
+import {
+  InfoValidation,
+  personalInfoValidation,
+  subjectValidation,
+} from "./formValidation";
+import ImageUpload from "../persons/ImageUpload";
 const { Option } = Select;
 const { TreeNode } = TreeSelect;
 const layout = {
@@ -49,19 +41,6 @@ export default function AddNewTeacherForm({
   const askIfLoading = (state) => {
     setIsImageLoading(state);
   };
-  const personalInfoValidation = object({
-    // name: string().required("الرجاء ادخال الاسم"),
-    // fatherName: string().required("الرجاء ادخال اسم الاب"),
-    // motherName: string().required("الرجاء ادخال الام"),
-    // sex: string().required("الرجاء ادخال الجنس"),
-  });
-  const InfoValidation = object({
-    // plaseOfBirth: string().required("الرجاء ادخال  مكان الولادة"),
-    // dateOfBirth: date().required("الرجاء ادخال تاريخ الولادة"),
-    // street: string().required("الرجاء ادخال العنوان "),
-    // number1: string().required("الرجاء ادخال رقم الهاتف"),
-    // email: string().email().required("الرجاء ادخال الايميل"),
-  });
 
   const initialValues = {
     password: oldData?.password || "",
@@ -70,10 +49,6 @@ export default function AddNewTeacherForm({
     division: oldData?.division || [],
     ...sharedInitialValues(oldData, type),
   };
-
-  const subjectValidation = object({
-    dateOfStart: date().required("الرجاء ادخال تاريخ بدأ العمل"),
-  });
 
   return (
     <FormStyle>
@@ -171,11 +146,24 @@ export default function AddNewTeacherForm({
             setImage={setImage}
             image={image}
             askIfLoading={askIfLoading}
-            graduateImage={graduateImage}
-            setGraduateImage={setGraduateImage}
-            contractImage={contractImage}
-            setContractImage={setContractImage}
-          />
+          >
+            <FormItem name="image">
+              <ImageUpload
+                askIfLoading={askIfLoading}
+                imageState={graduateImage}
+                setImage={setGraduateImage}
+                title="صورة الشهادة الدراسية"
+              />
+            </FormItem>
+            <FormItem name="image">
+              <ImageUpload
+                askIfLoading={askIfLoading}
+                imageState={contractImage}
+                setImage={setContractImage}
+                title="صورة عقد العمل"
+              />
+            </FormItem>
+          </ImagesFormStep>
         </FormikStep>
       </FormStepper>
     </FormStyle>

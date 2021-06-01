@@ -1,9 +1,9 @@
 import { useState } from "react";
 import FormStepper, { FormikStep } from "./FormStepper";
 import { FormItem, Select } from "formik-antd";
-
+import ImageUpload from "../persons/ImageUpload";
 import FormStyle from "../styles/FormStyle";
-import { jopTitle } from "../../utils/SchoolSubjects";
+import { serviceJopTitle } from "../../utils/SchoolSubjects";
 import { sharedInitialValues } from "./shredInitialValues";
 import {
   PersonalFormStep,
@@ -16,7 +16,6 @@ import {
   personalInfoValidation,
   subjectValidation,
 } from "./formValidation";
-import ImageUpload from "../persons/ImageUpload";
 
 const { Option } = Select;
 
@@ -24,7 +23,7 @@ const layout = {
   labelCol: { span: 5 },
   wrapperCol: { span: 16 },
 };
-export default function AddNewAddministratorForm({
+export default function AddNewServicesForm({
   oldData,
   edit,
   handleEdit,
@@ -67,21 +66,22 @@ export default function AddNewAddministratorForm({
           label="معلومات التواصل"
           validationSchema={InfoValidation}
         >
-          <ContactFormStep layout={layout} />
+          <ContactFormStep layout={layout} noEmail />
         </FormikStep>
+
         <FormikStep
           label="الاختصاص"
           validationSchema={subjectValidation}
           loading={isImageLoading}
         >
-          <JobFormStep layout={layout}>
+          <JobFormStep layout={layout} serviceForm>
             <FormItem {...layout} name="jobTitle" label="المسمى الوظيفي">
               <Select
                 dropdownClassName="style"
                 placeholder="الرجاء الاختيار"
                 name="jobTitle"
               >
-                {jopTitle?.map((c) => (
+                {serviceJopTitle?.map((c) => (
                   <Option value={c.text} key={c.text}>
                     {c.text}
                   </Option>
@@ -95,23 +95,17 @@ export default function AddNewAddministratorForm({
             setImage={setImage}
             image={image}
             askIfLoading={askIfLoading}
+            graduateImage={graduateImage}
+            setGraduateImage={setGraduateImage}
+            contractImage={contractImage}
+            setContractImage={setContractImage}
           >
-            <FormItem name="image">
-              <ImageUpload
-                askIfLoading={askIfLoading}
-                imageState={graduateImage}
-                setImage={setGraduateImage}
-                title="صورة الشهادة الدراسية"
-              />
-            </FormItem>
-            <FormItem name="image">
-              <ImageUpload
-                askIfLoading={askIfLoading}
-                imageState={contractImage}
-                setImage={setContractImage}
-                title="صورة عقد العمل"
-              />
-            </FormItem>
+            <ImageUpload
+              askIfLoading={askIfLoading}
+              imageState={contractImage}
+              setImage={setContractImage}
+              title="صورة عقد العمل"
+            />
           </ImagesFormStep>
         </FormikStep>
       </FormStepper>

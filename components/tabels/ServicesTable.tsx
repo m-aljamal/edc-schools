@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { typeOfCertifcate, subjects } from "../../utils/SchoolSubjects";
-import {
-  NameAndImageShredColumns,
-  SharedTableItems,
-} from "./SharedTableItems";
+import { NameAndImageShredColumns, SharedTableItems } from "./SharedTableItems";
 import TableComponent from "./TableComponent";
 
 export const ServicesTable = ({ allData, type, isAdmin }) => {
@@ -22,7 +19,7 @@ export const ServicesTable = ({ allData, type, isAdmin }) => {
       title: "المسمى الوظيفي",
       dataIndex: "jobTitle",
     },
-    ...SharedTableItems(typeOfCertifcate, type, allData, isAdmin),
+    ...SharedTableItems(type, allData, isAdmin),
   ];
 
   return <TableComponent columns={columns} allData={allData} />;

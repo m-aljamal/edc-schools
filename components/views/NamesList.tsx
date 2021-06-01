@@ -2,7 +2,6 @@ import useSWR from "swr";
 import axios from "axios";
 import { useState } from "react";
 import AddNewButton from "../shared/AddNewButton";
-import Add_Edit_teacher_form from "../persons/Add_Edit_teacher_form";
 import { TeachersTable } from "../tabels/TeachersTable";
 import { AdministratorsTable } from "../tabels/AdministratorsTable";
 import { ServicesTable } from "../tabels/ServicesTable";

@@ -3,6 +3,7 @@ import { typeOfCertifcate, subjects } from "../../utils/SchoolSubjects";
 import {
   NameAndImageShredColumns,
   SharedTableItems,
+  TypeCertifcate,
 } from "./SharedTableItems";
 import TableComponent from "./TableComponent";
 
@@ -28,7 +29,8 @@ export const AdministratorsTable = ({ allData, type, isAdmin }) => {
       filters: subjects,
       onFilter: (value, record) => record.typeOfDegree.indexOf(value) === 0,
     },
-    ...SharedTableItems(typeOfCertifcate, type, allData, isAdmin),
+    TypeCertifcate(typeOfCertifcate),
+    ...SharedTableItems(type, allData, isAdmin),
   ];
 
   return <TableComponent columns={columns} allData={allData} />;

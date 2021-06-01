@@ -9,9 +9,8 @@ import axios from "axios";
 import { mutate, trigger } from "swr";
 import React, { useState } from "react";
 import CustomModel from "../shared/CustomModel";
-import Add_Edit_teacher_form from "../persons/Add_Edit_teacher_form";
 import ProfilePage from "../persons/ProfilePage";
-
+import AddNewPersonForm from "../persons/AddNewPersonForm";
 const DropdownMenu = ({ data, allData, type, isAdmin }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [destroyOnClose, setdestroyOnClose] = useState(false);
@@ -90,7 +89,7 @@ const DropdownMenu = ({ data, allData, type, isAdmin }) => {
           showProfile ? (
             <ProfilePage data={data} type={type} />
           ) : (
-            <Add_Edit_teacher_form
+            <AddNewPersonForm
               edit={true}
               type={type}
               setIsModalVisible={setIsModalVisible}

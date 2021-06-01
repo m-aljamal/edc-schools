@@ -5,6 +5,8 @@ import { trigger } from "swr";
 
 import AddNewTeacherForm from "../forms/AddNewTeacherForm";
 import AddNewAddministratorForm from "../forms/AddNewAddministratorForm";
+import AddNewServicesForm from "../forms/AddNewServicesForm";
+import AddNewStudentForm from "../forms/AddNewStudentForm";
 
 export default function AddNewPersonForm({
   type,
@@ -83,6 +85,8 @@ export default function AddNewPersonForm({
   const formByType = {
     administrators: <AddNewAddministratorForm {...props} />,
     teacher: <AddNewTeacherForm {...props} />,
+    services: <AddNewServicesForm {...props} />,
+    students: <AddNewStudentForm {...props} />,
   };
   return formByType[type];
 }

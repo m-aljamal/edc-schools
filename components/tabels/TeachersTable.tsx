@@ -5,7 +5,11 @@ import {
   division,
   subjects,
 } from "../../utils/SchoolSubjects";
-import { NameAndImageShredColumns, SharedTableItems } from "./SharedTableItems";
+import {
+  NameAndImageShredColumns,
+  SharedTableItems,
+  TypeCertifcate,
+} from "./SharedTableItems";
 import TableComponent from "./TableComponent";
 
 export const TeachersTable = ({ allData, type, isAdmin }) => {
@@ -66,7 +70,8 @@ export const TeachersTable = ({ allData, type, isAdmin }) => {
       filters: subjects,
       onFilter: (value, record) => record.typeOfDegree.indexOf(value) === 0,
     },
-    ...SharedTableItems(typeOfCertifcate, type, allData, isAdmin),
+    TypeCertifcate(typeOfCertifcate),
+    ...SharedTableItems(type, allData, isAdmin),
   ];
 
   return <TableComponent columns={columns} allData={allData} />;

@@ -55,36 +55,8 @@ export const StudentsTable = ({ allData, type, isAdmin }) => {
       ],
       onFilter: (value, record) => record.healthSituation.indexOf(value) === 0,
     },
-    {
-      title: "نوع المرض",
-      dataIndex: "sickType",
-      ...getColumnSearchProps(
-        "sickType",
-        "نوع المرض",
-        searchText,
-        setSearchText,
-        searchedColumn,
-        setSearchedColumn
-      ),
 
-      render: (text) => <>{text ? <p>{text}</p> : <p>....</p>}</>,
-    },
-    {
-      title: "الجنس",
-      dataIndex: "sex",
-      filters: [
-        {
-          text: "ذكر",
-          value: "ذكر",
-        },
-        {
-          text: "انثى",
-          value: "انثى",
-        },
-      ],
-      onFilter: (value, record) => record.sex?.indexOf(value) === 0,
-      sorter: (a, b) => a.sex.length - b.sex.length,
-    },
+    ...SharedTableItems(type, allData, isAdmin),
   ];
 
   return <TableComponent columns={columns} allData={allData} />;

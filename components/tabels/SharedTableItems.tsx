@@ -38,15 +38,17 @@ export const NameAndImageShredColumns = (
   ];
 };
 
-export const SharedTableItems = (typeOfCertifcate, type, allData, isAdmin) => {
-  return [
-    {
-      title: "التحصيل العلمي",
-      dataIndex: "TypeOfCertifcate",
-      filters: typeOfCertifcate,
-      onFilter: (value, record) => record.TypeOfCertifcate.indexOf(value) === 0,
-    },
+export const TypeCertifcate = (typeOfCertifcate) => {
+  return {
+    title: "التحصيل العلمي",
+    dataIndex: "TypeOfCertifcate",
+    filters: typeOfCertifcate,
+    onFilter: (value, record) => record.TypeOfCertifcate.indexOf(value) === 0,
+  };
+};
 
+export const SharedTableItems = (type, allData, isAdmin) => {
+  return [
     {
       title: "الجنس",
       dataIndex: "sex",
