@@ -27,6 +27,7 @@ import {
   familySituation,
 } from "../../utils/SchoolSubjects";
 import styled from "styled-components";
+import FormStepper, { FormikStep } from "../forms/FormStepper";
 const { Step } = Steps;
 const { Option } = Select;
 const { TreeNode } = TreeSelect;
@@ -97,12 +98,10 @@ const AddNewTeacherForm = ({
     sex: oldData?.sex || "",
     dateOfBirth: oldData?.dateOfBirth || "",
     plaseOfBirth: oldData?.plaseOfBirth || "",
-    city: oldData?.city || "",
-    region: oldData?.region || "",
-    street: oldData?.street || "",
-    number1: oldData?.number1 || "",
-    number2: oldData?.number2 || "",
+    address: oldData?.address || "",
+    phone: oldData?.phone || "",
     email: oldData?.email || "",
+    password: oldData?.password || "",
     dateOfStart: oldData?.dateOfStart || "",
     type,
     ...otherValues[type],
@@ -117,9 +116,7 @@ const AddNewTeacherForm = ({
   const studentInfoValidation = object({
     // plaseOfBirth: string().required("الرجاء ادخال  مكان الولادة"),
     // dateOfBirth: date().required("الرجاء ادخال تاريخ الولادة"),
-    // city: string().required("الرجاء ادخال اسم المدينة"),
-    // region: string().required("الرجاء ادخال اسم المنطقة"),
-    // street: string().required("الرجاء ادخال اسم الشارع"),
+    // street: string().required("الرجاء ادخال العنوان "),
     // number1: string().required("الرجاء ادخال رقم الهاتف"),
     // email: string().email().required("الرجاء ادخال الايميل"),
   });
@@ -430,24 +427,11 @@ const AddNewTeacherForm = ({
           <FormItem {...layout} name="plaseOfBirth" label="مكان الولادة">
             <Input name="plaseOfBirth" />
           </FormItem>
-          <p
-            style={{
-              marginRight: "90px",
-            }}
-          >
-            عنوان الاقامة :
-          </p>
-          <AddressStyle>
-            <FormItem name="street">
-              <Input addonAfter="الشارع" name="street" />
-            </FormItem>
-            <FormItem name="region">
-              <Input addonAfter="المنطقة" name="region" />
-            </FormItem>
-            <FormItem {...layout} name="city">
-              <Input addonAfter="المدينة" name="city" />
-            </FormItem>
-          </AddressStyle>
+
+          <FormItem {...layout} name="address" label="عنوان الاقامة">
+            <Input name="address" />
+          </FormItem>
+
           <AddressStyle>
             <FormItem name="email">
               <Input addonAfter="الايميل" name="email" />
@@ -575,81 +559,81 @@ const AddNewTeacherForm = ({
 
 export default AddNewTeacherForm;
 
-interface FormikStepProps
-  extends Pick<FormikConfig<FormikValues>, "children" | "validationSchema"> {
-  label: string;
-  loading: boolean;
-}
+// interface FormikStepProps
+//   extends Pick<FormikConfig<FormikValues>, "children" | "validationSchema"> {
+//   label: string;
+//   loading: boolean;
+// }
 
-function FormikStep({ children }: FormikStepProps) {
-  return <>{children}</>;
-}
+// function FormikStep({ children }: FormikStepProps) {
+//   return <>{children}</>;
+// }
 
-const FormStepper = ({ children, ...props }: FormikConfig<FormikValues>) => {
-  const childrenArray = React.Children.toArray(
-    children
-  ) as React.ReactElement<FormikStepProps>[];
-  const [step, setStep] = useState(0);
-  const currentChild = childrenArray[step];
+// const FormStepper = ({ children, ...props }: FormikConfig<FormikValues>) => {
+//   const childrenArray = React.Children.toArray(
+//     children
+//   ) as React.ReactElement<FormikStepProps>[];
+//   const [step, setStep] = useState(0);
+//   const currentChild = childrenArray[step];
 
-  function isLastStep() {
-    return step === childrenArray.length - 1;
-  }
+//   function isLastStep() {
+//     return step === childrenArray.length - 1;
+//   }
 
-  return (
-    <Formik
-      {...props}
-      validationSchema={currentChild.props.validationSchema}
-      onSubmit={async (values, helpers) => {
-        if (step === childrenArray.length - 1) {
-          // on the last step
-          await props.onSubmit(values, helpers);
-        } else {
-          setStep((s) => s + 1);
-          helpers.setTouched({});
-        }
-      }}
-    >
-      {({ isSubmitting, values }) => (
-        <Form labelAlign="left">
-          <Steps size="small" current={step} style={{ marginBottom: "50px" }}>
-            {childrenArray.map((c, i) => {
-              return <Step key={i} title={c.props.label} />;
-            })}
-          </Steps>
-          {currentChild}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            <div>
-              <Button
-                disabled={step === 0 || isSubmitting}
-                color="primary"
-                onClick={() => setStep((s) => s - 1)}
-              >
-                للخلف
-              </Button>
-            </div>
+//   return (
+//     <Formik
+//       {...props}
+//       validationSchema={currentChild.props.validationSchema}
+//       onSubmit={async (values, helpers) => {
+//         if (step === childrenArray.length - 1) {
+//           // on the last step
+//           await props.onSubmit(values, helpers);
+//         } else {
+//           setStep((s) => s + 1);
+//           helpers.setTouched({});
+//         }
+//       }}
+//     >
+//       {({ isSubmitting, values }) => (
+//         <Form labelAlign="left">
+//           <Steps size="small" current={step} style={{ marginBottom: "50px" }}>
+//             {childrenArray.map((c, i) => {
+//               return <Step key={i} title={c.props.label} />;
+//             })}
+//           </Steps>
+//           {currentChild}
+//           <div
+//             style={{
+//               display: "flex",
+//               justifyContent: "space-between",
+//             }}
+//           >
+//             <div>
+//               <Button
+//                 disabled={step === 0 || isSubmitting}
+//                 color="primary"
+//                 onClick={() => setStep((s) => s - 1)}
+//               >
+//                 للخلف
+//               </Button>
+//             </div>
 
-            <div>
-              <Button
-                disabled={isSubmitting || childrenArray[step].props.loading}
-                color="primary"
-                htmlType="submit"
-              >
-                {isSubmitting
-                  ? "جاري التسجيل"
-                  : isLastStep()
-                  ? "تسجيل"
-                  : "التالي"}
-              </Button>
-            </div>
-          </div>
-        </Form>
-      )}
-    </Formik>
-  );
-};
+//             <div>
+//               <Button
+//                 disabled={isSubmitting || childrenArray[step].props.loading}
+//                 color="primary"
+//                 htmlType="submit"
+//               >
+//                 {isSubmitting
+//                   ? "جاري التسجيل"
+//                   : isLastStep()
+//                   ? "تسجيل"
+//                   : "التالي"}
+//               </Button>
+//             </div>
+//           </div>
+//         </Form>
+//       )}
+//     </Formik>
+//   );
+// };

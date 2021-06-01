@@ -57,6 +57,10 @@ export const subjects = [
     value: "التربية الدينية",
   },
   {
+    text: "معلم صف",
+    value: "معلم صف",
+  },
+  {
     text: "لايوجد",
     value: "لايوجد",
   },

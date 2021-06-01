@@ -5,10 +5,7 @@ import {
   division,
   familySituation,
 } from "../../utils/SchoolSubjects";
-import {
-  NameAndImageShredColumns,
-  SharedTableItems,
-} from "./SharedTableItems";
+import { NameAndImageShredColumns, SharedTableItems } from "./SharedTableItems";
 import { getColumnSearchProps } from "./searchInTable";
 import TableComponent from "./TableComponent";
 
@@ -72,7 +69,22 @@ export const StudentsTable = ({ allData, type, isAdmin }) => {
 
       render: (text) => <>{text ? <p>{text}</p> : <p>....</p>}</>,
     },
-    ...SharedTableItems(typeOfCertifcate, type, allData, isAdmin),
+    {
+      title: "الجنس",
+      dataIndex: "sex",
+      filters: [
+        {
+          text: "ذكر",
+          value: "ذكر",
+        },
+        {
+          text: "انثى",
+          value: "انثى",
+        },
+      ],
+      onFilter: (value, record) => record.sex?.indexOf(value) === 0,
+      sorter: (a, b) => a.sex.length - b.sex.length,
+    },
   ];
 
   return <TableComponent columns={columns} allData={allData} />;

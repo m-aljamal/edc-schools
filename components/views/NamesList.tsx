@@ -7,6 +7,7 @@ import { TeachersTable } from "../tabels/TeachersTable";
 import { AdministratorsTable } from "../tabels/AdministratorsTable";
 import { ServicesTable } from "../tabels/ServicesTable";
 import { StudentsTable } from "../tabels/StudentsTable";
+import AddNewPersonForm from "../persons/AddNewPersonForm";
 const NamesList = ({ type, schoolId }) => {
   const apiUrl = `/api/names/${type}`;
 
@@ -60,7 +61,7 @@ const NamesList = ({ type, schoolId }) => {
             setIsModalVisible={setIsModalVisible}
             modelTitle={`اضافة ${words[type].add} جديد`}
             modelData={
-              <Add_Edit_teacher_form
+              <AddNewPersonForm
                 type={type}
                 oldData={undefined}
                 edit={false}
