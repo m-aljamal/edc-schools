@@ -18,7 +18,7 @@ export default function Dashboard({ currentUser, userSchool, schools }) {
       />
       <div className="relative md:mr-72 bg-blueGray-100">
         <Navbar currentUser={currentUser} userSchool={userSchool} />
-        {currentUser.isAdmin ? (
+        {currentUser?.isAdmin ? (
           <AdminContentMenu showContent={currentContnet} schoolId={schoolId} />
         ) : (
           <ContentMenu schoolId={null} showContent={currentContnet} />

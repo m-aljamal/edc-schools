@@ -18,7 +18,6 @@ const login = ({ currentUser }) => {
     email: string().required("يجب عليك ادخال اﻹيميل"),
     password: string().required("يجب عليك ادخال كلمة السر"),
   });
-  console.log(currentUser);
 
   return (
     <section className="absolute w-full h-full">
@@ -55,10 +54,14 @@ const login = ({ currentUser }) => {
                     try {
                       const res = await axios.post("/api/users/login", values);
                       if (res.status === 200) {
+                        console.log(res.data.type);
+
                         setLoading(false);
-                        if (res.data && res.data.data.isAdmin)
+                        if (res.data && res.data.isAdmin)
                           Router.push("/admin-dashboard");
-                        if (res.data && !res.data.data.isAdmin)
+                        if (res.data && res.data.type === "teacher")
+                          Router.push("/teacher-dashboard");
+                        if (res.data && res.data.isAdmin === false)
                           Router.push("/user-dashboard");
                       }
                     } catch (error) {
@@ -114,13 +117,15 @@ export const getServerSideProps = async (ctx) => {
     ctx.req?.cookies?.auth_token !== "logout"
   ) {
     currentUser = await user.getLogedUser(db, ctx.req.cookies.auth_token);
-    if (currentUser.isAdmin) {
-      ctx.res.writeHead(302, { Location: "/admin-dashboard" });
-      ctx.res.end();
-    } else {
-      ctx.res.writeHead(302, { Location: "/user-dashboard" });
-      ctx.res.end();
-    }
+    console.log(currentUser);
+
+    // if (currentUser.isAdmin) {
+    //   ctx.res.writeHead(302, { Location: "/admin-dashboard" });
+    //   ctx.res.end();
+    // } else {
+    //   ctx.res.writeHead(302, { Location: "/user-dashboard" });
+    //   ctx.res.end();
+    // }
   }
   return { props: { currentUser } };
 };

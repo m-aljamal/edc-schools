@@ -40,7 +40,7 @@ export default function Sidebar({
           {/* Brand */}
           <Link href="/">
             <a className="md:block text-white md:text-black text-center md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-base md:text-xl uppercase font-bold p-4 px-0">
-              {currentUser.name} - EDC
+              {currentUser?.name} - EDC
             </a>
           </Link>
           {/* User */}
@@ -65,7 +65,7 @@ export default function Sidebar({
                 </button>
               </div>
             </div>
-            {currentUser.isAdmin ? (
+            {currentUser?.isAdmin ? (
               <AdminMenuList
                 schools={schools}
                 selectedKeys={currentContnet}

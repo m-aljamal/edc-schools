@@ -19,18 +19,19 @@ handler.post(async (req: Request, res: NextApiResponse) => {
     email,
     password,
   });
-
-  // let logedUser = await user.loginUser(req.db, "employee", {
-  //   email,
-  //   password,
-  // });
+  if (!logedUser) {
+    logedUser = await user.loginUser(req.db, "employee", {
+      email,
+      password,
+    });
+  }
 
   if (!logedUser)
     return res
       .status(400)
       .json({ error: " المستخدم غير مسجل او كلمة السر غير صحيحة" });
   const token = jwt.sign({ id: logedUser._id }, process.env.JWT_SECRET, {
-    expiresIn: "30d",
+    expiresIn: "1d",
   });
   res.setHeader(
     "Set-Cookie",
@@ -42,7 +43,7 @@ handler.post(async (req: Request, res: NextApiResponse) => {
       path: "/",
     })
   );
-  res.send({ data: logedUser });
+  res.send(logedUser);
 });
 
 export default handler;

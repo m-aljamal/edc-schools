@@ -37,5 +37,6 @@ export const loginUser = async (
 
 export const getLogedUser = async (db: Db, token) => {
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  return db.collection("users").findOne({ _id: decoded.id });
+  const collection = decoded.type === "teacher" ? "employee" : "users";
+  return db.collection(collection).findOne({ _id: decoded.id });
 };
