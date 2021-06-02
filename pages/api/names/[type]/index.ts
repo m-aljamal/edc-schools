@@ -35,10 +35,20 @@ handler.get(async (req: Request, res: NextApiResponse) => {
 handler.post(async (req: Request, res: NextApiResponse) => {
   const collection = databaseCollections[req.query.type.toString()].names;
 
-  let newEmployee = await req.db
-    .collection(collection)
-    .findOne({ name: req.body.name, schoolId: req.userSchool });
+  let newEmployee = await req.db.collection(collection).findOne({
+    name: req.body.name,
+    fatherName: req.body.fatherName,
+    motherName: req.body.motherName,
+    schoolId: req.userSchool,
+  });
   if (newEmployee) return res.status(400).json({ error: "الاسم مسجل  مسبقا" });
+
+  let user = await req.db
+    .collection("users")
+    .findOne({ email: req.body.email });
+  if (user) {
+    return res.status(400).json({ error: "الايميل مستخدم لشخص اخر" });
+  }
 
   newEmployee = await req.db
     .collection(collection)

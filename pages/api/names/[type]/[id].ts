@@ -30,9 +30,16 @@ handler.put(async (req: Request, res: NextApiResponse) => {
       { $set: { "names.$": { _id: req.query.id, ...req.body } } }
     );
 
-  const employee = await req.db
-    .collection(namesCollection)
-    .updateOne({ _id: req.query.id }, { $set: req.body });
+  const employee = await req.db.collection(namesCollection).updateOne(
+    { _id: req.query.id },
+    {
+      $set: {
+        ...req.body,
+        email: req.body.email?.trim(),
+        password: req.body.password?.trim(),
+      },
+    }
+  );
   res.json(employee);
 });
 

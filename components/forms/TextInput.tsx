@@ -6,8 +6,8 @@ const layout = {
 };
 export default function TextInput({ name, label, ...props }) {
   return (
-    <FormItem {...layout} name={name} label={label}>
-      <Input name={name} {...props} />
+    <FormItem  {...layout} name={name} label={label}>
+      <Input name={name} {...props}  />
     </FormItem>
   );
 }

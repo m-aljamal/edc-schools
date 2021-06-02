@@ -6,7 +6,6 @@ import { Request } from "../../../types";
 import { NextApiResponse } from "next";
 import cookie from "cookie";
 import jwt from "jsonwebtoken";
-import { google } from "googleapis";
 
 const handler = nc({
   onError,
@@ -16,10 +15,16 @@ handler.use(dbMissleware);
 handler.post(async (req: Request, res: NextApiResponse) => {
   const { email, password } = req.body;
 
-  const logedUser = await user.loginUser(req.db, {
+  let logedUser = await user.loginUser(req.db, "users", {
     email,
     password,
   });
+
+  // let logedUser = await user.loginUser(req.db, "employee", {
+  //   email,
+  //   password,
+  // });
+
   if (!logedUser)
     return res
       .status(400)

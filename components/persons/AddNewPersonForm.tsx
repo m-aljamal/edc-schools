@@ -24,8 +24,6 @@ export default function AddNewPersonForm({
   );
 
   const handleNew = async (values, helpers) => {
-    console.log(values);
-
     const url = `/api/names/${type}`;
     try {
       const res = await axios.post(url, {

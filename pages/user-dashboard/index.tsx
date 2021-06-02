@@ -15,7 +15,6 @@ export default UserDashboard;
 
 export async function getServerSideProps(ctx) {
   const { db } = await connectToDB();
-
   const props: any = {};
 
   if (

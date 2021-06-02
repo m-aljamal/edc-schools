@@ -27,10 +27,11 @@ export const getUser = async (db: Db, id: string) => {
 
 export const loginUser = async (
   db: Db,
+  collection: string,
   user: { email: string; password: string }
 ) => {
   return await db
-    .collection("users")
+    .collection(collection)
     .findOne({ email: user.email, password: user.password });
 };
 

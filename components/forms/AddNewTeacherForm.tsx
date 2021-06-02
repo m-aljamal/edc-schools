@@ -12,11 +12,12 @@ import {
   ImagesFormStep,
 } from "./SharedFormStep";
 import {
-  InfoValidation,
   personalInfoValidation,
   subjectValidation,
+  test,
 } from "./formValidation";
 import ImageUpload from "../persons/ImageUpload";
+import { object, string } from "yup";
 const { Option } = Select;
 const { TreeNode } = TreeSelect;
 const layout = {
@@ -49,7 +50,11 @@ export default function AddNewTeacherForm({
     division: oldData?.division || [],
     ...sharedInitialValues(oldData, type),
   };
-
+  const teacherInfoValidation = object({
+    ...test,
+    email: string().email().trim().required("الرجاء ادخال الايميل"),
+    password: string().trim().required("الرجاء ادخال كلمة السر"),
+  });
   return (
     <FormStyle>
       <FormStepper
@@ -66,7 +71,7 @@ export default function AddNewTeacherForm({
         <FormikStep
           loading={isImageLoading}
           label="معلومات التواصل"
-          validationSchema={InfoValidation}
+          validationSchema={teacherInfoValidation}
         >
           <ContactFormStep layout={layout}>
             <FormItem {...layout} name="password" label="كلمة السر">
