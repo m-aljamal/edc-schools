@@ -8,7 +8,7 @@ import LoadingSpin from "../shared/LoadingSpin";
 import { useState } from "react";
 
 export default function AddDoc({ setIsModalVisible, setdestroyOnClose }) {
-  const { data, error } = useSWR("/api/drive");
+  const { data, error } = useSWR("/api/drive/teacherfiles");
   if (!data) {
     return <LoadingSpin />;
   }
@@ -96,35 +96,5 @@ const AddNewFolder = ({ setIsModalVisible, setdestroyOnClose, folders }) => {
         رفع الملف
       </Button>
     </form>
-    // <Formik initialValues={folderInitialValue} onSubmit={handleCreateNewFolder}>
-    //   {({ values }) => (
-    //     <Form>
-    //       <FormItem name="name" label="اسم المجلد">
-    //         <AutoComplete
-    //           allowClear
-    //           name="name"
-    //           options={options}
-    //           placeholder="اختار المجلد"
-    //           filterOption={(inputValue, option) =>
-    //             option!.value
-    //               .toUpperCase()
-    //               .indexOf(inputValue.toUpperCase()) !== -1
-    //           }
-    //         />
-    //       </FormItem>
-    //       <FormItem>
-    //         <input type="file" onChange={handleChange} multiple />
-    //       </FormItem>
-    //       <Button
-    //         className="text-base bg-blue-400 hover:bg-blue-500"
-    //         htmlType="submit"
-    //         block
-    //         type="primary"
-    //       >
-    //         رفع الملف
-    //       </Button>
-    //     </Form>
-    //   )}
-    // </Formik>
   );
 };

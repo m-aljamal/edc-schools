@@ -3,8 +3,9 @@ import AddSchoolAssets from "../forms/AddSchoolAssets";
 import AddNewButton from "../shared/AddNewButton";
 import DocsList from "../persons/DocsList";
 import AddDoc from "../forms/AddDoc";
-
-export default function AdministrativeDocs({ schoolId }) {
+import TeacherDocList from "../persons/TeacherDocList";
+import AddTeacherDoc from "../forms/AddTeacherDoc";
+export default function AdministrativeDocs({ schoolId, ...props }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [destroyOnClose, setdestroyOnClose] = useState(false);
   return (
@@ -17,14 +18,21 @@ export default function AdministrativeDocs({ schoolId }) {
           setIsModalVisible={setIsModalVisible}
           modelTitle={`رفع ملف جديد`}
           modelData={
-            <AddDoc
-              setIsModalVisible={setIsModalVisible}
-              setdestroyOnClose={setdestroyOnClose}
-            />
+            props.teacher ? (
+              <AddTeacherDoc
+                setIsModalVisible={setIsModalVisible}
+                setdestroyOnClose={setdestroyOnClose}
+              />
+            ) : (
+              <AddDoc
+                setIsModalVisible={setIsModalVisible}
+                setdestroyOnClose={setdestroyOnClose}
+              />
+            )
           }
         />
       </div>
-      <DocsList />
+      {props.teacher ? <TeacherDocList /> : <DocsList />}
     </div>
   );
 }

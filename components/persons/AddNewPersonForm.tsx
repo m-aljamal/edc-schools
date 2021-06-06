@@ -41,7 +41,6 @@ export default function AddNewPersonForm({
         setIsModalVisible(false);
       }
     } catch (error) {
-      console.log(error);
       message.error(error.response.data.error);
     }
   };
@@ -62,7 +61,6 @@ export default function AddNewPersonForm({
         setIsModalVisible(false);
       }
     } catch (error) {
-      console.log(error);
       message.error(error.response.data.error);
     }
   };

@@ -14,12 +14,7 @@ handler.use(auth);
 
 handler.get(async (req: Request, res: NextApiResponse) => {
   const drive = await googleDrive();
-  const query =
-    "parents in " +
-    '"' +
-    req.query.id +
-    '"' +
-    "and mimeType: 'application/vnd.google-apps.folder'";
+  const query = "parents in " + '"' + req.query.id + '"';
 
   const responce = await drive.files.list({
     q: query,

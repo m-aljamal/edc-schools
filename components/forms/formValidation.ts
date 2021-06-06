@@ -18,8 +18,8 @@ export const subjectValidation = object({
 });
 
 export const test = {
-  // plaseOfBirth: string().required("الرجاء ادخال  مكان الولادة"),
-  // dateOfBirth: date().required("الرجاء ادخال تاريخ الولادة"),
-  // address: string().required("الرجاء ادخال العنوان "),
-  // phone: string().required("الرجاء ادخال رقم الهاتف"),
+  plaseOfBirth: string().required("الرجاء ادخال  مكان الولادة"),
+  dateOfBirth: date().required("الرجاء ادخال تاريخ الولادة"),
+  address: string().required("الرجاء ادخال العنوان "),
+  phone: string().required("الرجاء ادخال رقم الهاتف"),
 };

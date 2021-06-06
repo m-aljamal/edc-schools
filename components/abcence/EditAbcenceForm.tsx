@@ -121,7 +121,6 @@ const EditAbcenceForm = ({
       }
     } catch (error) {
       message.error(error.response?.data?.error);
-      console.log(error);
     }
   };
 

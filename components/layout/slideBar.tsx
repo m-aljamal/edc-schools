@@ -3,6 +3,7 @@ import Link from "next/link";
 import AdminMenuList from "./adminMenuList";
 import UserDropdown from "./userDropdown";
 import MenuList from "./MenuList";
+import TeacherMenuList from "./TeacherMenuList";
 export default function Sidebar({
   setCurrentContent,
   currentContnet,
@@ -22,6 +23,42 @@ export default function Sidebar({
       }
     } else {
       setCurrentContent(e.key);
+    }
+  };
+  const showMenuList = () => {
+    if (currentUser?.type === "teacher") {
+      return (
+        <TeacherMenuList
+          selectedKeys={currentContnet}
+          handleClick={handleClick}
+          theme="light"
+          mode="inline"
+          className=""
+        />
+      );
+    }
+    if (currentUser?.isAdmin) {
+      return (
+        <AdminMenuList
+          schools={schools}
+          selectedKeys={currentContnet}
+          handleClick={handleClick}
+          theme="light"
+          mode="inline"
+          className=""
+        />
+      );
+    }
+    if (!currentUser?.isAdmin) {
+      return (
+        <MenuList
+          selectedKeys={currentContnet}
+          handleClick={handleClick}
+          theme="light"
+          mode="inline"
+          className=""
+        />
+      );
     }
   };
 
@@ -65,7 +102,7 @@ export default function Sidebar({
                 </button>
               </div>
             </div>
-            {currentUser?.isAdmin ? (
+            {/* {currentUser?.isAdmin ? (
               <AdminMenuList
                 schools={schools}
                 selectedKeys={currentContnet}
@@ -82,7 +119,8 @@ export default function Sidebar({
                 mode="inline"
                 className=""
               />
-            )}
+            )} */}
+            {showMenuList()}
           </div>
         </div>
       </nav>

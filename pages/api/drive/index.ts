@@ -15,7 +15,7 @@ handler.use(auth);
 handler.get(async (req: Request, res: NextApiResponse) => {
   const drive = await googleDrive();
   const folderId = await req.db.collection("schools").findOne({
-    _id: req.userSchool,
+    _id: req.userSchool || req.user.schoolId,
   });
 
   const query =
@@ -25,8 +25,9 @@ handler.get(async (req: Request, res: NextApiResponse) => {
     '"' +
     "and mimeType: 'application/vnd.google-apps.folder'";
 
+  const name = "name =" + '"' + req.user.name + '"';
   const responce = await drive.files.list({
-    q: query,
+    q: req.user?.type ? name : query,
     // fields: "nextPageToken, files(id, name)",
 
     includeItemsFromAllDrives: true,

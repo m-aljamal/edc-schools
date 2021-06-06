@@ -23,7 +23,7 @@ export const credentials = {
   // client_x509_cert_url: process.env.client_x509_cert_url,
 };
 
-export const ImagefilePath = path.join(process.cwd(), "test", "wo.docx");
+export const ImagefilePath = path.join(process.cwd(), "test", "1pdf.pdf");
 
 handler.get(async (req: Request, res: NextApiResponse) => {
   const client = await google.auth.getClient({
@@ -65,13 +65,14 @@ handler.get(async (req: Request, res: NextApiResponse) => {
       const drive = await googleDrive();
       const res = await drive.files.create({
         requestBody: {
-          name: "word",
-          mimeType: "application/msword/doc",
+          name: "pdf",
+          // mimeType: "application/msword/doc",
+          mimeType: "application/pdf",
           driveId: "0AKK2FEcg3f53Uk9PVA",
-          parents: ["1xhlyamLDEfXJhFybrYG63CIi7rqNvc2d"],
+          parents: ["1seQRUDvvb4hNACEt8ny0z_JTRt07-p1s"],
         },
         media: {
-          mimeType: "application/msword/doc",
+          mimeType: "application/pdf",
           body: fs.createReadStream(ImagefilePath),
         },
         supportsAllDrives: true,
@@ -83,14 +84,14 @@ handler.get(async (req: Request, res: NextApiResponse) => {
     }
   }
 
-  // uploadFile();
+  uploadFile();
 
   async function searchForFile() {
     try {
       const drive = await googleDrive();
       const res = await drive.files.list({
         // q: "mimeType: 'application/vnd.google-apps.folder'",
-        q: "parents in '1B696wdMVA5O0Fkor_L0RJ_k6lunS5jK2'",
+        q: "parents in '0AKK2FEcg3f53Uk9PVA'",
         // fields: "nextPageToken, files(id, name)",
 
         includeItemsFromAllDrives: true,
@@ -146,10 +147,10 @@ handler.get(async (req: Request, res: NextApiResponse) => {
 
   async function folder() {
     var fileMetadata = {
-      name: "زاهر مصطفى",
+      name: "مدرسة الإمام الشافعي ذكور",
       mimeType: "application/vnd.google-apps.folder",
       driveId: "0AKK2FEcg3f53Uk9PVA",
-      parents: ["1xzIEmPtC13forz9yqDrkejmrkjVqm0LY"],
+      parents: ["0AKK2FEcg3f53Uk9PVA"],
     };
     const drive = await googleDrive();
     drive.files.create(

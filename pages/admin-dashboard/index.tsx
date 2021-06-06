@@ -26,6 +26,10 @@ export async function getServerSideProps(ctx) {
       ctx.res.writeHead(302, { Location: "/user-dashboard" });
       ctx.res.end();
     }
+    if (props?.currentUser?.type === "teacher") {
+      ctx.res.writeHead(302, { Location: "/teacher-dashboard" });
+      ctx.res.end();
+    }
   } else {
     ctx.res.writeHead(302, { Location: "/" });
     ctx.res.end();

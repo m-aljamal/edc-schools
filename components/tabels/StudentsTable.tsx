@@ -1,12 +1,6 @@
 import { useState } from "react";
-import {
-  classes,
-  typeOfCertifcate,
-  division,
-  familySituation,
-} from "../../utils/SchoolSubjects";
+import { classes, division, familySituation } from "../../utils/SchoolSubjects";
 import { NameAndImageShredColumns, SharedTableItems } from "./SharedTableItems";
-import { getColumnSearchProps } from "./searchInTable";
 import TableComponent from "./TableComponent";
 
 export const StudentsTable = ({ allData, type, isAdmin }) => {

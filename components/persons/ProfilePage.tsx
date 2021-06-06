@@ -61,7 +61,6 @@ const ProfilePage = ({ data, type }) => {
     healthSituation,
     sickType,
   } = data;
-  console.log(classNumber);
 
   const showData = {
     students: (

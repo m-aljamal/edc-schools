@@ -11,7 +11,6 @@ const AddNewAbcenceForm = ({ names, displaySheetMonth, type }) => {
   const [searchedColumn, setSearchedColumn] = useState("");
   const [date, setAbcenceDate] = useState("");
   const [loading, setLoading] = useState(false);
-  console.log("nn", names);
 
   const handleTimeSheet = async () => {
     try {
@@ -31,7 +30,6 @@ const AddNewAbcenceForm = ({ names, displaySheetMonth, type }) => {
     } catch (error) {
       setLoading(false);
       message.error(error.response?.data?.error);
-      console.log(error);
     }
   };
 

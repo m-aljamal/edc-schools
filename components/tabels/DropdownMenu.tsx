@@ -31,7 +31,6 @@ const DropdownMenu = ({ data, allData, type, isAdmin }) => {
         message.success("تم حذف الاسم بنجاح");
       }
     } catch (error) {
-      console.log(error);
       message.error(error?.response?.data?.error);
     }
   };

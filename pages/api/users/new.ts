@@ -4,7 +4,6 @@ import { googleDrive, user } from "../../../db";
 import onError from "../../../middleware/error";
 import { Request } from "../../../types";
 import { NextApiResponse } from "next";
-import admin from "../../../middleware/admin";
 import { nanoid } from "nanoid";
 
 const handler = nc({

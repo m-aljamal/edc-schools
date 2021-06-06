@@ -54,8 +54,6 @@ const login = ({ currentUser }) => {
                     try {
                       const res = await axios.post("/api/users/login", values);
                       if (res.status === 200) {
-                        console.log(res.data.type);
-
                         setLoading(false);
                         if (res.data && res.data.isAdmin)
                           Router.push("/admin-dashboard");
@@ -117,7 +115,6 @@ export const getServerSideProps = async (ctx) => {
     ctx.req?.cookies?.auth_token !== "logout"
   ) {
     currentUser = await user.getLogedUser(db, ctx.req.cookies.auth_token);
-    console.log(currentUser);
 
     // if (currentUser.isAdmin) {
     //   ctx.res.writeHead(302, { Location: "/admin-dashboard" });

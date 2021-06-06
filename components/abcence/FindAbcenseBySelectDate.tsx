@@ -20,7 +20,6 @@ export const FindAbcenseBySelectDate = ({ setAbcenceData, type }) => {
             if (res.status === 200) setAbcenceData(res.data);
           } catch (error) {
             setAbcenceData(null);
-            console.log(error);
             message.error(error.response?.data?.error);
           }
         }

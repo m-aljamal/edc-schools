@@ -179,7 +179,6 @@ const AbcenceMonthTable = ({
       }
     }
   }, [absenceListByMonth]);
-  console.log({ absenceListByMonth, displaySheetMonth });
 
   return (
     <div className="mt-10">

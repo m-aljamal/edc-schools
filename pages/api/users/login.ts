@@ -30,9 +30,13 @@ handler.post(async (req: Request, res: NextApiResponse) => {
     return res
       .status(400)
       .json({ error: " المستخدم غير مسجل او كلمة السر غير صحيحة" });
-  const token = jwt.sign({ id: logedUser._id }, process.env.JWT_SECRET, {
-    expiresIn: "1d",
-  });
+  const token = jwt.sign(
+    { id: logedUser._id, type: logedUser.type || null },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "1d",
+    }
+  );
   res.setHeader(
     "Set-Cookie",
     cookie.serialize("auth_token", token, {

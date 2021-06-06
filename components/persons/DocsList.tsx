@@ -39,7 +39,7 @@ export default function DocsList() {
   );
 }
 
-const Folder = ({ name, setShowFiles, id }) => {
+export const Folder = ({ name, setShowFiles, id }) => {
   return (
     <div>
       <i

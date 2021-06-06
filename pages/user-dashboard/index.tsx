@@ -22,6 +22,7 @@ export async function getServerSideProps(ctx) {
     ctx.req?.cookies?.auth_token !== "logout"
   ) {
     props.currentUser = await user.getLogedUser(db, ctx.req.cookies.auth_token);
+
     if (props?.currentUser?.isAdmin) {
       ctx.res.writeHead(302, { Location: "/admin-dashboard" });
       ctx.res.end();
@@ -34,11 +35,10 @@ export async function getServerSideProps(ctx) {
     ctx.res.writeHead(302, { Location: "/" });
     ctx.res.end();
   }
-  // props.userSchool = await school.getSchoolByDirector(
-  //   db,
-  //   props.currentUser._id
-  // );
-console.log(props.currentUser);
+  props.userSchool = await school.getSchoolByDirector(
+    db,
+    props.currentUser._id
+  );
 
   return {
     props,

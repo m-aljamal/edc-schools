@@ -10,6 +10,8 @@ export interface Request extends NextApiRequest {
     name: string;
     password: string;
     isAdmin: boolean;
+    schoolId: string;
+    type: string;
   };
 }
 export interface Request extends NextApiRequest {
@@ -21,4 +23,12 @@ export interface Request extends NextApiRequest {
     director: string;
   };
 }
- 
+export interface TeacherRequest extends NextApiRequest {
+  db: Db;
+  dbClient: MongoClient;
+  user: {
+    schoolId: string;
+    classSuperVisor: string;
+    divisionSuperVisor: string;
+  };
+}

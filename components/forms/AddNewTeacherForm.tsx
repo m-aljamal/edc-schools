@@ -3,7 +3,7 @@ import FormStepper, { FormikStep } from "./FormStepper";
 import { FormItem, Input, Select, TreeSelect } from "formik-antd";
 
 import FormStyle from "../styles/FormStyle";
-import { classes, subjects } from "../../utils/SchoolSubjects";
+import { classes, division, subjects } from "../../utils/SchoolSubjects";
 import { sharedInitialValues } from "./shredInitialValues";
 import {
   PersonalFormStep,
@@ -48,6 +48,8 @@ export default function AddNewTeacherForm({
     subject: oldData?.subject || [],
     classNumber: oldData?.classNumber || [],
     division: oldData?.division || [],
+    classSuperVisor: oldData?.classSuperVisor || "",
+    divisionSuperVisor: oldData?.divisionSuperVisor || "",
     ...sharedInitialValues(oldData, type),
   };
   const teacherInfoValidation = object({
@@ -103,7 +105,7 @@ export default function AddNewTeacherForm({
         </FormikStep>
 
         <FormikStep label="الصف" loading={isImageLoading}>
-          <FormItem {...layout} name="classNumber" label="الصف">
+          <FormItem {...layout} name="classNumber" label="مدرس لصف ">
             <Select
               mode="multiple"
               dropdownClassName="style"
@@ -118,7 +120,7 @@ export default function AddNewTeacherForm({
               ))}
             </Select>
           </FormItem>
-          <FormItem {...layout} name="division" label="الشعبة">
+          <FormItem {...layout} name="division" label="مدرس لشعبة">
             <TreeSelect
               showSearch
               style={{ width: "100%" }}
@@ -143,6 +145,34 @@ export default function AddNewTeacherForm({
                 </TreeNode>
               ))}
             </TreeSelect>
+          </FormItem>
+          <FormItem {...layout} name="classSuperVisor" label="مشرف على صف">
+            <Select
+              dropdownClassName="style"
+              allowClear
+              placeholder="الرجاء الاختيار"
+              name="classSuperVisor"
+            >
+              {classes?.map((c, i) => (
+                <Option value={c.text} key={i}>
+                  {c.text}
+                </Option>
+              ))}
+            </Select>
+          </FormItem>
+          <FormItem {...layout} name="divisionSuperVisor" label="مشرف على شعبة">
+            <Select
+              dropdownClassName="style"
+              allowClear
+              placeholder="الرجاء الاختيار"
+              name="divisionSuperVisor"
+            >
+              {division?.map((c, i) => (
+                <Option value={c.text} key={i}>
+                  {c.text}
+                </Option>
+              ))}
+            </Select>
           </FormItem>
         </FormikStep>
 
