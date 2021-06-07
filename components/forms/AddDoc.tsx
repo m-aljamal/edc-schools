@@ -5,7 +5,7 @@ import { Button, message, AutoComplete } from "antd";
 import axios from "axios";
 import useSWR, { trigger } from "swr";
 import LoadingSpin from "../shared/LoadingSpin";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function AddDoc({ setIsModalVisible, setdestroyOnClose }) {
   const { data, error } = useSWR("/api/drive");
@@ -30,24 +30,26 @@ export default function AddDoc({ setIsModalVisible, setdestroyOnClose }) {
 }
 
 const AddNewFolder = ({ setIsModalVisible, setdestroyOnClose, folders }) => {
-  const [folder, setFolder] = useState({
+  const [teacherFolders, setTeacherFolders] = useState([]);
+  const [chooseTeacherFolder, setchooseTeacherFolder] = useState({
     name: "",
     id: "",
   });
   const options = [];
   folders.forEach((f) => options.push({ value: f.name, id: f.id }));
-
-  const folderInitialValue = {
+  const [chooseFolder, setChoseFolder] = useState({
     name: "",
-  };
+    id: "",
+  });
   const [files, setFile] = useState([]);
+  console.log({ chooseFolder, chooseTeacherFolder });
 
   const handleCreateNewFolder = async (e) => {
     e.preventDefault();
     try {
       let formData = new FormData();
-      formData.append("name", folder.name);
-      formData.append("folderId", folder.id);
+      formData.append("name", chooseTeacherFolder.name);
+      formData.append("folderId", chooseTeacherFolder.id);
       for (let file of files) {
         formData.append("files", file);
       }
@@ -67,9 +69,29 @@ const AddNewFolder = ({ setIsModalVisible, setdestroyOnClose, folders }) => {
   const handleChange = async (e) => {
     setFile(e.target.files);
   };
-  const onChange = (value) => {
-    const id = options.find((o) => o.value === value)?.id;
-    setFolder({ name: value, id });
+  const onChange = async (value) => {
+    if (!value) {
+      setchooseTeacherFolder({
+        name: "",
+        id: "",
+      });
+      setTeacherFolders([]);
+    } else {
+      const id = options.find((o) => o.value === value)?.id;
+      setchooseTeacherFolder({ name: value, id });
+      const teacherFolders = await axios.get(`/api/drive/getFiles/${id}`);
+      setTeacherFolders(
+        teacherFolders?.data.map((f) => ({ value: f.name, id: f.id }))
+      );
+    }
+  };
+  const onFolderChange = (value) => {
+    if (!value) {
+      setTeacherFolders([]);
+    } else {
+      const id = teacherFolders.find((o) => o.value === value)?.id;
+      setChoseFolder({ name: value, id });
+    }
   };
 
   return (
@@ -80,7 +102,19 @@ const AddNewFolder = ({ setIsModalVisible, setdestroyOnClose, folders }) => {
           onChange={onChange}
           allowClear
           options={options}
-          placeholder="اختار المجلد"
+          placeholder="اختار مجلد المدرس"
+          filterOption={(inputValue, option) =>
+            option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+          }
+        />
+      </div>
+      <div>
+        <AutoComplete
+          className="w-full mb-4"
+          onChange={onFolderChange}
+          allowClear
+          options={teacherFolders}
+          placeholder="اختار اسم المجلد"
           filterOption={(inputValue, option) =>
             option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
           }

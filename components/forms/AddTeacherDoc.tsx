@@ -1,6 +1,3 @@
-import FormItem from "antd/lib/form/FormItem";
-import { Formik } from "formik";
-// import { Form, Input, AutoComplete } from "formik-antd";
 import { Button, message, AutoComplete } from "antd";
 import axios from "axios";
 import useSWR, { trigger } from "swr";
@@ -34,18 +31,15 @@ const AddNewFolder = ({ setIsModalVisible, setdestroyOnClose, folders }) => {
     name: "",
     id: "",
   });
+  const [loading, setLoading] = useState(false);
   const options = [];
   folders.forEach((f) => options.push({ value: f.name, id: f.id }));
 
-  const folderInitialValue = {
-    name: "",
-  };
   const [files, setFile] = useState([]);
 
   const handleCreateNewFolder = async (e) => {
+    setLoading(true);
     e.preventDefault();
-    console.log(folder);
-
     try {
       let formData = new FormData();
       formData.append("name", folder.name);
@@ -57,12 +51,12 @@ const AddNewFolder = ({ setIsModalVisible, setdestroyOnClose, folders }) => {
       console.log(res);
 
       if (res.status === 200) {
-        // setLoading(false);
-        // trigger("/api/drive");
-        // helpers.resetForm();
-        // setdestroyOnClose(true);
-        // message.success(`تم انشاء المجلد بنجاح`);
-        // setIsModalVisible(false);
+        setLoading(false);
+        trigger("/api/drive");
+        trigger("/api/drive/teacherfiles");
+        setdestroyOnClose(true);
+        message.success(`تم انشاء المجلد بنجاح`);
+        setIsModalVisible(false);
       }
     } catch (error) {
       message.error(error.response.data.error);
@@ -73,7 +67,6 @@ const AddNewFolder = ({ setIsModalVisible, setdestroyOnClose, folders }) => {
   };
   const onChange = (value) => {
     let id = options.find((o) => o.value === value)?.id;
-
     setFolder({ name: value, id: id || "new" });
   };
 
@@ -91,12 +84,16 @@ const AddNewFolder = ({ setIsModalVisible, setdestroyOnClose, folders }) => {
           }
         />
       </div>
-      <input type="file" onChange={handleChange} multiple />
+      <label className="input-wrapper bg-gray-600 text-white p-2 cursor-pointer  ">
+        اختار الملف
+        <input hidden type="file" onChange={handleChange} multiple />
+      </label>
       <Button
-        className="text-base bg-blue-400 hover:bg-blue-500"
+        className="text-base bg-blue-400 hover:bg-blue-500 mt-4"
         htmlType="submit"
         block
         type="primary"
+        loading={loading}
       >
         رفع الملف
       </Button>
