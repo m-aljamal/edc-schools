@@ -1,4 +1,5 @@
-import { NextApiResponse, NextApiRequest } from "next";
+import { Request } from "./../../../types";
+import { NextApiResponse } from "next";
 import nc from "next-connect";
 import onError from "../../../middleware/error";
 import formidable from "formidable";
@@ -23,9 +24,7 @@ const uploadFile = async (
   name: string,
   path: string,
   res,
-  folderName: string,
-  folderId: string,
-  req
+  folderId: string
 ) => {
   // const check = fileCheck(type, res);
   // if (check === "error") {
@@ -33,36 +32,12 @@ const uploadFile = async (
   // } else {
   const drive = await googleDrive();
 
-  let newFolderId;
-  if (folderId === "new") {
-    const name = "name =" + '"' + req.user.name + '"';
-    const id = await drive.files.list({
-      q: name,
-      includeItemsFromAllDrives: true,
-      driveId: "0AKK2FEcg3f53Uk9PVA",
-      supportsAllDrives: true,
-      corpora: "drive",
-    });
-
-    const fileMetadata = {
-      name: folderName,
-      mimeType: "application/vnd.google-apps.folder",
-      driveId: "0AKK2FEcg3f53Uk9PVA",
-      parents: [id.data?.files[0]?.id],
-    };
-    const file = await drive.files.create({
-      requestBody: fileMetadata,
-      supportsAllDrives: true,
-    });
-    newFolderId = file.data.id;
-  }
-
   const responce = await drive.files.create({
     requestBody: {
       name: name,
       mimeType: type,
       driveId: "0AKK2FEcg3f53Uk9PVA",
-      parents: [folderId !== "new" ? folderId : newFolderId],
+      parents: [folderId],
     },
     media: {
       mimeType: type,
@@ -82,7 +57,7 @@ const fileCheck = (type, res) => {
     return "error";
   }
 };
-handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
+handler.post(async (req: Request, res: NextApiResponse) => {
   const form = new formidable.IncomingForm();
   // form.uploadDir = "./";
   // form.keepExtensions = true;
@@ -95,17 +70,34 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     if (!fields.name) {
       return res.status(400).json({ error: "الرجاء اختيار المجلد" });
     }
+
+    if (fields.folderId === "new") {
+      const drive = await googleDrive();
+      const name = "name =" + '"' + req.user.name + '"';
+      const id = await drive.files.list({
+        q: name,
+        includeItemsFromAllDrives: true,
+        driveId: "0AKK2FEcg3f53Uk9PVA",
+        supportsAllDrives: true,
+        corpora: "drive",
+      });
+
+      const fileMetadata = {
+        name: fields.name,
+        mimeType: "application/vnd.google-apps.folder",
+        driveId: "0AKK2FEcg3f53Uk9PVA",
+        parents: [id.data?.files[0]?.id],
+      };
+      const file = await drive.files.create({
+        requestBody: fileMetadata,
+        supportsAllDrives: true,
+      });
+      fields.folderId = file.data.id;
+    }
+
     if (files?.files?.length) {
       files.files.forEach(async (file) => {
-        await uploadFile(
-          file.type,
-          file.name,
-          file.path,
-          res,
-          fields.name,
-          fields.folderId,
-          req
-        );
+        await uploadFile(file.type, file.name, file.path, res, fields.folderId);
       });
     } else {
       await uploadFile(
@@ -113,9 +105,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         files?.files?.name,
         files?.files?.path,
         res,
-        fields.name,
-        fields.folderId,
-        req
+        fields.folderId
       );
     }
     res.json("اكتمل رفع الملفات");
