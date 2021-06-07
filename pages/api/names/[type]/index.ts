@@ -12,7 +12,7 @@ const handler = nc({
   onError,
 });
 
-const createFile = async (name, id) => {
+export const createFile = async (name: string, id: string) => {
   const fileMetadata = {
     name,
     mimeType: "application/vnd.google-apps.folder",

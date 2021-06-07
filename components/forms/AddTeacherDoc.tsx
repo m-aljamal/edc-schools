@@ -44,6 +44,8 @@ const AddNewFolder = ({ setIsModalVisible, setdestroyOnClose, folders }) => {
 
   const handleCreateNewFolder = async (e) => {
     e.preventDefault();
+    console.log(folder);
+
     try {
       let formData = new FormData();
       formData.append("name", folder.name);
@@ -52,6 +54,8 @@ const AddNewFolder = ({ setIsModalVisible, setdestroyOnClose, folders }) => {
         formData.append("files", file);
       }
       const res = await axios.post("/api/drive/upload", formData);
+      console.log(res);
+
       if (res.status === 200) {
         // setLoading(false);
         // trigger("/api/drive");
@@ -68,8 +72,9 @@ const AddNewFolder = ({ setIsModalVisible, setdestroyOnClose, folders }) => {
     setFile(e.target.files);
   };
   const onChange = (value) => {
-    const id = options.find((o) => o.value === value)?.id;
-    setFolder({ name: value, id });
+    let id = options.find((o) => o.value === value)?.id;
+
+    setFolder({ name: value, id: id || "new" });
   };
 
   return (
