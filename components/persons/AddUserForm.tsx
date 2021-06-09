@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Formik } from "formik";
-import { FormItem, Input, Radio, Form } from "formik-antd";
+import { FormItem, Input, Radio, Form, DatePicker } from "formik-antd";
 import { Button, message } from "antd";
 import axios from "axios";
 import { trigger } from "swr";
+import DateSelect from "../forms/DateSelect";
 export default function AddUserForm({ setIsModalVisible, setdestroyOnClose }) {
   const [loading, setLoading] = useState(false);
   const initailValues = {
@@ -12,6 +13,10 @@ export default function AddUserForm({ setIsModalVisible, setdestroyOnClose }) {
     password: "",
     isAdmin: false,
     schoolName: "",
+    firstTermSchoolDateStart: "",
+    firstTermSchoolDateEnd: "",
+    secoundTermSchoolDateStart: "",
+    secoundTermSchoolDateEnd: "",
   };
   const onSubmit = async (values, helpers) => {
     try {
@@ -33,7 +38,7 @@ export default function AddUserForm({ setIsModalVisible, setdestroyOnClose }) {
     }
   };
   const layout = {
-    labelCol: { span: 3 },
+    labelCol: { span: 4 },
     wrapperCol: { span: 21 },
   };
 
@@ -61,9 +66,27 @@ export default function AddUserForm({ setIsModalVisible, setdestroyOnClose }) {
             </Radio.Group>
           </FormItem>
           {!values.isAdmin && (
-            <FormItem name="schoolName" label="اسم المدرسة">
-              <Input name="schoolName" />
-            </FormItem>
+            <div>
+              <FormItem name="schoolName" label="اسم المدرسة">
+                <Input name="schoolName" />
+              </FormItem>
+              <DateSelect
+                name="firstTermSchoolDateStart"
+                label=" بداية الفصل الأول"
+              />
+              <DateSelect
+                name="firstTermSchoolDateEnd"
+                label=" نهاية الفصل الأول"
+              />
+              <DateSelect
+                name="secoundTermSchoolDateStart"
+                label=" بداية الفصل الثاني"
+              />
+              <DateSelect
+                name="secoundTermSchoolDateEnd"
+                label=" نهاية الفصل الثاني"
+              />
+            </div>
           )}
           <Button
             loading={loading}

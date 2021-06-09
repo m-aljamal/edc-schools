@@ -12,6 +12,8 @@ export default function SchoolSupervisor() {
   if (error) {
     return <p>there is an error</p>;
   }
+  console.log(data);
+
   const columns = [
     {
       title: "الاسم",

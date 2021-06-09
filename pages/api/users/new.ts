@@ -47,6 +47,10 @@ handler.post(async (req: Request, res: NextApiResponse) => {
       name: req.body.schoolName,
       director: newUser._id,
       driveFileId: file.data.id,
+      firstTermSchoolDateStart: req.body.firstTermSchoolDateStart,
+      firstTermSchoolDateEnd: req.body.firstTermSchoolDateEnd,
+      secoundTermSchoolDateStart: req.body.secoundTermSchoolDateStart,
+      secoundTermSchoolDateEnd: req.body.secoundTermSchoolDateEnd,
     });
   }
   res.send({ newUser });

@@ -3,7 +3,7 @@ import AddUserForm from "../persons/AddUserForm";
 import AddNewButton from "../shared/AddNewButton";
 import SchoolSupervisor from "../tabels/SchoolSupervisor";
 
-export default function CreateUsers() {
+export default function  CreateUsers() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [destroyOnClose, setdestroyOnClose] = useState(false);
 

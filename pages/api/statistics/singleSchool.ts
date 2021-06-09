@@ -3,11 +3,9 @@ import dbMiddleware from "../../../middleware/db";
 import onError from "../../../middleware/error";
 import { Request } from "../../../types";
 import { NextApiResponse } from "next";
-import { employee } from "../../../db";
-
 import auth from "../../../middleware/auth";
 import setDate from "../../../utils/setDate";
-import db from "../../../middleware/db";
+import { findRemainigDayes } from "../../../utils/findRemainigDayes";
 const handler = nc({
   onError,
 });
@@ -316,7 +314,54 @@ handler.get(async (req: Request, res: NextApiResponse) => {
     ])
     .toArray();
 
-  res.json({ totalEmployee, totalStudents, empAbcenseByYear });
+  const schoolDate = await req.db.collection("schools").findOne({
+    _id: req.userSchool,
+  });
+  const date = setDate(new Date());
+
+  let remaningDayes;
+  let dateStart;
+  let dateEnd;
+  const firstStart = setDate(schoolDate.firstTermSchoolDateStart);
+  const firstEnd = setDate(schoolDate.firstTermSchoolDateEnd);
+  const secoundStart = setDate(schoolDate.secoundTermSchoolDateStart);
+  const secoundEnd = setDate(schoolDate.secoundTermSchoolDateEnd);
+
+  if (date <= firstEnd && date >= firstStart) {
+    remaningDayes = findRemainigDayes(date, firstEnd);
+    dateStart = firstStart;
+    dateEnd = firstEnd;
+  }
+  if (date < secoundStart && date > firstEnd) {
+    remaningDayes = findRemainigDayes(date, secoundStart);
+    dateStart = secoundStart;
+  }
+  if (date >= firstEnd && date <= secoundEnd && date >= secoundStart) {
+    remaningDayes = findRemainigDayes(date, secoundEnd);
+    dateStart = secoundStart;
+    dateEnd = secoundEnd;
+  }
+
+  res.json({
+    totalEmployee,
+    totalStudents,
+    empAbcenseByYear,
+    dates: {
+      remaningDayes,
+      dateStart,
+      dateEnd,
+    },
+  });
 });
 
 export default handler;
+// {
+//   _id: 'wdABH1vIrJLLbqriq5hqA',
+//   name: 'مدرسة الإمام الشافعي ذكور',
+//   director: '0rd8IUZKZZlWv9nEvELda',
+//   driveFileId: '1FD17i1MS6S9w5myVs-nlMZ9gNgRgO8IK',
+//   firstTermSchoolDateStart: '2021-01-27T17:45:47.489Z',
+//   firstTermSchoolDateEnd: '2021-07-04T17:45:51.628Z',
+//   secoundTermSchoolDateStart: '2021-08-07T17:45:55.563Z',
+//   secoundTermSchoolDateEnd: '2021-10-28T17:46:00.309Z'
+// }

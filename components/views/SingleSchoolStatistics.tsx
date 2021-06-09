@@ -4,6 +4,8 @@ import Bar_chart_division from "../statistics/Bar_chart_division";
 import Footer from "../layout/Footer";
 import AbsenceTableSummary from "../statistics/AbsenceTableSummary";
 import EmpStuTableSummary from "../statistics/EmpStuTableSummary";
+import DaysProgress from "../statistics/DaysProgress";
+
 export default function SingleSchoolStatistics({
   employees,
   students,
@@ -25,6 +27,7 @@ export default function SingleSchoolStatistics({
     <>
       <div className="relative bg-pink-600 md:pt-15 pb-32 pt-12">
         <div className="px-4 md:px-10 mx-auto w-full">
+          <DaysProgress />
           <Card
             students={{
               total: students.totalStudents[0]?.totalStudents,
@@ -69,6 +72,7 @@ export default function SingleSchoolStatistics({
             absenceByNameAndReson={empAbcense?.absenceByNameAndReson}
           />
         </div>
+
         <Footer />
       </div>
     </>
