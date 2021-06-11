@@ -322,6 +322,7 @@ handler.get(async (req: Request, res: NextApiResponse) => {
   let remaningDayes;
   let dateStart;
   let dateEnd;
+  let status;
   const firstStart = setDate(schoolDate.firstTermSchoolDateStart);
   const firstEnd = setDate(schoolDate.firstTermSchoolDateEnd);
   const secoundStart = setDate(schoolDate.secoundTermSchoolDateStart);
@@ -331,17 +332,27 @@ handler.get(async (req: Request, res: NextApiResponse) => {
     remaningDayes = findRemainigDayes(date, firstEnd);
     dateStart = firstStart;
     dateEnd = firstEnd;
+    status = ` متبقي على نهاية الفصل الاول ${remaningDayes} يوم`;
   }
   if (date < secoundStart && date > firstEnd) {
     remaningDayes = findRemainigDayes(date, secoundStart);
     dateStart = secoundStart;
+    status = ` متبقي على بداية الفصل الثاني ${remaningDayes} يوم`;
   }
   if (date >= firstEnd && date <= secoundEnd && date >= secoundStart) {
     remaningDayes = findRemainigDayes(date, secoundEnd);
     dateStart = secoundStart;
     dateEnd = secoundEnd;
+    status = ` متبقي على نهاية الفصل الثاني ${remaningDayes} يوم`;
   }
 
+  if (remaningDayes === 0) {
+    status = "اليوم الاخير في الفصل الدراسي";
+  }
+
+  const percentage = Math.round(
+    ((+date - dateStart) / (dateEnd - dateStart)) * 100
+  );
   res.json({
     totalEmployee,
     totalStudents,
@@ -350,18 +361,10 @@ handler.get(async (req: Request, res: NextApiResponse) => {
       remaningDayes,
       dateStart,
       dateEnd,
+      status,
+      percentage,
     },
   });
 });
 
 export default handler;
-// {
-//   _id: 'wdABH1vIrJLLbqriq5hqA',
-//   name: 'مدرسة الإمام الشافعي ذكور',
-//   director: '0rd8IUZKZZlWv9nEvELda',
-//   driveFileId: '1FD17i1MS6S9w5myVs-nlMZ9gNgRgO8IK',
-//   firstTermSchoolDateStart: '2021-01-27T17:45:47.489Z',
-//   firstTermSchoolDateEnd: '2021-07-04T17:45:51.628Z',
-//   secoundTermSchoolDateStart: '2021-08-07T17:45:55.563Z',
-//   secoundTermSchoolDateEnd: '2021-10-28T17:46:00.309Z'
-// }

@@ -10,6 +10,7 @@ export default function SingleSchoolStatistics({
   employees,
   students,
   empAbcense,
+  dates,
 }) {
   const getTotalByClassNumber = (division) => {
     return [
@@ -27,7 +28,7 @@ export default function SingleSchoolStatistics({
     <>
       <div className="relative bg-pink-600 md:pt-15 pb-32 pt-12">
         <div className="px-4 md:px-10 mx-auto w-full">
-          <DaysProgress />
+          <DaysProgress dates={dates} />
           <Card
             students={{
               total: students.totalStudents[0]?.totalStudents,
