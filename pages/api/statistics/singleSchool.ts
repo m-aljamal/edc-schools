@@ -332,18 +332,18 @@ handler.get(async (req: Request, res: NextApiResponse) => {
     remaningDayes = findRemainigDayes(date, firstEnd);
     dateStart = firstStart;
     dateEnd = firstEnd;
-    status = ` متبقي على نهاية الفصل الاول ${remaningDayes} يوم`;
+    status = ` متبقي  ${remaningDayes} يوم على نهاية الفصل الاول`;
   }
   if (date < secoundStart && date > firstEnd) {
     remaningDayes = findRemainigDayes(date, secoundStart);
     dateStart = secoundStart;
-    status = ` متبقي على بداية الفصل الثاني ${remaningDayes} يوم`;
+    status = ` متبقي  ${remaningDayes} يوم على بداية الفصل الثاني`;
   }
   if (date >= firstEnd && date <= secoundEnd && date >= secoundStart) {
     remaningDayes = findRemainigDayes(date, secoundEnd);
     dateStart = secoundStart;
     dateEnd = secoundEnd;
-    status = ` متبقي على نهاية الفصل الثاني ${remaningDayes} يوم`;
+    status = ` متبقي  ${remaningDayes} يوم على نهاية الفصل الثاني`;
   }
 
   if (remaningDayes === 0) {

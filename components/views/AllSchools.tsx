@@ -14,6 +14,7 @@ export const AllSchools = () => {
       employees={employees}
       empAbcense={empAbcense}
       students={students}
+      dates={null}
     />
   );
 };

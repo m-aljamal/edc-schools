@@ -24,7 +24,6 @@ handler.post(async (req: Request, res: NextApiResponse) => {
     return res.status(400).json({ error: "الرجاء اختيار التاريخ" });
   }
   const date = setDate(req.body.date);
-  console.log(date.getDay());
 
   if (date.getDay() == 4 || date.getDay() == 5) {
     return res
@@ -43,10 +42,12 @@ handler.post(async (req: Request, res: NextApiResponse) => {
   let newAbsence = await req.db.collection(collection).findOne({
     $and: [{ schoolId: req.userSchool }, { date }],
   });
+
   if (newAbsence)
     return res
       .status(400)
       .json({ error: "تم تسجيل الغياب بهذا التاريخ مسبقا" });
+
   newAbsence = await req.db
     .collection(collection)
     .insertOne({
