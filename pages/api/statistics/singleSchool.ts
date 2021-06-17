@@ -345,11 +345,11 @@ handler.get(async (req: Request, res: NextApiResponse) => {
     dateEnd = secoundEnd;
     status = ` متبقي  ${remaningDayes} يوم على نهاية الفصل الثاني`;
   }
-
+  
   if (remaningDayes === 0) {
     status = "اليوم الاخير في الفصل الدراسي";
   }
-
+  
   const percentage = Math.round(
     ((+date - dateStart) / (dateEnd - dateStart)) * 100
   );

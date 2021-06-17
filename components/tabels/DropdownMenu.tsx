@@ -49,12 +49,12 @@ const DropdownMenu = ({ data, allData, type, isAdmin }) => {
     <Menu style={{ boxShadow: "var(--bs)", borderRadius: "10px" }}>
       {!isAdmin && (
         <>
-          <Menu.Item>
+          <Menu.Item key="edit">
             <p onClick={handleEdit}>
               <EditOutlined style={{ color: "#488853" }} /> تعديل
             </p>
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item key="delete">
             <Popconfirm
               cancelText="لا"
               okText="نعم"
@@ -68,7 +68,7 @@ const DropdownMenu = ({ data, allData, type, isAdmin }) => {
           </Menu.Item>
         </>
       )}
-      <Menu.Item>
+      <Menu.Item key="more">
         <p onClick={hansleShowProfile}>
           <EyeOutlined style={{ color: "#93a300" }} /> المزيد
         </p>

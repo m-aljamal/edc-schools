@@ -8,6 +8,7 @@ const AbcenceMonthPreview = dynamic(
 );
 const SingleSchool = dynamic(() => import("../views/SingleSchool"));
 const SchoolLibrary = dynamic(() => import("../views/SchoolLibrary"));
+const Activites = dynamic(() => import("../views/Activites"));
 const ContentMenu = ({ schoolId, showContent }) => {
   const menuContent = {
     home: <SingleSchool schoolId={schoolId} />,
@@ -27,6 +28,7 @@ const ContentMenu = ({ schoolId, showContent }) => {
     assets: <Assets schoolId={schoolId} />,
     library: <SchoolLibrary schoolId={schoolId} />,
     administativeDocs: <AdministrativeDocs schoolId={schoolId} />,
+    activites: <Activites schoolId={schoolId} />,
   };
   return <div>{menuContent[showContent]}</div>;
 };

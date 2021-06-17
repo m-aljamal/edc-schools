@@ -3,3 +3,4 @@ export default function setDate(date: Date | string) {
   newDate.setHours(20, 0, 0, 0);
   return newDate;
 }
+

@@ -41,7 +41,11 @@ const MenuList = ({ handleClick, theme, mode, className, selectedKeys }) => {
           الغياب الشهري
         </Menu.Item>
       </SubMenu>
-      <SubMenu key="sub2" icon={<SmileOutlined />} title="الطلاب">
+      <SubMenu
+        key="sub2"
+        icon={<i className="fas fa-user-graduate"></i>}
+        title="الطلاب"
+      >
         <Menu.Item key="students" icon={<LeftOutlined />}>
           جميع الطلاب
         </Menu.Item>
@@ -52,6 +56,9 @@ const MenuList = ({ handleClick, theme, mode, className, selectedKeys }) => {
           الغياب الشهري
         </Menu.Item>
       </SubMenu>
+      <Menu.Item key="activites" icon={<i className="fas fa-skating"></i>}>
+        الأنشطة المدرسية
+      </Menu.Item>
       <Menu.Item key="assets" icon={<BarcodeOutlined />}>
         موجودات المدرسة
       </Menu.Item>
