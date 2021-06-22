@@ -4,8 +4,9 @@ const UserDashboard = ({ currentUser, schools }) => {
   return (
     <Dashboard
       currentUser={currentUser}
-      userSchool={{ name: "حساب المشرف العام" }}
+      userType="admin"
       schools={schools}
+      schoolName="مشرف عام"
     />
   );
 };

@@ -57,16 +57,23 @@ handler.post(async (req: Request, res: NextApiResponse) => {
     fatherName: req.body.fatherName,
     motherName: req.body.motherName,
     schoolId: req.userSchool,
+
   });
   if (newEmployee) return res.status(400).json({ error: "الاسم مسجل  مسبقا" });
-
-  let user = await req.db
-    .collection("users")
+ 
+  let checkEmail = await req.db
+    .collection("employee")
     .findOne({ email: req.body.email });
-  if (user) {
+  if (checkEmail) {
     return res.status(400).json({ error: "الايميل مستخدم لشخص اخر" });
   }
-  if (req.body.type === "teacher") {
+    checkEmail = await req.db
+  .collection("users")
+  .findOne({ email: req.body.email });
+  if (checkEmail) {
+    return res.status(400).json({ error: "الايميل مستخدم لشخص اخر" });
+  }
+  if (req.body.type  ) {
     const school = await req.db
       .collection("schools")
       .findOne({ _id: req.userSchool });

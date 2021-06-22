@@ -13,29 +13,30 @@ export default function AddUserForm({ setIsModalVisible, setdestroyOnClose }) {
     password: "",
     isAdmin: false,
     schoolName: "",
-    firstTermSchoolDateStart: "",
-    firstTermSchoolDateEnd: "",
-    secoundTermSchoolDateStart: "",
-    secoundTermSchoolDateEnd: "",
+    firstTermSchoolDate: "",
+    secoundTermSchoolDate: "",
+    thirdTermSchoolDate: "",
   };
   const onSubmit = async (values, helpers) => {
-    try {
-      setLoading(true);
-      const res = await axios.post("/api/users/new", {
-        ...values,
-      });
-      trigger("/api/users/allusers");
-      if (res.status === 200) {
-        setLoading(false);
-        helpers.resetForm();
-        setdestroyOnClose(true);
-        message.success(`تم انشاء الحساب بنجاح`);
-        setIsModalVisible(false);
-      }
-    } catch (error) {
-      setLoading(false);
-      message.error(error.response.data.error);
-    }
+    console.log(values);
+
+    // try {
+    //   setLoading(true);
+    //   const res = await axios.post("/api/users/new", {
+    //     ...values,
+    //   });
+    //   trigger("/api/users/allusers");
+    //   if (res.status === 200) {
+    //     setLoading(false);
+    //     helpers.resetForm();
+    //     setdestroyOnClose(true);
+    //     message.success(`تم انشاء الحساب بنجاح`);
+    //     setIsModalVisible(false);
+    //   }
+    // } catch (error) {
+    //   setLoading(false);
+    //   message.error(error.response.data.error);
+    // }
   };
   const layout = {
     labelCol: { span: 4 },
@@ -70,22 +71,15 @@ export default function AddUserForm({ setIsModalVisible, setdestroyOnClose }) {
               <FormItem name="schoolName" label="اسم المدرسة">
                 <Input name="schoolName" />
               </FormItem>
-              <DateSelect
-                name="firstTermSchoolDateStart"
-                label=" بداية الفصل الأول"
-              />
-              <DateSelect
-                name="firstTermSchoolDateEnd"
-                label=" نهاية الفصل الأول"
-              />
-              <DateSelect
-                name="secoundTermSchoolDateStart"
-                label=" بداية الفصل الثاني"
-              />
-              <DateSelect
-                name="secoundTermSchoolDateEnd"
-                label=" نهاية الفصل الثاني"
-              />
+              <FormItem label="الفصل الاول" name="firstTermSchoolDateStart">
+                <DatePicker.RangePicker name="firstTermSchoolDateStart" />
+              </FormItem>
+              <FormItem label="الفصل الثاني" name="secoundTermSchoolDate">
+                <DatePicker.RangePicker name="secoundTermSchoolDate" />
+              </FormItem>
+              <FormItem label="الفصل الثالث" name="thirdTermSchoolDate">
+                <DatePicker.RangePicker name="thirdTermSchoolDate" />
+              </FormItem>
             </div>
           )}
           <Button

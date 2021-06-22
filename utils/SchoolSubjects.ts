@@ -173,7 +173,7 @@ export const jopTitle = [
     text: "موجه (مشرف طابق)",
   },
   {
-    text: "مرشد",
+    text: "مرشد نفسي",
   },
   {
     text: "إعلامي",

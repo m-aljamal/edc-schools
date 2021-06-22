@@ -24,11 +24,6 @@ const login = ({ currentUser }) => {
       <div
         className="absolute top-0 w-full h-full bg-gray-900"
         style={{
-          //   backgroundImage:
-          //     "url(./images/h.jpg)",
-          //   backgroundSize: "100%",
-          //   backgroundRepeat: "no-repeat",
-
           background: "linear-gradient(to right, #bdc3c7, #2c3e50)",
         }}
       ></div>
@@ -55,12 +50,19 @@ const login = ({ currentUser }) => {
                       const res = await axios.post("/api/users/login", values);
                       if (res.status === 200) {
                         setLoading(false);
-                        if (res.data && res.data.isAdmin)
+                        if (res.data && res.data.isAdmin) {
                           Router.push("/admin-dashboard");
-                        if (res.data && res.data.type === "teacher")
-                          Router.push("/teacher-dashboard");
-                        if (res.data && res.data.isAdmin === false)
-                          Router.push("/user-dashboard");
+                        } else {
+                          Router.push(
+                            `/dashboard/${
+                              res.data.type === "teacher"
+                                ? "teacher"
+                                : res.data.isAdmin === false
+                                ? "user"
+                                : res.data.jobTitle
+                            }`
+                          );
+                        }
                       }
                     } catch (error) {
                       setLoading(false);
@@ -107,22 +109,13 @@ const login = ({ currentUser }) => {
 };
 
 export default login;
-export const getServerSideProps = async (ctx) => {
-  const { db } = await connectToDB();
-  let currentUser = null;
-  if (
-    ctx.req?.cookies?.auth_token &&
-    ctx.req?.cookies?.auth_token !== "logout"
-  ) {
-    currentUser = await user.getLogedUser(db, ctx.req.cookies.auth_token);
-
-    // if (currentUser.isAdmin) {
-    //   ctx.res.writeHead(302, { Location: "/admin-dashboard" });
-    //   ctx.res.end();
-    // } else {
-    //   ctx.res.writeHead(302, { Location: "/user-dashboard" });
-    //   ctx.res.end();
-    // }
-  }
-  return { props: { currentUser } };
-};
+// export const getServerSideProps = async (ctx) => {
+//   if (
+//     !ctx.req?.cookies?.auth_token ||
+//     ctx.req?.cookies?.auth_token !== "logout"
+//   ) {
+//     ctx.res.writeHead(302, { Location: "/dashboard" });
+//     ctx.res.end();
+//   }
+//   return { props: {} };
+// };

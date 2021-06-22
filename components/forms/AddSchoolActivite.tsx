@@ -17,17 +17,14 @@ export default function AddSchoolActivite({
   const teachers = useSWR("/api/names/teacher", {
     dedupingInterval: 60000,
   });
-  const students = useSWR("/api/names/students", {
-    dedupingInterval: 60000,
-  });
 
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
   const [isImageLoading, setIsImageLoading] = useState(false);
-  if (teachers.error || students.error) {
+  if (teachers.error) {
     console.error(teachers.error);
   }
-  if (!teachers.data || students.error) {
+  if (!teachers.data) {
     return <LoadingSpin />;
   }
 
@@ -100,28 +97,16 @@ export default function AddSchoolActivite({
               ))}
             </Select>
           </FormItem>
-          <FormItem
-            {...layout}
-            name="namesOfBeneficiaries"
-            label="اسماء الطلاب"
-          >
-            <Select
-              mode="multiple"
-              dropdownClassName="style"
-              allowClear
-              placeholder="الرجاء الاختيار"
-              name="namesOfBeneficiaries"
-            >
-              {students?.data?.map((c) => (
-                <Option value={c.name} key={c._id}>
-                  {c.name}
-                </Option>
-              ))}
-            </Select>
-          </FormItem>
 
           <FormItem {...layout} name="duration" label="مدة النشاط">
             <Input name="duration" />
+          </FormItem>
+          <FormItem
+            {...layout}
+            name="numberOfBeneficiaries"
+            label="عدد المستفيدين"
+          >
+            <InputNumber name="numberOfBeneficiaries" min={1} />
           </FormItem>
           <FormItem {...layout} name="date" label="تاريخ النشاط">
             <DatePicker name="date" placeholder="تاريخ النشاط" />

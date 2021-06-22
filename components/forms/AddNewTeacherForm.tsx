@@ -65,7 +65,7 @@ export default function AddNewTeacherForm({
       >
         <FormikStep
           label="معلومات شخصية"
-          validationSchema={personalInfoValidation}
+          // validationSchema={personalInfoValidation}
           loading={isImageLoading}
         >
           <PersonalFormStep layout={layout} />
@@ -73,7 +73,7 @@ export default function AddNewTeacherForm({
         <FormikStep
           loading={isImageLoading}
           label="معلومات التواصل"
-          validationSchema={teacherInfoValidation}
+          // validationSchema={teacherInfoValidation}
         >
           <ContactFormStep layout={layout}>
             <FormItem {...layout} name="password" label="كلمة السر">
@@ -83,7 +83,7 @@ export default function AddNewTeacherForm({
         </FormikStep>
         <FormikStep
           label="الاختصاص"
-          validationSchema={subjectValidation}
+          // validationSchema={subjectValidation}
           loading={isImageLoading}
         >
           <JobFormStep layout={layout}>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import FormStepper, { FormikStep } from "./FormStepper";
-import { FormItem, Select } from "formik-antd";
+import { FormItem, Select, Input } from "formik-antd";
 
 import FormStyle from "../styles/FormStyle";
 import { jopTitle } from "../../utils/SchoolSubjects";
@@ -12,11 +12,12 @@ import {
   ImagesFormStep,
 } from "./SharedFormStep";
 import {
-  InfoValidation,
+  test,
   personalInfoValidation,
   subjectValidation,
 } from "./formValidation";
 import ImageUpload from "../persons/ImageUpload";
+import { object, string } from "yup";
 
 const { Option } = Select;
 
@@ -44,10 +45,16 @@ export default function AddNewAddministratorForm({
   };
 
   const initialValues = {
+    password: oldData?.password || "",
     jobTitle: oldData?.jobTitle || "",
     ...sharedInitialValues(oldData, type),
   };
 
+  const validation = object({
+    ...test,
+    email: string().email().trim().required("الرجاء ادخال الايميل"),
+    password: string().trim().required("الرجاء ادخال كلمة السر"),
+  });
   return (
     <FormStyle>
       <FormStepper
@@ -56,7 +63,7 @@ export default function AddNewAddministratorForm({
       >
         <FormikStep
           label="معلومات شخصية"
-          validationSchema={personalInfoValidation}
+          // validationSchema={personalInfoValidation}
           loading={isImageLoading}
         >
           <PersonalFormStep layout={layout} />
@@ -65,13 +72,17 @@ export default function AddNewAddministratorForm({
         <FormikStep
           loading={isImageLoading}
           label="معلومات التواصل"
-          validationSchema={InfoValidation}
+          // validationSchema={validation}
         >
-          <ContactFormStep layout={layout} />
+          <ContactFormStep layout={layout}>
+            <FormItem {...layout} name="password" label="كلمة السر">
+              <Input name="password" />
+            </FormItem>
+          </ContactFormStep>
         </FormikStep>
         <FormikStep
           label="الاختصاص"
-          validationSchema={subjectValidation}
+          // validationSchema={subjectValidation}
           loading={isImageLoading}
         >
           <JobFormStep layout={layout}>
