@@ -7,6 +7,7 @@ import auth from "../../../../middleware/auth";
 import { databaseCollections } from "../../../../static/databaseCollections";
 import { nanoid } from "nanoid";
 import { googleDrive } from "../../../../db";
+import { teacherFolders } from "../../../../utils/driveFolders";
 
 const handler = nc({
   onError,
@@ -74,20 +75,25 @@ handler.post(async (req: Request, res: NextApiResponse) => {
     return res.status(400).json({ error: "الايميل مستخدم لشخص اخر" });
   }
   if (req.body.type  ) {
-    const school = await req.db
-      .collection("schools")
-      .findOne({ _id: req.userSchool });
-    const file = await createFile(req.body.name, school.driveFileId);
+    
+     const schoolFileId = req.driveFileId
+    const file = await createFile(req.body.name, schoolFileId);
 
     if (file.status !== 200) {
       return res.status(400).json({ error: "مشكلة في انشاء ملفات المدرس" });
     }
     if (file?.data?.id) {
-      ["تحضير الدروس", "ملف الدوام", "الغياب"].forEach(async (name) => {
-        await createFile(name, file.data.id);
+      teacherFolders.forEach(async (name) => {
+       const createdFile =  await createFile(name.mainFolder, file.data.id);
+       if(createdFile?.data.id && name.subFolders){
+        name.subFolders.forEach(async (sub) =>{
+          await createFile(sub, createdFile.data.id);  
+        })   
+       }
       });
     }
   }
+
   newEmployee = await req.db
     .collection(collection)
     .insertOne({

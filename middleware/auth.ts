@@ -12,7 +12,7 @@ export default async (req, res, next) => {
     req.user = foundUser;
 
     req.userSchool = foundUser?.isAdmin ? req.headers.schoolid : userSchool?._id;
-
+    req.driveFileId =userSchool.driveFileId
     next();
   } else {
     // Not Signed in

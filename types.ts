@@ -2,6 +2,7 @@ import { Db, MongoClient } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export interface Request extends NextApiRequest {
+  driveFileId: any;
   db: Db;
   dbClient: MongoClient;
   user: {
@@ -12,6 +13,7 @@ export interface Request extends NextApiRequest {
     isAdmin: boolean;
     schoolId: string;
     type: string;
+ 
   };
 }
 export interface Request extends NextApiRequest {
@@ -21,6 +23,8 @@ export interface Request extends NextApiRequest {
     _id: string;
     name: string;
     director: string;
+    
+
   };
 }
 export interface TeacherRequest extends NextApiRequest {
