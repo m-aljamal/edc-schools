@@ -13,15 +13,16 @@ handler.use(dbMiddleware);
 handler.use(auth);
 
 handler.get(async (req: Request, res: NextApiResponse) => {
+
+  console.log("ffffff",  req.driveFileId );
+  
   const drive = await googleDrive();
-  const folderId = await req.db.collection("schools").findOne({
-    _id: req.userSchool || req.user.schoolId,
-  });
+  
 
   const query =
     "parents in " +
     '"' +
-    folderId.driveFileId +
+    req.driveFileId +
     '"' +
     "and mimeType: 'application/vnd.google-apps.folder'";
 

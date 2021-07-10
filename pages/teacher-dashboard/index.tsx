@@ -5,9 +5,10 @@ import { connectToDB, school, user } from "../../db";
 export default function index({ currentUser }) {
   return (
     <Dashboard
-      currentUser={currentUser}
-      userSchool={{ name: "حساب المدرس" }}
       schools={null}
+      currentUser={currentUser}
+      userType={null}
+      schoolName={null}
     />
   );
 }

@@ -7,26 +7,14 @@ import auth from "../../../../middleware/auth";
 import { databaseCollections } from "../../../../static/databaseCollections";
 import { nanoid } from "nanoid";
 import { googleDrive } from "../../../../db";
-import { teacherFolders } from "../../../../utils/driveFolders";
+import { manger, teacherFolders } from "../../../../utils/driveFolders";
+import path from "path";
+import fs from "fs";
+import { createAndUploadFiles } from "../../../../utils/createAndUploadFiles";
 
 const handler = nc({
   onError,
 });
-
-export const createFile = async (name: string, id: string) => {
-  const fileMetadata = {
-    name,
-    mimeType: "application/vnd.google-apps.folder",
-    driveId: "0AKK2FEcg3f53Uk9PVA",
-    parents: [id],
-  };
-  const drive = await googleDrive();
-  const file = await drive.files.create({
-    requestBody: fileMetadata,
-    supportsAllDrives: true,
-  });
-  return file;
-};
 
 handler.use(dbMiddleware);
 handler.use(auth);
@@ -52,8 +40,7 @@ handler.get(async (req: Request, res: NextApiResponse) => {
 
 handler.post(async (req: Request, res: NextApiResponse) => {
   const collection = databaseCollections[req.query.type.toString()].names;
-
-  let newEmployee = await req.db.collection(collection).findOne({
+   let newEmployee = await req.db.collection(collection).findOne({
     name: req.body.name,
     fatherName: req.body.fatherName,
     motherName: req.body.motherName,
@@ -74,23 +61,18 @@ handler.post(async (req: Request, res: NextApiResponse) => {
   if (checkEmail) {
     return res.status(400).json({ error: "الايميل مستخدم لشخص اخر" });
   }
-  if (req.body.type  ) {
-    
-     const schoolFileId = req.driveFileId
-    const file = await createFile(req.body.name, schoolFileId);
-
-    if (file.status !== 200) {
-      return res.status(400).json({ error: "مشكلة في انشاء ملفات المدرس" });
+  if (req.body.type === "teacher" ) {
+    try {
+      createAndUploadFiles(req.body.name, req.driveFileId, res, teacherFolders, "files/teacher",  )
+    } catch (error) {
+      return res.status(400).json({ error: "مشكلة في انشاء الملفات" })
     }
-    if (file?.data?.id) {
-      teacherFolders.forEach(async (name) => {
-       const createdFile =  await createFile(name.mainFolder, file.data.id);
-       if(createdFile?.data.id && name.subFolders){
-        name.subFolders.forEach(async (sub) =>{
-          await createFile(sub, createdFile.data.id);  
-        })   
-       }
-      });
+  } 
+  if(req.body.jobTitle === "مدير المدرسة"){
+    try {
+      createAndUploadFiles(req.body.name, req.driveFileId, res, manger, "files/manger",  )
+    } catch (error) {
+      return res.status(400).json({ error: "مشكلة في انشاء الملفات" })
     }
   }
 

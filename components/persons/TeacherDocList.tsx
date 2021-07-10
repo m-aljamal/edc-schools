@@ -5,7 +5,7 @@ import FolderFiles from "./FolderFiles";
 
 export default function TeacherDocList() {
   const { data, error } = useSWR("/api/drive", { dedupingInterval: 60000 });
-
+ 
   if (!data) {
     return <LoadingSpin />;
   }

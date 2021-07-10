@@ -23,7 +23,7 @@ export const credentials = {
   // client_x509_cert_url: process.env.client_x509_cert_url,
 };
 
-export const ImagefilePath = path.join(process.cwd(), "test", "1pdf.pdf");
+export const ImagefilePath = path.join(process.cwd(), "public/files/teacher", "التقويم الدراسي.xlsx");
 
 handler.get(async (req: Request, res: NextApiResponse) => {
   const client = await google.auth.getClient({
@@ -65,14 +65,14 @@ handler.get(async (req: Request, res: NextApiResponse) => {
       const drive = await googleDrive();
       const res = await drive.files.create({
         requestBody: {
-          name: "pdf",
+          name: "التقويم الدراسي",
           // mimeType: "application/msword/doc",
-          mimeType: "application/pdf",
+          mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
           driveId: "0AKK2FEcg3f53Uk9PVA",
-          parents: ["1seQRUDvvb4hNACEt8ny0z_JTRt07-p1s"],
+          parents: ["1bZ-aBFPlZemPYfIIzGt3bj2b5P9ghKKf"],
         },
         media: {
-          mimeType: "application/pdf",
+          mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
           body: fs.createReadStream(ImagefilePath),
         },
         supportsAllDrives: true,

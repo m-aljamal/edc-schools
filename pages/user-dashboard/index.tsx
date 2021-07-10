@@ -6,7 +6,8 @@ const UserDashboard = ({ currentUser, userSchool }) => {
     <Dashboard
       schools={null}
       currentUser={currentUser}
-      userSchool={userSchool}
+      userType={null}
+      schoolName={null}
     />
   );
 };

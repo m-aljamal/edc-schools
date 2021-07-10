@@ -6,11 +6,11 @@ export default async (req, res, next) => {
   const foundUser = await user.getLogedUser(req.db, req.cookies.auth_token);
 
   if (foundUser) {
-    const userSchool = await school.getSchoolByDirector(req.db, foundUser?._id);
-
-    // Signed in
+    let userSchool = await school.getSchoolByDirector(req.db, foundUser?._id);
+    if(!userSchool){
+       userSchool = await school.getSchoolById(req.db, foundUser?.schoolId);
+    }
     req.user = foundUser;
-
     req.userSchool = foundUser?.isAdmin ? req.headers.schoolid : userSchool?._id;
     req.driveFileId =userSchool.driveFileId
     next();
