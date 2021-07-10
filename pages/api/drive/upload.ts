@@ -5,8 +5,7 @@ import onError from "../../../middleware/error";
 import formidable from "formidable";
 import { googleDrive } from "../../../db";
 import fs from "fs";
-import { createFile } from "../names/[type]";
-import { auth } from "../../../middleware";
+ import { auth } from "../../../middleware";
 import dbMiddleware from "../../../middleware/db";
 
 const handler = nc({
