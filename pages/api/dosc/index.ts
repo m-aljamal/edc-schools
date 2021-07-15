@@ -23,7 +23,8 @@ export const credentials = {
   // client_x509_cert_url: process.env.client_x509_cert_url,
 };
 
-export const ImagefilePath = path.join(process.cwd(), "public/files/teacher", "التقويم الدراسي.xlsx");
+export const ImagefilePath = path.join(process.cwd(), "pages/api/dosc", "التقويم الدراسي.xlsx");
+// export const ImagefilePath = path.join(process.cwd(), "pages/api/dosc", "p.docx");
 
 handler.get(async (req: Request, res: NextApiResponse) => {
   const client = await google.auth.getClient({
@@ -66,10 +67,10 @@ handler.get(async (req: Request, res: NextApiResponse) => {
       const res = await drive.files.create({
         requestBody: {
           name: "التقويم الدراسي",
-          // mimeType: "application/msword/doc",
+          // mimeType: "application/msword",
           mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
           driveId: "0AKK2FEcg3f53Uk9PVA",
-          parents: ["1bZ-aBFPlZemPYfIIzGt3bj2b5P9ghKKf"],
+          parents: ["1dIxlKohvlplxVqEABTya-QuMObU4WUTQ" ],
         },
         media: {
           mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -86,17 +87,55 @@ handler.get(async (req: Request, res: NextApiResponse) => {
 
   uploadFile();
 
+
+async function copyFile(){
+  try {
+    const drive = await googleDrive()
+    const copy = await drive.files.copy({
+      
+    supportsAllDrives:true,
+    fileId:"1PaZpizD4JEU2yKlxa123b2VmSPJqa_X8",
+    
+    })
+    console.log(copy);
+    
+    // const paste = await drive.files.update({
+    //   fileId: copy.data.id,
+     
+
+    //   includePermissionsForView:"published",
+
+    //    addParents:"11jZpXbzs43ivhd6rTkBW3qYN3PnX2T8v",
+    //    removeParents:  "11jZpXbzs43ivhd6rTkBW3qYN3PnX2T8v",
+    //   supportsAllDrives:true,
+    //   supportsTeamDrives:true,
+    //   // fields:"0AKK2FEcg3f53Uk9PVA, 11jZpXbzs43ivhd6rTkBW3qYN3PnX2T8v",
+    // })
+    // console.log(paste);
+    
+  } catch (error) {
+    console.log(error);
+    
+  }
+}
+
+
+// copyFile()
+
+
+
   async function searchForFile() {
     try {
       const drive = await googleDrive();
       const res = await drive.files.list({
         // q: "mimeType: 'application/vnd.google-apps.folder'",
-        q: "parents in '0AKK2FEcg3f53Uk9PVA'",
+        q: "parents in '11jZpXbzs43ivhd6rTkBW3qYN3PnX2T8v'",
         // fields: "nextPageToken, files(id, name)",
 
         includeItemsFromAllDrives: true,
         driveId: "0AKK2FEcg3f53Uk9PVA",
         supportsAllDrives: true,
+        
         corpora: "drive",
       });
       console.log(res.data);
@@ -121,7 +160,7 @@ handler.get(async (req: Request, res: NextApiResponse) => {
   async function createUrl() {
     const drive = await googleDrive();
     try {
-      const fileID = "1UajvzXkm4D9MEowlojJQ3mSco_TYkfuS";
+      const fileID = "1PaZpizD4JEU2yKlxa123b2VmSPJqa_X8";
 
       await drive.permissions.create({
         fileId: fileID,

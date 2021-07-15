@@ -27,7 +27,7 @@ const credentials = {
 export async function googleDrive() {
   const client = await google.auth.getClient({
     credentials,
-    scopes: "https://www.googleapis.com/auth/drive.file",
+    scopes: ["https://www.googleapis.com/auth/drive.file"],
   });
 
   return google.drive({

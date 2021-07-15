@@ -6,11 +6,8 @@ import { NextApiResponse } from "next";
 import auth from "../../../../middleware/auth";
 import { databaseCollections } from "../../../../static/databaseCollections";
 import { nanoid } from "nanoid";
-import { googleDrive } from "../../../../db";
-import { manger, teacherFolders } from "../../../../utils/driveFolders";
-import path from "path";
-import fs from "fs";
-import { createAndUploadFiles } from "../../../../utils/createAndUploadFiles";
+import { manger, psychologist, secretary, superViser, teacherFolders } from "../../../../utils/driveFolders";
+import { createAndFiles } from "../../../../utils/createAndUploadFiles";
 
 const handler = nc({
   onError,
@@ -62,18 +59,19 @@ handler.post(async (req: Request, res: NextApiResponse) => {
     return res.status(400).json({ error: "الايميل مستخدم لشخص اخر" });
   }
   if (req.body.type === "teacher" ) {
-    try {
-      createAndUploadFiles(req.body.name, req.driveFileId, res, teacherFolders, "files/teacher",  )
-    } catch (error) {
-      return res.status(400).json({ error: "مشكلة في انشاء الملفات" })
-    }
+      createAndFiles(req.body.name, req.driveFileId, res, teacherFolders )
   } 
   if(req.body.jobTitle === "مدير المدرسة"){
-    try {
-      createAndUploadFiles(req.body.name, req.driveFileId, res, manger, "files/manger",  )
-    } catch (error) {
-      return res.status(400).json({ error: "مشكلة في انشاء الملفات" })
-    }
+      createAndFiles(req.body.name, req.driveFileId, res, manger,  )
+  }
+  if(req.body.jobTitle === "مرشد نفسي"){
+      createAndFiles(req.body.name, req.driveFileId, res, psychologist,  )
+  }
+  if(req.body.jobTitle === "مشرف المدرسة"){
+      createAndFiles(req.body.name, req.driveFileId, res, superViser,  )
+  }
+  if(req.body.jobTitle === "امين سر"){
+      createAndFiles(req.body.name, req.driveFileId, res, secretary,  )
   }
 
   newEmployee = await req.db
