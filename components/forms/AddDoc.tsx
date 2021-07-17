@@ -31,6 +31,7 @@ export default function AddDoc({ setIsModalVisible, setdestroyOnClose }) {
 
 const AddNewFolder = ({ setIsModalVisible, setdestroyOnClose, folders }) => {
   const [teacherFolders, setTeacherFolders] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [chooseTeacherFolder, setchooseTeacherFolder] = useState({
     name: "",
     id: "",
@@ -42,27 +43,29 @@ const AddNewFolder = ({ setIsModalVisible, setdestroyOnClose, folders }) => {
     id: "",
   });
   const [files, setFile] = useState([]);
-  console.log({ chooseFolder, chooseTeacherFolder });
 
   const handleCreateNewFolder = async (e) => {
+    setLoading(true);
     e.preventDefault();
     try {
       let formData = new FormData();
-      formData.append("name", chooseTeacherFolder.name);
-      formData.append("folderId", chooseTeacherFolder.id);
+      formData.append("parentFolderName", chooseTeacherFolder.name);
+      formData.append("parentFolderId", chooseTeacherFolder.id);
+      formData.append("name", chooseFolder.name);
+      formData.append("folderId", chooseFolder.id);
       for (let file of files) {
         formData.append("files", file);
       }
       const res = await axios.post("/api/drive/upload", formData);
       if (res.status === 200) {
-        // setLoading(false);
-        // trigger("/api/drive");
-        // helpers.resetForm();
-        // setdestroyOnClose(true);
-        // message.success(`تم انشاء المجلد بنجاح`);
-        // setIsModalVisible(false);
+        setLoading(false);
+        trigger("/api/drive");
+        setdestroyOnClose(true);
+        message.success(`تم رفع المجلد بنجاح`);
+        setIsModalVisible(false);
       }
     } catch (error) {
+      setLoading(false);
       message.error(error.response.data.error);
     }
   };
@@ -85,6 +88,7 @@ const AddNewFolder = ({ setIsModalVisible, setdestroyOnClose, folders }) => {
       );
     }
   };
+
   const onFolderChange = (value) => {
     if (!value) {
       setTeacherFolders([]);
@@ -114,7 +118,7 @@ const AddNewFolder = ({ setIsModalVisible, setdestroyOnClose, folders }) => {
           onChange={onFolderChange}
           allowClear
           options={teacherFolders}
-          placeholder="اختار اسم المجلد"
+          placeholder=" اختار اسم المجلد او انشئ جديد"
           filterOption={(inputValue, option) =>
             option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
           }
@@ -126,6 +130,7 @@ const AddNewFolder = ({ setIsModalVisible, setdestroyOnClose, folders }) => {
         htmlType="submit"
         block
         type="primary"
+        loading={loading}
       >
         رفع الملف
       </Button>

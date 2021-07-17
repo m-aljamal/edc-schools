@@ -58,8 +58,9 @@ handler.post(async (req: Request, res: NextApiResponse) => {
   if (checkEmail) {
     return res.status(400).json({ error: "الايميل مستخدم لشخص اخر" });
   }
+  
   if (req.body.type === "teacher" ) {
-      createAndFiles(req.body.name, req.driveFileId, res, teacherFolders )
+     createAndFiles(req.body.name, req.driveFileId, res, teacherFolders )
   } 
   if(req.body.jobTitle === "مدير المدرسة"){
       createAndFiles(req.body.name, req.driveFileId, res, manger,  )

@@ -70,7 +70,7 @@ handler.get(async (req: Request, res: NextApiResponse) => {
           // mimeType: "application/msword",
           mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
           driveId: "0AKK2FEcg3f53Uk9PVA",
-          parents: ["1dIxlKohvlplxVqEABTya-QuMObU4WUTQ" ],
+          parents: ["1yss2Mx9_hrXDSrmpHkE0rHY4anac6sut" ],
         },
         media: {
           mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",

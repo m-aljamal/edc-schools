@@ -67,12 +67,17 @@ handler.post(async (req: Request, res: NextApiResponse) => {
       return res.status(400).json({ error: "خطأ بتحميل الملف" });
     }
     if (!fields.name) {
-      return res.status(400).json({ error: "الرجاء اختيار المجلد" });
+      return res.status(400).json({ error: "الرجاء اختيار المجلد او كتابة اسم جديد" });
     }
+    
 
-    if (fields.folderId === "new") {
+    if (fields.folderId === 'undefined' ) {
+      
+      
       const drive = await googleDrive();
-      const name = "name =" + '"' + req.user.name + '"';
+      const name = "name =" + '"' + fields.parentFolderName + '"';
+      console.log('name',name);
+      
       const id = await drive.files.list({
         q: name,
         includeItemsFromAllDrives: true,
@@ -80,7 +85,7 @@ handler.post(async (req: Request, res: NextApiResponse) => {
         supportsAllDrives: true,
         corpora: "drive",
       });
-
+ 
       const fileMetadata = {
         name: fields.name,
         mimeType: "application/vnd.google-apps.folder",
@@ -92,6 +97,8 @@ handler.post(async (req: Request, res: NextApiResponse) => {
         supportsAllDrives: true,
       });
       fields.folderId = file.data.id;
+   
+      
     }
 
     if (files?.files?.length) {
