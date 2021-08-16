@@ -272,6 +272,7 @@ handler.get(async (req: Request, res: NextApiResponse) => {
       },
     ])
     .toArray();
+console.log({ totalEmployee, totalStudents, empAbcenseByYear });
 
   res.json({ totalEmployee, totalStudents, empAbcenseByYear });
 });
