@@ -58,9 +58,9 @@ export default function Dashboard({
       ),
     },
     "مشرف المدرسة": {
-      content: <p>مشرف المدرسة</p>,
+      content: <ContentMenu schoolId={null} showContent={currentContnet} />,
       menu: (
-        <TeacherMenuList
+        <MenuList
           selectedKeys={currentContnet}
           handleClick={handleClick}
           theme="light"
@@ -85,9 +85,9 @@ export default function Dashboard({
       ),
     },
     "مدير المدرسة": {
-      content: <p>مدير المدرسة</p>,
+      content: <ContentMenu schoolId={null} showContent={currentContnet} />,
       menu: (
-        <TeacherMenuList
+        <MenuList
           selectedKeys={currentContnet}
           handleClick={handleClick}
           theme="light"

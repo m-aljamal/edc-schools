@@ -328,6 +328,13 @@ handler.get(async (req: Request, res: NextApiResponse) => {
   const secoundStart = setDate(schoolDate.secoundTermSchoolDateStart);
   const secoundEnd = setDate(schoolDate.secoundTermSchoolDateEnd);
 
+if(date < firstStart ){
+  remaningDayes = findRemainigDayes(date, firstStart);
+  dateStart = firstStart;
+  dateEnd = firstEnd;
+  status = ` متبقي  ${remaningDayes} يوم على بداية الفصل الاول`;
+  
+}
   if (date <= firstEnd && date >= firstStart) {
     remaningDayes = findRemainigDayes(date, firstEnd);
     dateStart = firstStart;
@@ -335,6 +342,7 @@ handler.get(async (req: Request, res: NextApiResponse) => {
     status = ` متبقي  ${remaningDayes} يوم على نهاية الفصل الاول`;
   }
   if (date < secoundStart && date > firstEnd) {
+ 
     remaningDayes = findRemainigDayes(date, secoundStart);
     dateStart = secoundStart;
     status = ` متبقي  ${remaningDayes} يوم على بداية الفصل الثاني`;
@@ -349,6 +357,7 @@ handler.get(async (req: Request, res: NextApiResponse) => {
   if (remaningDayes === 0) {
     status = "اليوم الاخير في الفصل الدراسي";
   }
+   
   
   const percentage = Math.round(
     ((+date - dateStart) / (dateEnd - dateStart)) * 100

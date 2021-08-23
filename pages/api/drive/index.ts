@@ -14,7 +14,7 @@ handler.use(auth);
 
 handler.get(async (req: Request, res: NextApiResponse) => {
 
-  console.log("ffffff",  req.driveFileId );
+   
   
   const drive = await googleDrive();
   

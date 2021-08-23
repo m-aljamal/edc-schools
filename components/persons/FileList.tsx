@@ -36,7 +36,7 @@ export default function FileList({ setShowFolders, folder }) {
     },
     "image/jpeg": { name: "image", color: "gray" },
   };
-  console.log('data inside ', data);
+   
   return (
     <>
       <div className="flex items-center transform -translate-y-6">

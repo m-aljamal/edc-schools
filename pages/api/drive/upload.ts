@@ -46,7 +46,7 @@ const uploadFile = async (
     supportsTeamDrives: true,
     fields: "id",
   });
-  console.log(responce);
+ 
   return responce;
 };
 
@@ -76,7 +76,7 @@ handler.post(async (req: Request, res: NextApiResponse) => {
       
       const drive = await googleDrive();
       const name = "name =" + '"' + fields.parentFolderName + '"';
-      console.log('name',name);
+    
       
       const id = await drive.files.list({
         q: name,

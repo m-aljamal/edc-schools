@@ -16,7 +16,6 @@ export default function DocsList() {
   if (error) {
     console.log("error", error);
   }
-console.log('files', data);
 
   return (
     <>

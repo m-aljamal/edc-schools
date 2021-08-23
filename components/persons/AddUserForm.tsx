@@ -18,8 +18,7 @@ export default function AddUserForm({ setIsModalVisible, setdestroyOnClose }) {
     thirdTermSchoolDate: "",
   };
   const onSubmit = async (values, helpers) => {
-    console.log(values);
-
+ 
     // try {
     //   setLoading(true);
     //   const res = await axios.post("/api/users/new", {

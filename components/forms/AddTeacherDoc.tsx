@@ -48,7 +48,6 @@ const AddNewFolder = ({ setIsModalVisible, setdestroyOnClose, folders }) => {
         formData.append("files", file);
       }
       const res = await axios.post("/api/drive/upload", formData);
-      console.log(res);
 
       if (res.status === 200) {
         setLoading(false);
