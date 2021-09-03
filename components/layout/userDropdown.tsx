@@ -25,9 +25,10 @@ const UserDropdown = ({ currentUser }) => {
   return (
     <>
       <Dropdown overlay={menu} placement="bottomLeft" arrow trigger={["click"]}>
-        <Avatar className="bg-gray-700 cursor-pointer	">
-          {currentUser?.name[0]}
-        </Avatar>
+        <div className="flex items-center border   text-gray-100  p-1 rounded-md font-bold cursor-pointer ">
+          <i className=" fas fa-angle-down ml-2"></i>
+          <p>{currentUser?.name}</p>
+        </div>
       </Dropdown>
     </>
   );

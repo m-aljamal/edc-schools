@@ -13,6 +13,7 @@ export const sharedInitialValues = (oldData, type) => {
     TypeOfCertifcate: oldData?.TypeOfCertifcate || "",
     typeOfDegree: oldData?.typeOfDegree || "",
     DateOfGraduate: oldData?.DateOfGraduate || "",
+    busPath: oldData?.busPath || "",
     type,
   };
   return values;

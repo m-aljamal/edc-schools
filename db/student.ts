@@ -17,6 +17,7 @@ export const addStudent = async (
     dateOfStart: Date;
     city: string;
     region: string;
+    busPath: string;
     street: string;
     number1: string;
     contactName1: string;

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { NewAbcenceStyle } from "../styles/NewAbcenceStyle";
 import EditAbcenceForm from "./EditAbcenceForm";
 import { FindAbcenseBySelectDate } from "./FindAbcenseBySelectDate";
 
@@ -10,7 +9,7 @@ const EditAbcence = ({ names, displaySheetMonth, setIsEdit, type }) => {
     <div>
       <FindAbcenseBySelectDate setAbcenceData={setAbcenceData} type={type} />
       {abcenceData && (
-        <NewAbcenceStyle>
+        <div>
           <EditAbcenceForm
             type={type}
             oldData={abcenceData}
@@ -18,7 +17,7 @@ const EditAbcence = ({ names, displaySheetMonth, setIsEdit, type }) => {
             displaySheetMonth={displaySheetMonth}
             setIsEdit={setIsEdit}
           />
-        </NewAbcenceStyle>
+        </div>
       )}
     </div>
   );

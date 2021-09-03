@@ -116,11 +116,11 @@ export default function AddSchoolActivite({
           </FormItem>
           <FormItem name="images" {...layout}>
             <div className="mb-4">
+              <p>رفع صورة عن النشاط</p>
               <ImageUpload
                 askIfLoading={askIfLoading}
                 setImage={setImage}
                 imageState={image}
-                title="رفع صورة عن النشاط "
               />
             </div>
           </FormItem>

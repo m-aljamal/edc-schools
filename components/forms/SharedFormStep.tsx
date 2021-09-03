@@ -1,5 +1,6 @@
 import { DatePicker, FormItem, Input, Radio, Select } from "formik-antd";
 import React from "react";
+import { address } from "../../static/address";
 import { subjects, typeOfCertifcate } from "../../utils/SchoolSubjects";
 import ImageUpload from "../persons/ImageUpload";
 import TextInput from "./TextInput";
@@ -11,6 +12,10 @@ export function PersonalFormStep({ layout }) {
       <TextInput name="name" label="الاسم" autoFocus />
       <TextInput name="fatherName" label="اسم الاب" />
       <TextInput name="motherName" label="اسم الام" />
+      <TextInput name="plaseOfBirth" label="مكان الولادة" />
+      <FormItem {...layout} name="dateOfBirth" label="تاريخ الولادة">
+        <DatePicker name="dateOfBirth" placeholder="اختر تاريخ" />
+      </FormItem>
       <FormItem {...layout} name="sex" label="الجنس">
         <Radio.Group name="sex">
           <Radio name="sex" value="ذكر">
@@ -28,10 +33,20 @@ export function PersonalFormStep({ layout }) {
 export const ContactFormStep = ({ layout, ...props }) => {
   return (
     <>
-      <FormItem {...layout} name="dateOfBirth" label="تاريخ الولادة">
-        <DatePicker name="dateOfBirth" placeholder="اختر تاريخ" />
+      <FormItem {...layout} name="busPath" label="الحي - خط الباص">
+        <Select
+          dropdownClassName="style"
+          allowClear
+          placeholder="الرجاء الاختيار"
+          name="busPath"
+        >
+          {address?.map((c) => (
+            <Option value={c.name} key={c.id}>
+              {c.name}
+            </Option>
+          ))}
+        </Select>
       </FormItem>
-      <TextInput name="plaseOfBirth" label="مكان الولادة" />
       <TextInput name="address" label="عنوان الاقامة" />
       <TextInput name="phone" label="رقم الهاتف" />
       {!props.noEmail && <TextInput name="email" label="الايميل" />}
@@ -82,13 +97,13 @@ export const JobFormStep = ({ layout, ...props }) => {
 
 export const ImagesFormStep = ({ setImage, image, askIfLoading, ...props }) => {
   return (
-    <div className="imagesContainer">
+    <div className="grid grid-cols-3 gap-5">
       <FormItem name="image">
+        <p className=" text-gray-800">الصورة الشخصية</p>
         <ImageUpload
           askIfLoading={askIfLoading}
           setImage={setImage}
           imageState={image}
-          title="الصورة الشخصية"
         />
       </FormItem>
       {props.children}

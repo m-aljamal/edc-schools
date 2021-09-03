@@ -28,6 +28,7 @@ export const TeachersTable = ({ allData, type, isAdmin }) => {
       title: "المادة",
       dataIndex: "subject",
       filters: subjects,
+      width: 100,
       onFilter: (value, record) => record.subject?.includes(value),
       render: (text) => (
         <>
@@ -40,6 +41,7 @@ export const TeachersTable = ({ allData, type, isAdmin }) => {
     {
       title: "الصف",
       dataIndex: "classNumber",
+      width: 130,
       filters: classes,
       onFilter: (value, record) => record.classNumber?.includes(value),
       render: (text) => (
@@ -54,7 +56,9 @@ export const TeachersTable = ({ allData, type, isAdmin }) => {
     {
       title: "الشعبة",
       dataIndex: "division",
+      className: "text-gray-900 ",
       filters: division,
+      width: 120,
       onFilter: (value, record) => record.division?.includes(value),
       render: (value, row, index) => (
         <>
@@ -68,6 +72,7 @@ export const TeachersTable = ({ allData, type, isAdmin }) => {
       title: "الاختصاص",
       dataIndex: "typeOfDegree",
       filters: subjects,
+      width: 130,
       onFilter: (value, record) => record.typeOfDegree.indexOf(value) === 0,
     },
     TypeCertifcate(typeOfCertifcate),

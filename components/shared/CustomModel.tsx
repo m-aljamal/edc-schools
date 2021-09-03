@@ -5,7 +5,8 @@ const CustomModel = ({
   setIsModalVisible,
   modelDate,
   title,
-  destroyOnClose
+  destroyOnClose,
+  ...props
 }) => {
   const handleOk = () => {
     setIsModalVisible(false);
@@ -16,6 +17,8 @@ const CustomModel = ({
   };
   return (
     <Modal
+      bodyStyle={{ padding: props.padding ? "0" : "" }}
+      closable={false}
       footer={false}
       title={title}
       visible={isModalVisible}

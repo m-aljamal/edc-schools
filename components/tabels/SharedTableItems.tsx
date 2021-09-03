@@ -11,6 +11,7 @@ export const NameAndImageShredColumns = (
     {
       title: "الاسم",
       dataIndex: "name",
+      width: 180,
       ...getColumnSearchProps(
         "name",
         "الاسم",
@@ -43,6 +44,7 @@ export const TypeCertifcate = (typeOfCertifcate) => {
     title: "التحصيل العلمي",
     dataIndex: "TypeOfCertifcate",
     filters: typeOfCertifcate,
+    width: 150,
     onFilter: (value, record) => record.TypeOfCertifcate.indexOf(value) === 0,
   };
 };
@@ -52,6 +54,7 @@ export const SharedTableItems = (type, allData, isAdmin) => {
     {
       title: "الجنس",
       dataIndex: "sex",
+      width: 100,
       filters: [
         {
           text: "ذكر",
@@ -63,20 +66,8 @@ export const SharedTableItems = (type, allData, isAdmin) => {
         },
       ],
       onFilter: (value, record) => record.sex?.indexOf(value) === 0,
-      sorter: (a, b) => a.sex.length - b.sex.length,
     },
 
-    {
-      title: "",
-      width: 50,
-      render: (row) => (
-        <DropdownMenu
-          data={row}
-          allData={allData}
-          type={type}
-          isAdmin={isAdmin}
-        />
-      ),
-    },
+    
   ];
 };

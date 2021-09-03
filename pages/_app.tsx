@@ -8,7 +8,7 @@ import "../components/styles/globals.css";
 import "tailwindcss/tailwind.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-function MyApp({ Component, pageProps, currentUser }) {
+function MyApp({ Component, pageProps }) {
   Router.events.on("routeChangeStart", () => NProgress.start());
   Router.events.on("routeChangeComplete", () => NProgress.done());
   Router.events.on("routeChangeError", () => NProgress.done());

@@ -20,3 +20,4 @@ export const databaseCollections = {
     abcence: "absences",
   },
 };
+

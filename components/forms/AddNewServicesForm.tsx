@@ -2,7 +2,6 @@ import { useState } from "react";
 import FormStepper, { FormikStep } from "./FormStepper";
 import { FormItem, Select } from "formik-antd";
 import ImageUpload from "../persons/ImageUpload";
-import FormStyle from "../styles/FormStyle";
 import { serviceJopTitle } from "../../utils/SchoolSubjects";
 import { sharedInitialValues } from "./shredInitialValues";
 import {
@@ -48,7 +47,7 @@ export default function AddNewServicesForm({
   };
 
   return (
-    <FormStyle>
+    <div>
       <FormStepper
         initialValues={initialValues}
         onSubmit={edit ? handleEdit : handleNew}
@@ -64,7 +63,7 @@ export default function AddNewServicesForm({
         <FormikStep
           loading={isImageLoading}
           label="معلومات التواصل"
-          validationSchema={InfoValidation}
+          // validationSchema={InfoValidation}
         >
           <ContactFormStep layout={layout} noEmail />
         </FormikStep>
@@ -100,15 +99,17 @@ export default function AddNewServicesForm({
             contractImage={contractImage}
             setContractImage={setContractImage}
           >
-            <ImageUpload
-              askIfLoading={askIfLoading}
-              imageState={contractImage}
-              setImage={setContractImage}
-              title="صورة عقد العمل"
-            />
+            <div>
+              <p>صورة عقد العمل</p>
+              <ImageUpload
+                askIfLoading={askIfLoading}
+                imageState={contractImage}
+                setImage={setContractImage}
+              />
+            </div>
           </ImagesFormStep>
         </FormikStep>
       </FormStepper>
-    </FormStyle>
+    </div>
   );
 }

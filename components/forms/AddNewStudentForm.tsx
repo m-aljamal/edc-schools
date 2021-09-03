@@ -2,7 +2,7 @@ import { useState } from "react";
 import FormStepper, { FormikStep } from "./FormStepper";
 import { FormItem, Select, DatePicker, InputNumber } from "formik-antd";
 
-import FormStyle from "../styles/FormStyle";
+
 import { classes, division, familySituation } from "../../utils/SchoolSubjects";
 import { sharedInitialValues } from "./shredInitialValues";
 import {
@@ -48,7 +48,7 @@ export default function AddNewStudentForm({
   };
 
   return (
-    <FormStyle>
+    <div>
       <FormStepper
         initialValues={initialValues}
         onSubmit={edit ? handleEdit : handleNew}
@@ -139,6 +139,6 @@ export default function AddNewStudentForm({
           ></ImagesFormStep>
         </FormikStep>
       </FormStepper>
-    </FormStyle>
+    </div>
   );
 }

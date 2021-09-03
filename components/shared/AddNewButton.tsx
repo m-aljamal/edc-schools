@@ -12,6 +12,7 @@ const AddNewButton = ({
     <>
       <Button
         type="primary"
+        className="flex items-center justify-center place-content-center"
         shape="circle"
         icon={<PlusOutlined />}
         size="middle"

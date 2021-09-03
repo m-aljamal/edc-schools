@@ -2,7 +2,6 @@ import { useState } from "react";
 import FormStepper, { FormikStep } from "./FormStepper";
 import { FormItem, Select, Input } from "formik-antd";
 
-import FormStyle from "../styles/FormStyle";
 import { jopTitle } from "../../utils/SchoolSubjects";
 import { sharedInitialValues } from "./shredInitialValues";
 import {
@@ -56,7 +55,7 @@ export default function AddNewAddministratorForm({
     password: string().trim().required("الرجاء ادخال كلمة السر"),
   });
   return (
-    <FormStyle>
+    <div>
       <FormStepper
         initialValues={initialValues}
         onSubmit={edit ? handleEdit : handleNew}
@@ -108,24 +107,24 @@ export default function AddNewAddministratorForm({
             askIfLoading={askIfLoading}
           >
             <FormItem name="image">
+              <p>صورة الشهادة الدراسية</p>
               <ImageUpload
                 askIfLoading={askIfLoading}
                 imageState={graduateImage}
                 setImage={setGraduateImage}
-                title="صورة الشهادة الدراسية"
               />
             </FormItem>
             <FormItem name="image">
+              <p>صورة عقد العمل</p>
               <ImageUpload
                 askIfLoading={askIfLoading}
                 imageState={contractImage}
                 setImage={setContractImage}
-                title="صورة عقد العمل"
               />
             </FormItem>
           </ImagesFormStep>
         </FormikStep>
       </FormStepper>
-    </FormStyle>
+    </div>
   );
 }
