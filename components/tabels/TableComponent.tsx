@@ -73,7 +73,7 @@ const TableComponent = ({ columns, allData }) => {
         bordered
         loading={!allData}
         onChange={handleTableChange}
-        scroll={{ x: 650, y: 400 }}
+        scroll={{ x: 1200, y: 400 }}
         showSorterTooltip={false}
         pagination={{ position: ["bottomRight"] }}
         footer={() => (

@@ -1,6 +1,7 @@
 import DropdownMenu from "./DropdownMenu";
 import { Avatar } from "antd";
 import { getColumnSearchProps } from "./searchInTable";
+import { address } from "../../static/address";
 export const NameAndImageShredColumns = (
   searchText,
   setSearchText,
@@ -67,7 +68,12 @@ export const SharedTableItems = (type, allData, isAdmin) => {
       ],
       onFilter: (value, record) => record.sex?.indexOf(value) === 0,
     },
-
-    
+    {
+      title: "خط الباص",
+      dataIndex: "busPath",
+      width: 180,
+      filters: address,
+      onFilter: (value, record) => record.busPath?.indexOf(value) === 0,
+    },
   ];
 };

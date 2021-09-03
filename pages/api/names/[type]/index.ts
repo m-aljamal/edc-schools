@@ -50,18 +50,20 @@ handler.post(async (req: Request, res: NextApiResponse) => {
     schoolId: req.userSchool,
   });
   if (newEmployee) return res.status(400).json({ error: "الاسم مسجل  مسبقا" });
-
-  let checkEmail = await req.db
-    .collection("employee")
-    .findOne({ email: req.body.email });
-  if (checkEmail && req.query.type !== "services") {
-    return res.status(400).json({ error: "الايميل مستخدم لشخص اخر" });
-  }
-  checkEmail = await req.db
-    .collection("users")
-    .findOne({ email: req.body.email });
-  if (checkEmail) {
-    return res.status(400).json({ error: "الايميل مستخدم لشخص اخر" });
+  const type = req.query.type;
+  if (type !== "services" && type !== "students") {
+    let checkEmail = await req.db
+      .collection("employee")
+      .findOne({ email: req.body.email });
+    if (checkEmail) {
+      return res.status(400).json({ error: "الايميل مستخدم لشخص اخر" });
+    }
+    checkEmail = await req.db
+      .collection("users")
+      .findOne({ email: req.body.email });
+    if (checkEmail) {
+      return res.status(400).json({ error: "الايميل مستخدم لشخص اخر" });
+    }
   }
 
   if (req.body.type === "teacher") {

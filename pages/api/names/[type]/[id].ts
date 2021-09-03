@@ -22,7 +22,21 @@ handler.put(async (req: Request, res: NextApiResponse) => {
   const absenceCollection =
     databaseCollections[req.query.type.toString()].abcence;
   const namesCollection = databaseCollections[req.query.type.toString()].names;
-
+  const type = req.query.type;
+  if (type !== "services" && type !== "students") {
+    let checkEmail = await req.db
+      .collection("employee")
+      .findOne({ email: req.body.email });
+    if (checkEmail && req.query.type !== "services") {
+      return res.status(400).json({ error: "الايميل مستخدم لشخص اخر" });
+    }
+    checkEmail = await req.db
+      .collection("users")
+      .findOne({ email: req.body.email });
+    if (checkEmail) {
+      return res.status(400).json({ error: "الايميل مستخدم لشخص اخر" });
+    }
+  }
   await req.db
     .collection(absenceCollection)
     .updateMany(

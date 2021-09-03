@@ -63,7 +63,7 @@ export default function AddNewStudentForm({
         <FormikStep
           loading={isImageLoading}
           label="معلومات التواصل"
-          validationSchema={InfoValidation}
+          // validationSchema={InfoValidation}
         >
           <ContactFormStep layout={layout} noEmail />
         </FormikStep>
