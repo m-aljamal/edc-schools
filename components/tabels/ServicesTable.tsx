@@ -18,6 +18,7 @@ export const ServicesTable = ({ allData, type, isAdmin }) => {
     {
       title: "المسمى الوظيفي",
       dataIndex: "jobTitle",
+      width: 130,
     },
     ...SharedTableItems(type, allData, isAdmin),
   ];

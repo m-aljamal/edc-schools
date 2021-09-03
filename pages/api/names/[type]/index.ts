@@ -36,6 +36,7 @@ handler.get(async (req: Request, res: NextApiResponse) => {
         .find({
           $and: [{ schoolId: req.userSchool }, { type: req.query.type }],
         })
+        .sort({ createdAt: -1 })
         .toArray());
 
   res.json(employees);
@@ -88,6 +89,7 @@ handler.post(async (req: Request, res: NextApiResponse) => {
       _id: nanoid(),
       ...req.body,
       schoolId: req.userSchool,
+      createdAt: Date.now(),
     })
     .then(({ ops }) => ops[0]);
 

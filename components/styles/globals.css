@@ -87,3 +87,7 @@ body {
 .ant-table-footer {
   background-color: rgba(34, 41, 56, 0.1);
 }
+
+.profileText {
+  @apply text-gray-700 font-bold text-base py-2;
+}

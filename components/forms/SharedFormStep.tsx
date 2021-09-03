@@ -41,8 +41,8 @@ export const ContactFormStep = ({ layout, ...props }) => {
           name="busPath"
         >
           {address?.map((c) => (
-            <Option value={c.name} key={c.id}>
-              {c.name}
+            <Option value={c.text} key={c.id}>
+              {c.text}
             </Option>
           ))}
         </Select>

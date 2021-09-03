@@ -71,7 +71,7 @@ export const SharedTableItems = (type, allData, isAdmin) => {
     {
       title: "خط الباص",
       dataIndex: "busPath",
-      width: 180,
+      width: 130,
       filters: address,
       onFilter: (value, record) => record.busPath?.indexOf(value) === 0,
     },

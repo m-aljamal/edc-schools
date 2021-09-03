@@ -22,11 +22,13 @@ export const AdministratorsTable = ({ allData, type, isAdmin }) => {
     {
       title: "المسمى الوظيفي",
       dataIndex: "jobTitle",
+      width: 150,
     },
     {
       title: "الاختصاص",
       dataIndex: "typeOfDegree",
       filters: subjects,
+      width: 120,
       onFilter: (value, record) => record.typeOfDegree.indexOf(value) === 0,
     },
     TypeCertifcate(typeOfCertifcate),
