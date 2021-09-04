@@ -87,7 +87,6 @@ export default function AddSchoolAssets({
                 askIfLoading={askIfLoading}
                 setImage={setImage}
                 imageState={image}
-                title="تحميل صورة المادة "
               />
             </div>
           </FormItem>
