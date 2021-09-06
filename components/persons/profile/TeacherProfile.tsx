@@ -42,7 +42,6 @@ export default function TeacherProfile({ data }) {
   // ​
 
   // ​
-  // typeOfDegree: "رياضيات"
   return (
     <div>
       <ImageSection url={data.image.url} name={data?.name}>
@@ -65,7 +64,7 @@ export default function TeacherProfile({ data }) {
           <p className="profileText">اسم الام: {data?.motherName}</p>
           <p className="profileText">مكان الولادة: {data?.plaseOfBirth}</p>
           <p className="profileText">
-            التحصيل العلمي: {data?.TypeOfCertifcate}
+            الدرجة العلمية: {data?.TypeOfCertifcate}
           </p>
           <TextWithDate text="تاريخ الولادة: " date={data?.dateOfBirth} />
           <TextWithDate text="تاريخ البدأ: " date={data?.dateOfStart} />
@@ -74,6 +73,15 @@ export default function TeacherProfile({ data }) {
           <TextWithLogo text={data?.phone} logo="fas fa-phone " />
 
           <p className="profileText">الجنس: {data?.sex}</p>
+          <p className="profileText">الاختصاص: {data?.typeOfDegree}</p>
+          <div>
+            <p className="inline-block text-white font-bold text-lg">
+              مدرسة لمادة:
+            </p>
+            {/* {data?.subject.map((s) => (
+              <p className="text-lg text-white mt-1">{s}</p>
+            ))} */}
+          </div>
         </div>
       </div>
     </div>
